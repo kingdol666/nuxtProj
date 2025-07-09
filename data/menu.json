@@ -1,0 +1,20 @@
+[
+  { "title": "Design Tools", "title_zh": "设计工具", "icon": "FormatPainterOutlined" },
+  { "title": "Development", "title_zh": "开发工具", "icon": "CodeOutlined" },
+  { "title": "Software Development", "title_zh": "软件开发", "icon": "LaptopOutlined" },
+  { "title": "AI Tools", "title_zh": "AI 工具", "icon": "RobotOutlined" },
+  { "title": "Productivity", "title_zh": "生产力工具", "icon": "ThunderboltOutlined" },
+  { "title": "Learning", "title_zh": "学习资源", "icon": "BookOutlined" },
+  { "title": "News & Information", "title_zh": "新闻资讯", "icon": "ReadOutlined" },
+  { "title": "Finance", "title_zh": "金融财经", "icon": "DollarOutlined" },
+  { "title": "Social & Community", "title_zh": "社交社区", "icon": "TeamOutlined" },
+  { "title": "E-commerce", "title_zh": "电子商务", "icon": "ShoppingCartOutlined" },
+  { "title": "Entertainment", "title_zh": "影音娱乐", "icon": "YoutubeOutlined" },
+  { "title": "Lifestyle", "title_zh": "生活服务", "icon": "SmileOutlined" },
+  { "title": "Cloud Services", "title_zh": "云服务", "icon": "CloudOutlined" },
+  { "title": "System Utilities", "title_zh": "系统工具", "icon": "ToolOutlined" },
+  { "title": "Job & Career", "title_zh": "求职招聘", "icon": "Briefcase" },
+  { "title": "Travel & Accommodation", "title_zh": "旅行住宿", "icon": "GlobalOutlined" },
+  { "title": "Gaming", "title_zh": "游戏", "icon": "ApiOutlined" },
+  { "title": "Government & Public Services", "title_zh": "政府及公共服务", "icon": "BankOutlined" }
+]

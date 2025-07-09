@@ -1,0 +1,898 @@
+[
+  {
+    "category": "Design Tools", "category_zh": "设计工具",
+    "subCategory": "UI/UX Design", "subCategory_zh": "UI/UX 设计",
+    "name": "Figma", "name_zh": "Figma",
+    "content": "A collaborative interface design tool.", "content_zh": "一款强大的在线协作界面设计工具。",
+    "url": "https://www.figma.com/", "rating": 5
+  },
+  {
+    "category": "Design Tools", "category_zh": "设计工具",
+    "subCategory": "UI/UX Design", "subCategory_zh": "UI/UX 设计",
+    "name": "Sketch", "name_zh": "Sketch",
+    "content": "A powerful vector-based design tool for macOS.", "content_zh": "macOS 平台强大的矢量设计工具。",
+    "url": "https://www.sketch.com/", "rating": 4
+  },
+  {
+    "category": "Design Tools", "category_zh": "设计工具",
+    "subCategory": "Graphic Design", "subCategory_zh": "平面设计",
+    "name": "Canva", "name_zh": "Canva",
+    "content": "An easy-to-use online design platform.", "content_zh": "一个简单易用的在线设计平台。",
+    "url": "https://www.canva.com/", "rating": 5
+  },
+  {
+    "category": "Design Tools", "category_zh": "设计工具",
+    "subCategory": "Prototyping", "subCategory_zh": "原型设计",
+    "name": "ProtoPie", "name_zh": "ProtoPie",
+    "content": "High-fidelity prototyping tool for complex interactions.", "content_zh": "用于复杂交互的高保真原型设计工具。",
+    "url": "https://www.protopie.io/", "rating": 4
+  },
+  {
+    "category": "Design Tools", "category_zh": "设计工具",
+    "subCategory": "Stock Photos", "subCategory_zh": "图库资源",
+    "name": "Unsplash", "name_zh": "Unsplash",
+    "content": "The internet’s source of freely-usable images.", "content_zh": "互联网上可免费使用的图片来源。",
+    "url": "https://unsplash.com/", "rating": 5
+  },
+  {
+    "category": "Design Tools", "category_zh": "设计工具",
+    "subCategory": "Stock Photos", "subCategory_zh": "图库资源",
+    "name": "Pexels", "name_zh": "Pexels",
+    "content": "Free stock photos & videos shared by talented creators.", "content_zh": "由才华横溢的创作者分享的免费库存照片和视频。",
+    "url": "https://www.pexels.com/", "rating": 5
+  },
+  {
+    "category": "Design Tools", "category_zh": "设计工具",
+    "subCategory": "Stock Photos", "subCategory_zh": "图库资源",
+    "name": "Pixabay", "name_zh": "Pixabay",
+    "content": "Stunning royalty-free images & royalty-free stock.", "content_zh": "令人惊叹的免版税图片和免版税库存。",
+    "url": "https://pixabay.com/", "rating": 4
+  },
+  {
+    "category": "Design Tools", "category_zh": "设计工具",
+    "subCategory": "Inspiration", "subCategory_zh": "灵感",
+    "name": "Dribbble", "name_zh": "Dribbble",
+    "content": "A platform for designers to share their work.", "content_zh": "一个供设计师分享作品的平台。",
+    "url": "https://dribbble.com/", "rating": 5
+  },
+  {
+    "category": "Design Tools", "category_zh": "设计工具",
+    "subCategory": "Inspiration", "subCategory_zh": "灵感",
+    "name": "Behance", "name_zh": "Behance",
+    "content": "A platform to showcase and discover creative work.", "content_zh": "一个展示和发现创意作品的平台。",
+    "url": "https://www.behance.net/", "rating": 4
+  },
+  {
+    "category": "Development", "category_zh": "开发工具",
+    "subCategory": "Editors", "subCategory_zh": "代码编辑器",
+    "name": "VS Code", "name_zh": "VS Code",
+    "content": "A powerful and popular code editor from Microsoft.", "content_zh": "微软出品的强大且流行的代码编辑器。",
+    "url": "https://code.visualstudio.com/", "rating": 5
+  },
+  {
+    "category": "Development", "category_zh": "开发工具",
+    "subCategory": "Version Control", "subCategory_zh": "版本控制",
+    "name": "GitHub", "name_zh": "GitHub",
+    "content": "The world's leading software development platform.", "content_zh": "全球领先的软件开发平台。",
+    "url": "https://github.com/", "rating": 5
+  },
+  {
+    "category": "Development", "category_zh": "开发工具",
+    "subCategory": "API Tools", "subCategory_zh": "API 工具",
+    "name": "Postman", "name_zh": "Postman",
+    "content": "The collaboration platform for API development.", "content_zh": "API 开发的协作平台。",
+    "url": "https://www.postman.com/", "rating": 4
+  },
+  {
+    "category": "Software Development", "category_zh": "软件开发",
+    "subCategory": "Frameworks", "subCategory_zh": "前端框架",
+    "name": "Vue.js", "name_zh": "Vue.js",
+    "content": "The progressive JavaScript framework.", "content_zh": "渐进式 JavaScript 框架。",
+    "url": "https://vuejs.org/", "rating": 5
+  },
+  {
+    "category": "Development", "category_zh": "开发工具",
+    "subCategory": "Code Sandbox", "subCategory_zh": "在线沙箱",
+    "name": "CodePen", "name_zh": "CodePen",
+    "content": "An online community for testing and showcasing user-created HTML, CSS and JavaScript code snippets.", "content_zh": "一个用于测试和展示用户创建的 HTML、CSS 和 JavaScript 代码片段的在线社区。",
+    "url": "https://codepen.io/", "rating": 4
+  },
+  {
+    "category": "Development", "category_zh": "开发工具",
+    "subCategory": "Q&A", "subCategory_zh": "问答社区",
+    "name": "Stack Overflow", "name_zh": "Stack Overflow",
+    "content": "The largest online community for programmers to learn, share their knowledge, and build their careers.", "content_zh": "最大的程序员在线社区，供他们学习、分享知识和建立职业生涯。",
+    "url": "https://stackoverflow.com/", "rating": 5
+  },
+  {
+    "category": "Development", "category_zh": "开发工具",
+    "subCategory": "Chinese Community", "subCategory_zh": "国内社区",
+    "name": "Juejin", "name_zh": "掘金",
+    "content": "A leading developer community in China.", "content_zh": "中国领先的开发者社区。",
+    "url": "https://juejin.cn/", "rating": 4
+  },
+  {
+    "category": "Software Development", "category_zh": "软件开发",
+    "subCategory": "Containers", "subCategory_zh": "容器化",
+    "name": "Docker", "name_zh": "Docker",
+    "content": "A platform for developing, shipping, and running applications in containers.", "content_zh": "一个用于在容器中开发、交付和运行应用程序的平台。",
+    "url": "https://www.docker.com/", "rating": 5
+  },
+  {
+    "category": "Software Development", "category_zh": "软件开发",
+    "subCategory": "Frameworks", "subCategory_zh": "前端框架",
+    "name": "React", "name_zh": "React",
+    "content": "A JavaScript library for building user interfaces.", "content_zh": "一个用于构建用户界面的 JavaScript 库。",
+    "url": "https://react.dev/", "rating": 5
+  },
+  {
+    "category": "Software Development", "category_zh": "软件开发",
+    "subCategory": "Backend", "subCategory_zh": "后端",
+    "name": "Node.js", "name_zh": "Node.js",
+    "content": "A JavaScript runtime built on Chrome's V8 JavaScript engine.", "content_zh": "一个基于 Chrome V8 引擎的 JavaScript 运行时。",
+    "url": "https://nodejs.org/", "rating": 5
+  },
+  {
+    "category": "Software Development", "category_zh": "软件开发",
+    "subCategory": "Databases", "subCategory_zh": "数据库",
+    "name": "PostgreSQL", "name_zh": "PostgreSQL",
+    "content": "The world's most advanced open source relational database.", "content_zh": "世界上最先进的开源关系数据库。",
+    "url": "https://www.postgresql.org/", "rating": 5
+  },
+  {
+    "category": "Software Development", "category_zh": "软件开发",
+    "subCategory": "DevOps", "subCategory_zh": "DevOps",
+    "name": "Jenkins", "name_zh": "Jenkins",
+    "content": "The leading open source automation server.", "content_zh": "领先的开源自动化服务器。",
+    "url": "https://www.jenkins.io/", "rating": 4
+  },
+  {
+    "category": "AI Tools", "category_zh": "AI 工具",
+    "subCategory": "Chatbots", "subCategory_zh": "聊天机器人",
+    "name": "ChatGPT", "name_zh": "ChatGPT",
+    "content": "A conversational AI model by OpenAI.", "content_zh": "由 OpenAI 开发的对话式 AI 模型。",
+    "url": "https://chat.openai.com/", "rating": 5
+  },
+  {
+    "category": "AI Tools", "category_zh": "AI 工具",
+    "subCategory": "Image Generation", "subCategory_zh": "图像生成",
+    "name": "Midjourney", "name_zh": "Midjourney",
+    "content": "An independent research lab that produces a proprietary artificial intelligence program that creates images from textual descriptions.", "content_zh": "一个独立的研究实验室，可根据文本描述创建图像。",
+    "url": "https://www.midjourney.com/", "rating": 5
+  },
+  {
+    "category": "AI Tools", "category_zh": "AI 工具",
+    "subCategory": "AI Search", "subCategory_zh": "AI 搜索",
+    "name": "Perplexity AI", "name_zh": "Perplexity AI",
+    "content": "An AI-powered search engine.", "content_zh": "一个由 AI 驱动的搜索引擎。",
+    "url": "https://www.perplexity.ai/", "rating": 4
+  },
+  {
+    "category": "AI Tools", "category_zh": "AI 工具",
+    "subCategory": "Chinese AI", "subCategory_zh": "国产 AI",
+    "name": "Wenxin Yiyan", "name_zh": "文心一言",
+    "content": "A large language model from Baidu.", "content_zh": "百度出品的大语言模型。",
+    "url": "https://yiyan.baidu.com/", "rating": 4
+  },
+  {
+    "category": "AI Tools", "category_zh": "AI 工具",
+    "subCategory": "Chinese AI", "subCategory_zh": "国产 AI",
+    "name": "Kimi AI", "name_zh": "Kimi AI",
+    "content": "An intelligent assistant from Moonshot AI.", "content_zh": "月之暗面公司出品的智能助手。",
+    "url": "https://kimi.moonshot.cn/", "rating": 5
+  },
+  {
+    "category": "AI Tools", "category_zh": "AI 工具",
+    "subCategory": "Chinese AI", "subCategory_zh": "国产 AI",
+    "name": "DeepSeek", "name_zh": "深度求索",
+    "content": "An AI model developed by DeepSeek, specializing in code and reasoning.", "content_zh": "由深度求索公司开发的AI模型，擅长代码和推理。",
+    "url": "https://www.deepseek.com/", "rating": 5
+  },
+  {
+    "category": "AI Tools", "category_zh": "AI 工具",
+    "subCategory": "Chinese AI", "subCategory_zh": "国产 AI",
+    "name": "Tongyi Qianwen", "name_zh": "通义千问",
+    "content": "A large language model from Alibaba Cloud.", "content_zh": "阿里云出品的大语言模型。",
+    "url": "https://tongyi.aliyun.com/", "rating": 4
+  },
+  {
+    "category": "AI Tools", "category_zh": "AI 工具",
+    "subCategory": "Chinese AI", "subCategory_zh": "国产 AI",
+    "name": "Doubao", "name_zh": "豆包",
+    "content": "An AI chatbot from ByteDance.", "content_zh": "字节跳动出品的AI聊天机器人。",
+    "url": "https://www.doubao.com/", "rating": 4
+  },
+  {
+    "category": "AI Tools", "category_zh": "AI 工具",
+    "subCategory": "Community", "subCategory_zh": "模型社区",
+    "name": "Hugging Face", "name_zh": "Hugging Face",
+    "content": "The AI community building the future.", "content_zh": "共建未来的 AI 社区。",
+    "url": "https://huggingface.co/", "rating": 5
+  },
+  {
+    "category": "AI Tools", "category_zh": "AI 工具",
+    "subCategory": "Chatbots", "subCategory_zh": "聊天机器人",
+    "name": "Claude", "name_zh": "Claude",
+    "content": "A next-generation AI assistant for your tasks, no matter the scale.", "content_zh": "一个可以处理任何规模任务的下一代AI助手。",
+    "url": "https://claude.ai/", "rating": 5
+  },
+  {
+    "category": "AI Tools", "category_zh": "AI 工具",
+    "subCategory": "Chatbots", "subCategory_zh": "聊天机器人",
+    "name": "Google Gemini", "name_zh": "谷歌 Gemini",
+    "content": "A family of multimodal AI models developed by Google.", "content_zh": "由谷歌开发的系列多模态AI模型。",
+    "url": "https://gemini.google.com/", "rating": 4
+  },
+  {
+    "category": "AI Tools", "category_zh": "AI 工具",
+    "subCategory": "Image Generation", "subCategory_zh": "图像生成",
+    "name": "Stable Diffusion", "name_zh": "Stable Diffusion",
+    "content": "A deep learning, text-to-image model.", "content_zh": "一个深度学习的文本到图像模型。",
+    "url": "https://stablediffusionweb.com/", "rating": 5
+  },
+  {
+    "category": "AI Tools", "category_zh": "AI 工具",
+    "subCategory": "AI Coding", "subCategory_zh": "AI 编程",
+    "name": "GitHub Copilot", "name_zh": "GitHub Copilot",
+    "content": "Your AI pair programmer.", "content_zh": "您的AI结对程序员。",
+    "url": "https://github.com/features/copilot", "rating": 5
+  },
+  {
+    "category": "Productivity", "category_zh": "生产力工具",
+    "subCategory": "Workspace", "subCategory_zh": "工作空间",
+    "name": "Notion", "name_zh": "Notion",
+    "content": "A versatile tool for notes, tasks, and databases.", "content_zh": "集笔记、任务、数据库于一体的多功能工具。",
+    "url": "https://www.notion.so/", "rating": 5
+  },
+  {
+    "category": "Productivity", "category_zh": "生产力工具",
+    "subCategory": "Workspace", "subCategory_zh": "工作空间",
+    "name": "Feishu", "name_zh": "飞书",
+    "content": "An all-in-one platform for collaboration and management.", "content_zh": "一站式企业协作与管理平台。",
+    "url": "https://www.feishu.cn/", "rating": 4
+  },
+  {
+    "category": "Productivity", "category_zh": "生产力工具",
+    "subCategory": "Translation", "subCategory_zh": "在线翻译",
+    "name": "DeepL", "name_zh": "DeepL",
+    "content": "An AI-powered translation service.", "content_zh": "一个由 AI 驱动的翻译服务。",
+    "url": "https://www.deepl.com/", "rating": 5
+  },
+  {
+    "category": "Productivity", "category_zh": "生产力工具",
+    "subCategory": "Task Management", "subCategory_zh": "任务管理",
+    "name": "Trello", "name_zh": "Trello",
+    "content": "A web-based Kanban-style list-making application.", "content_zh": "基于看板风格的网页列表制作应用。",
+    "url": "https://trello.com/", "rating": 4
+  },
+  {
+    "category": "Productivity", "category_zh": "生产力工具",
+    "subCategory": "Diagramming", "subCategory_zh": "图表工具",
+    "name": "Excalidraw", "name_zh": "Excalidraw",
+    "content": "A virtual collaborative whiteboard tool.", "content_zh": "一个虚拟协作白板工具。",
+    "url": "https://excalidraw.com/", "rating": 4
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "MOOC", "subCategory_zh": "在线课程",
+    "name": "Coursera", "name_zh": "Coursera",
+    "content": "Build skills with courses, certificates, and degrees online from world-class universities and companies.", "content_zh": "通过世界一流大学和公司的在线课程、证书和学位来培养技能。",
+    "url": "https://www.coursera.org/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Documentation", "subCategory_zh": "技术文档",
+    "name": "MDN Web Docs", "name_zh": "MDN Web Docs",
+    "content": "Resources for developers, by developers.", "content_zh": "由开发者为开发者提供的资源。",
+    "url": "https://developer.mozilla.org/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Free Courses", "subCategory_zh": "免费编程",
+    "name": "freeCodeCamp", "name_zh": "freeCodeCamp",
+    "content": "Learn to code for free. Build projects. Earn certifications.", "content_zh": "免费学习编程。构建项目。获得认证。",
+    "url": "https://www.freecodecamp.org/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Deep Learning", "subCategory_zh": "深度学习",
+    "name": "PyTorch", "name_zh": "PyTorch",
+    "content": "An open source machine learning framework that accelerates the path from research prototyping to production deployment.", "content_zh": "一个开源机器学习框架，可加速从研究原型到生产部署的过程。",
+    "url": "https://pytorch.org/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Deep Learning", "subCategory_zh": "深度学习",
+    "name": "TensorFlow", "name_zh": "TensorFlow",
+    "content": "An end-to-end open source platform for machine learning.", "content_zh": "一个端到端的开源机器学习平台。",
+    "url": "https://www.tensorflow.org/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Deep Learning", "subCategory_zh": "深度学习",
+    "name": "fast.ai", "name_zh": "fast.ai",
+    "content": "Making neural nets uncool again. Practical deep learning courses for coders.", "content_zh": "让神经网络不再“高不可攀”。为程序员提供的实用深度学习课程。",
+    "url": "https://www.fast.ai/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Deep Learning", "subCategory_zh": "深度学习",
+    "name": "DeepLearning.AI", "name_zh": "DeepLearning.AI",
+    "content": "Grow your career or build a new one with AI education from the world's leading experts.", "content_zh": "通过世界顶尖专家的AI教育，发展或开创您的新事业。",
+    "url": "https://www.deeplearning.ai/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Deep Learning", "subCategory_zh": "深度学习",
+    "name": "Keras", "name_zh": "Keras",
+    "content": "The API for deep learning. An open-source library that simplifies the process of building and training deep learning models.", "content_zh": "深度学习的API。一个简化构建和训练深度学习模型过程的开源库。",
+    "url": "https://keras.io/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Deep Learning", "subCategory_zh": "深度学习",
+    "name": "Papers with Code", "name_zh": "Papers with Code",
+    "content": "The free and open resource for machine learning papers, code, datasets, methods and evaluation tables.", "content_zh": "一个免费开放的机器学习论文、代码、数据集、方法和评估表的资源库。",
+    "url": "https://paperswithcode.com/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Deep Learning", "subCategory_zh": "深度学习",
+    "name": "Distill.pub", "name_zh": "Distill.pub",
+    "content": "An interactive, visual journal for machine learning research.", "content_zh": "一个用于机器学习研究的交互式可视化期刊。",
+    "url": "https://distill.pub/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Deep Learning", "subCategory_zh": "深度学习",
+    "name": "Google AI Blog", "name_zh": "谷歌 AI 博客",
+    "content": "The latest news and research from Google AI.", "content_zh": "来自谷歌 AI 的最新消息和研究成果。",
+    "url": "https://ai.googleblog.com/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Deep Learning", "subCategory_zh": "深度学习",
+    "name": "OpenAI Gym", "name_zh": "OpenAI Gym",
+    "content": "A toolkit for developing and comparing reinforcement learning algorithms.", "content_zh": "一个用于开发和比较强化学习算法的工具包。",
+    "url": "https://gymnasium.farama.org/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Deep Learning", "subCategory_zh": "深度学习",
+    "name": "Spinning Up in Deep RL", "name_zh": "Spinning Up in Deep RL",
+    "content": "An educational resource by OpenAI for learning deep reinforcement learning.", "content_zh": "由 OpenAI 推出的深度强化学习教育资源。",
+    "url": "https://spinningup.openai.com/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Data Science", "subCategory_zh": "数据科学",
+    "name": "Kaggle", "name_zh": "Kaggle",
+    "content": "The world's largest data science community with powerful tools and resources to help you achieve your data science goals.", "content_zh": "全球最大的数据科学社区，提供强大的工具和资源，助您实现数据科学目标。",
+    "url": "https://www.kaggle.com/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Data Science", "subCategory_zh": "数据科学",
+    "name": "Pandas", "name_zh": "Pandas",
+    "content": "A fast, powerful, flexible and easy to use open source data analysis and manipulation tool.", "content_zh": "一个快速、强大、灵活且易于使用的开源数据分析和操作工具。",
+    "url": "https://pandas.pydata.org/", "rating": 4
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Data Science", "subCategory_zh": "数据科学",
+    "name": "Scikit-learn", "name_zh": "Scikit-learn",
+    "content": "Simple and efficient tools for predictive data analysis, accessible to everybody, and reusable in various contexts.", "content_zh": "简单高效的预测性数据分析工具，人人可用，并可在各种环境中重复使用。",
+    "url": "https://scikit-learn.org/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Data Science", "subCategory_zh": "数据科学",
+    "name": "Towards Data Science", "name_zh": "Towards Data Science",
+    "content": "A Medium publication sharing concepts, ideas, and codes.", "content_zh": "一个分享概念、想法和代码的 Medium 出版物。",
+    "url": "https://towardsdatascience.com/", "rating": 4
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Interactive Learning", "subCategory_zh": "互动学习",
+    "name": "Codecademy", "name_zh": "Codecademy",
+    "content": "An online interactive platform that offers free coding classes in 12 different programming languages.", "content_zh": "一个在线互动平台，提供12种不同编程语言的免费编码课程。",
+    "url": "https://www.codecademy.com/", "rating": 4
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Interactive Learning", "subCategory_zh": "互动学习",
+    "name": "LeetCode", "name_zh": "力扣",
+    "content": "A platform to help you enhance your skills, expand your knowledge and prepare for technical interviews.", "content_zh": "一个帮助您提升技能、扩展知识和准备技术面试的平台。",
+    "url": "https://leetcode.com/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "University Courses", "subCategory_zh": "大学课程",
+    "name": "edX", "name_zh": "edX",
+    "content": "Access 2000 free online courses from 140 leading institutions worldwide.", "content_zh": "获取全球140所顶尖机构的2000门免费在线课程。",
+    "url": "https://www.edx.org/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Web Development", "subCategory_zh": "Web 开发",
+    "name": "The Odin Project", "name_zh": "The Odin Project",
+    "content": "A full-stack curriculum that's free and open source.", "content_zh": "一个免费开源的全栈课程。",
+    "url": "https://www.theodinproject.com/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Web Development", "subCategory_zh": "Web 开发",
+    "name": "CSS-Tricks", "name_zh": "CSS-Tricks",
+    "content": "Daily articles about CSS, HTML, JavaScript, and all things related to web design and development.", "content_zh": "每日发布关于CSS、HTML、JavaScript以及所有与网页设计和开发相关的文章。",
+    "url": "https://css-tricks.com/", "rating": 4
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Chinese Platforms", "subCategory_zh": "国内平台",
+    "name": "imooc", "name_zh": "慕课网",
+    "content": "A leading Chinese platform for IT skills education.", "content_zh": "中国领先的IT技能教育平台。",
+    "url": "https://www.imooc.com/", "rating": 4
+  },
+  {
+    "category": "News & Information", "category_zh": "新闻资讯",
+    "subCategory": "Tech News", "subCategory_zh": "科技新闻",
+    "name": "Hacker News", "name_zh": "Hacker News",
+    "content": "A social news website focusing on computer science and entrepreneurship.", "content_zh": "一个专注于计算机科学和创业的社交新闻网站。",
+    "url": "https://news.ycombinator.com/", "rating": 4
+  },
+  {
+    "category": "News & Information", "category_zh": "新闻资讯",
+    "subCategory": "Chinese News", "subCategory_zh": "国内新闻",
+    "name": "Sina News", "name_zh": "新浪新闻",
+    "content": "One of the largest news portals in China.", "content_zh": "中国最大的新闻门户网站之一。",
+    "url": "https://news.sina.com.cn/", "rating": 3
+  },
+  {
+    "category": "News & Information", "category_zh": "新闻资讯",
+    "subCategory": "Tech Media", "subCategory_zh": "科技媒体",
+    "name": "36Kr", "name_zh": "36氪",
+    "content": "A leading Chinese technology and business media platform.", "content_zh": "中国领先的科技和商业媒体平台。",
+    "url": "https://36kr.com/", "rating": 4
+  },
+  {
+    "category": "Finance", "category_zh": "金融财经",
+    "subCategory": "Chinese Market", "subCategory_zh": "国内市场",
+    "name": "East Money", "name_zh": "东方财富",
+    "content": "A leading financial information and services provider in China.", "content_zh": "中国领先的财经信息及服务提供商。",
+    "url": "https://www.eastmoney.com/", "rating": 4
+  },
+  {
+    "category": "Finance", "category_zh": "金融财经",
+    "subCategory": "Global Market", "subCategory_zh": "全球市场",
+    "name": "Bloomberg", "name_zh": "彭博社",
+    "content": "The global leader in business and financial information and news.", "content_zh": "全球商业、金融信息和新闻资讯的领先提供商。",
+    "url": "https://www.bloomberg.com/", "rating": 5
+  },
+  {
+    "category": "Finance", "category_zh": "金融财经",
+    "subCategory": "Cryptocurrency", "subCategory_zh": "加密货币",
+    "name": "CoinMarketCap", "name_zh": "CoinMarketCap",
+    "content": "The world's most-referenced price-tracking website for cryptoassets.", "content_zh": "全球最受引用的加密资产价格跟踪网站。",
+    "url": "https://coinmarketcap.com/", "rating": 4
+  },
+  {
+    "category": "Social & Community", "category_zh": "社交社区",
+    "subCategory": "Community", "subCategory_zh": "综合社区",
+    "name": "Reddit", "name_zh": "Reddit",
+    "content": "A network of communities where people can dive into their interests, hobbies and passions.", "content_zh": "一个由众多社区组成的网络，人们可以在这里深入了解自己的兴趣、爱好和热情。",
+    "url": "https://www.reddit.com/", "rating": 4
+  },
+  {
+    "category": "Social & Community", "category_zh": "社交社区",
+    "subCategory": "Chinese Community", "subCategory_zh": "国内社区",
+    "name": "Zhihu", "name_zh": "知乎",
+    "content": "A high-quality Q&A community in China.", "content_zh": "中国高质量的问答社区。",
+    "url": "https://www.zhihu.com/", "rating": 4
+  },
+  {
+    "category": "Social & Community", "category_zh": "社交社区",
+    "subCategory": "Instant Messaging", "subCategory_zh": "即时通讯",
+    "name": "Telegram", "name_zh": "Telegram",
+    "content": "A cloud-based instant messaging and voice over IP service.", "content_zh": "一个基于云的即时消息和IP语音服务。",
+    "url": "https://telegram.org/", "rating": 5
+  },
+  {
+    "category": "E-commerce", "category_zh": "电子商务",
+    "subCategory": "International", "subCategory_zh": "国际电商",
+    "name": "Amazon", "name_zh": "亚马逊",
+    "content": "The world's largest online retailer.", "content_zh": "全球最大的在线零售商。",
+    "url": "https://www.amazon.com/", "rating": 5
+  },
+  {
+    "category": "E-commerce", "category_zh": "电子商务",
+    "subCategory": "Chinese", "subCategory_zh": "国内电商",
+    "name": "JD.com", "name_zh": "京东",
+    "content": "One of the two massive B2C online retailers in China.", "content_zh": "中国两大B2C在线零售商之一。",
+    "url": "https://www.jd.com/", "rating": 4
+  },
+  {
+    "category": "Entertainment", "category_zh": "影音娱乐",
+    "subCategory": "Video", "subCategory_zh": "视频",
+    "name": "YouTube", "name_zh": "YouTube",
+    "content": "The world's largest video sharing platform.", "content_zh": "全球最大的视频分享平台。",
+    "url": "https://www.youtube.com/", "rating": 5
+  },
+  {
+    "category": "Entertainment", "category_zh": "影音娱乐",
+    "subCategory": "Chinese Video", "subCategory_zh": "国内视频",
+    "name": "Bilibili", "name_zh": "哔哩哔哩",
+    "content": "A popular video sharing and streaming platform in China.", "content_zh": "中国流行的视频分享和直播平台。",
+    "url": "https://www.bilibili.com/", "rating": 5
+  },
+  {
+    "category": "Entertainment", "category_zh": "影音娱乐",
+    "subCategory": "Music", "subCategory_zh": "音乐",
+    "name": "Spotify", "name_zh": "Spotify",
+    "content": "A digital music, podcast, and video service.", "content_zh": "一个数字音乐、播客和视频服务。",
+    "url": "https://www.spotify.com/", "rating": 5
+  },
+  {
+    "category": "Lifestyle", "category_zh": "生活服务",
+    "subCategory": "Food Delivery", "subCategory_zh": "外卖订餐",
+    "name": "Meituan", "name_zh": "美团",
+    "content": "China's leading e-commerce platform for services.", "content_zh": "中国领先的生活服务电子商务平台。",
+    "url": "https://www.meituan.com/", "rating": 4
+  },
+  {
+    "category": "Lifestyle", "category_zh": "生活服务",
+    "subCategory": "Recipes", "subCategory_zh": "食谱",
+    "name": "Allrecipes", "name_zh": "Allrecipes",
+    "content": "A community-based food website with recipes, cooking tips, and meal ideas.", "content_zh": "一个以社区为基础的美食网站，提供食谱、烹饪技巧和膳食创意。",
+    "url": "https://www.allrecipes.com/", "rating": 4
+  },
+  {
+    "category": "Lifestyle", "category_zh": "生活服务",
+    "subCategory": "Movies", "subCategory_zh": "电影",
+    "name": "IMDb", "name_zh": "IMDb",
+    "content": "The world's most popular and authoritative source for movie, TV and celebrity content.", "content_zh": "全球最受欢迎、最权威的电影、电视和名人内容来源。",
+    "url": "https://www.imdb.com/", "rating": 5
+  },
+  {
+    "category": "Cloud Services", "category_zh": "云服务",
+    "subCategory": "PaaS", "subCategory_zh": "平台即服务",
+    "name": "Vercel", "name_zh": "Vercel",
+    "content": "A platform for frontend frameworks and static sites.", "content_zh": "专为前端框架和静态网站打造的平台。",
+    "url": "https://vercel.com/", "rating": 5
+  },
+  {
+    "category": "Cloud Services", "category_zh": "云服务",
+    "subCategory": "PaaS", "subCategory_zh": "平台即服务",
+    "name": "Netlify", "name_zh": "Netlify",
+    "content": "An all-in-one platform for automating modern web projects.", "content_zh": "一个用于自动化现代 Web 项目的一体化平台。",
+    "url": "https://www.netlify.com/", "rating": 4
+  },
+  {
+    "category": "Cloud Services", "category_zh": "云服务",
+    "subCategory": "IaaS", "subCategory_zh": "基础设施即服务",
+    "name": "Alibaba Cloud", "name_zh": "阿里云",
+    "content": "A global leader in cloud computing and artificial intelligence.", "content_zh": "全球领先的云计算及人工智能科技公司。",
+    "url": "https://www.alibabacloud.com/", "rating": 4
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Archivers", "subCategory_zh": "压缩工具",
+    "name": "7-Zip", "name_zh": "7-Zip",
+    "content": "A free and open-source file archiver.", "content_zh": "一款免费开源的文件压缩工具。",
+    "url": "https://www.7-zip.org/", "rating": 5
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "System Cleanup", "subCategory_zh": "系统清理",
+    "name": "CCleaner", "name_zh": "CCleaner",
+    "content": "A utility used to clean potentially unwanted files.", "content_zh": "用于清理潜在无用文件的实用工具。",
+    "url": "https://www.ccleaner.com/", "rating": 3
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Hardware Info", "subCategory_zh": "硬件检测",
+    "name": "CPU-Z", "name_zh": "CPU-Z",
+    "content": "A freeware that gathers information on some of the main devices of your system.", "content_zh": "一款收集系统主要设备信息的免费软件。",
+    "url": "https://www.cpuid.com/softwares/cpu-z.html", "rating": 5
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Hardware Info", "subCategory_zh": "硬件检测",
+    "name": "GPU-Z", "name_zh": "GPU-Z",
+    "content": "A lightweight utility designed to give you all information about your video card and GPU.", "content_zh": "一款旨在为您提供有关显卡和 GPU 所有信息的轻量级实用程序。",
+    "url": "https://www.techpowerup.com/gpuz/", "rating": 5
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Hardware Info", "subCategory_zh": "硬件检测",
+    "name": "Driver Booster", "name_zh": "驱动人生国际版",
+    "content": "A tool that helps you to update all the outdated drivers on your computer.", "content_zh": "一款帮助您更新计算机上所有过时驱动程序的工具。",
+    "url": "https://www.iobit.com/en/driver-booster.php", "rating": 4
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "PC Building", "subCategory_zh": "电脑装机",
+    "name": "PCPartPicker", "name_zh": "PCPartPicker",
+    "content": "A website that allows you to build a virtual PC and checks for component compatibility.", "content_zh": "一个可以让你组建虚拟电脑并检查组件兼容性的网站。",
+    "url": "https://pcpartpicker.com/", "rating": 5
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "PC Building", "subCategory_zh": "电脑装机",
+    "name": "ZOL.com.cn", "name_zh": "中关村在线",
+    "content": "A major Chinese tech portal with a PC builder tool.", "content_zh": "中国主流的科技门户网站，提供电脑组装模拟器。",
+    "url": "https://diy.zol.com.cn/", "rating": 4
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "PC Building", "subCategory_zh": "电脑装机",
+    "name": "PConline.com.cn", "name_zh": "太平洋电脑网",
+    "content": "Another major Chinese tech portal with a PC builder tool.", "content_zh": "另一个中国主流的科技门户网站，提供DIY装机工具。",
+    "url": "https://diy.pconline.com.cn/", "rating": 4
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Hardware Info", "subCategory_zh": "硬件检测",
+    "name": "AIDA64", "name_zh": "AIDA64",
+    "content": "A comprehensive system information, diagnostics, and benchmarking tool.", "content_zh": "一款功能强大的系统信息、诊断和基准测试工具。",
+    "url": "https://www.aida64.com/", "rating": 5
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Hardware Info", "subCategory_zh": "硬件检测",
+    "name": "MemTest86", "name_zh": "MemTest86",
+    "content": "The original, free, stand-alone memory testing software for x86 and ARM computers.", "content_zh": "用于 x86 和 ARM 计算机的免费、独立的内存测试软件。",
+    "url": "https://www.memtest86.com/", "rating": 5
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Hardware Info", "subCategory_zh": "硬件检测",
+    "name": "CrystalDiskInfo", "name_zh": "CrystalDiskInfo",
+    "content": "A HDD/SSD utility software which supports a part of USB, Intel RAID and NVMe.", "content_zh": "一款硬盘/固态硬盘工具软件，支持部分 USB、Intel RAID 和 NVMe。",
+    "url": "https://crystalmark.info/en/software/crystaldiskinfo/", "rating": 4
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Hardware Repair", "subCategory_zh": "硬件修复",
+    "name": "iFixit", "name_zh": "iFixit",
+    "content": "A wiki-based site that teaches people how to fix almost anything.", "content_zh": "一个基于维基的网站，教人们如何修理几乎任何东西。",
+    "url": "https://www.ifixit.com/", "rating": 5
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Hardware Info", "subCategory_zh": "硬件检测",
+    "name": "Tuba Toolbox", "name_zh": "图吧工具箱",
+    "content": "A popular hardware detection toolset in China.", "content_zh": "国内流行的硬件检测工具箱。",
+    "url": "http://www.tbtool.cn/", "rating": 5
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Hardware Info", "subCategory_zh": "硬件检测",
+    "name": "UserBenchmark", "name_zh": "UserBenchmark",
+    "content": "Speed test your PC in less than a minute.", "content_zh": "在不到一分钟的时间内快速测试您的电脑性能。",
+    "url": "https://www.userbenchmark.com/", "rating": 4
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Hardware Info", "subCategory_zh": "硬件检测",
+    "name": "HWiNFO", "name_zh": "HWiNFO",
+    "content": "In-depth hardware information, real-time system monitoring, and reporting.", "content_zh": "提供深入的硬件信息、实时系统监控和报告。",
+    "url": "https://www.hwinfo.com/", "rating": 5
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Hardware Info", "subCategory_zh": "硬件检测",
+    "name": "Speccy", "name_zh": "Speccy",
+    "content": "Fast, lightweight, advanced system information tool for your PC.", "content_zh": "适用于您电脑的快速、轻巧、高级的系统信息工具。",
+    "url": "https://www.ccleaner.com/speccy", "rating": 4
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Online Diagnostics", "subCategory_zh": "在线诊断",
+    "name": "Keyboard Tester", "name_zh": "键盘测试",
+    "content": "An online tool to test your keyboard.", "content_zh": "一个用于在线测试键盘的工具。",
+    "url": "https://www.keyboardtester.com/", "rating": 5
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Online Diagnostics", "subCategory_zh": "在线诊断",
+    "name": "EIZO Monitor Test", "name_zh": "EIZO 显示器测试",
+    "content": "A comprehensive online monitor test.", "content_zh": "一个全面的在线显示器测试工具。",
+    "url": "https://www.eizo.be/monitor-test/", "rating": 5
+  },
+  {
+    "category": "Job & Career", "category_zh": "求职招聘",
+    "subCategory": "Global", "subCategory_zh": "国际求职",
+    "name": "LinkedIn", "name_zh": "领英",
+    "content": "The world's largest professional network.", "content_zh": "全球最大的职业社交网站。",
+    "url": "https://www.linkedin.com/", "rating": 5
+  },
+  {
+    "category": "Job & Career", "category_zh": "求职招聘",
+    "subCategory": "Global", "subCategory_zh": "国际求职",
+    "name": "Glassdoor", "name_zh": "Glassdoor",
+    "content": "Find jobs, company reviews, and salary information.", "content_zh": "查找工作、公司评论和薪资信息。",
+    "url": "https://www.glassdoor.com/", "rating": 4
+  },
+  {
+    "category": "Job & Career", "category_zh": "求职招聘",
+    "subCategory": "Chinese", "subCategory_zh": "国内求职",
+    "name": "Zhaopin", "name_zh": "智联招聘",
+    "content": "A leading online recruitment platform in China.", "content_zh": "中国领先的在线招聘平台。",
+    "url": "https://www.zhaopin.com/", "rating": 4
+  },
+  {
+    "category": "Job & Career", "category_zh": "求职招聘",
+    "subCategory": "Chinese", "subCategory_zh": "国内求职",
+    "name": "Boss Zhipin", "name_zh": "BOSS直聘",
+    "content": "A popular mobile-first job board in China.", "content_zh": "中国流行的移动端招聘平台。",
+    "url": "https://www.zhipin.com/", "rating": 5
+  },
+  {
+    "category": "Travel & Accommodation", "category_zh": "旅行住宿",
+    "subCategory": "Booking", "subCategory_zh": "预订",
+    "name": "Booking.com", "name_zh": "缤客",
+    "content": "The world leader in booking accommodation online.", "content_zh": "全球领先的在线住宿预订网站。",
+    "url": "https://www.booking.com/", "rating": 5
+  },
+  {
+    "category": "Travel & Accommodation", "category_zh": "旅行住宿",
+    "subCategory": "Booking", "subCategory_zh": "预订",
+    "name": "Airbnb", "name_zh": "爱彼迎",
+    "content": "A community marketplace for unique accommodations and experiences.", "content_zh": "一个提供独特住宿和体验的社区市场。",
+    "url": "https://www.airbnb.com/", "rating": 5
+  },
+  {
+    "category": "Travel & Accommodation", "category_zh": "旅行住宿",
+    "subCategory": "Booking", "subCategory_zh": "预订",
+    "name": "Trip.com", "name_zh": "携程",
+    "content": "A leading one-stop travel service provider.", "content_zh": "领先的一站式旅行服务提供商。",
+    "url": "https://www.trip.com/", "rating": 4
+  },
+  {
+    "category": "Travel & Accommodation", "category_zh": "旅行住宿",
+    "subCategory": "Flights", "subCategory_zh": "机票",
+    "name": "Skyscanner", "name_zh": "天巡",
+    "content": "A global search engine for flights, hotels, and car rentals.", "content_zh": "一个全球性的航班、酒店和租车搜索引擎。",
+    "url": "https://www.skyscanner.com/", "rating": 4
+  },
+  {
+    "category": "Gaming", "category_zh": "游戏",
+    "subCategory": "Stores", "subCategory_zh": "游戏商店",
+    "name": "Steam", "name_zh": "Steam",
+    "content": "The ultimate destination for playing, discussing, and creating games.", "content_zh": "玩、讨论和创作游戏的终极目的地。",
+    "url": "https://store.steampowered.com/", "rating": 5
+  },
+  {
+    "category": "Gaming", "category_zh": "游戏",
+    "subCategory": "News & Reviews", "subCategory_zh": "新闻与评测",
+    "name": "IGN", "name_zh": "IGN",
+    "content": "Your source for games, movies, and tech news and reviews.", "content_zh": "您的游戏、电影和科技新闻与评测来源。",
+    "url": "https://www.ign.com/", "rating": 4
+  },
+  {
+    "category": "Gaming", "category_zh": "游戏",
+    "subCategory": "Streaming", "subCategory_zh": "游戏直播",
+    "name": "Twitch", "name_zh": "Twitch",
+    "content": "The world's leading live streaming platform for gamers.", "content_zh": "全球领先的游戏玩家直播平台。",
+    "url": "https://www.twitch.tv/", "rating": 5
+  },
+  {
+    "category": "Gaming", "category_zh": "游戏",
+    "subCategory": "Chinese Community", "subCategory_zh": "国内社区",
+    "name": "NGA", "name_zh": "NGA玩家社区",
+    "content": "A popular Chinese gaming community.", "content_zh": "一个流行的中文游戏社区。",
+    "url": "https://bbs.nga.cn/", "rating": 4
+  },
+  {
+    "category": "Government & Public Services", "category_zh": "政府及公共服务",
+    "subCategory": "Central Government", "subCategory_zh": "中央政府",
+    "name": "Gov.cn", "name_zh": "中国政府网",
+    "content": "The official web portal of the Central People's Government of the People's Republic of China.", "content_zh": "中华人民共和国中央人民政府官方门户网站。",
+    "url": "https://www.gov.cn/", "rating": 5
+  },
+  {
+    "category": "Government & Public Services", "category_zh": "政府及公共服务",
+    "subCategory": "Public Health", "subCategory_zh": "公共卫生",
+    "name": "National Health Commission", "name_zh": "国家卫生健康委员会",
+    "content": "The official website of the National Health Commission of the PRC.", "content_zh": "中华人民共和国国家卫生健康委员会官方网站。",
+    "url": "http://www.nhc.gov.cn/", "rating": 5
+  },
+  {
+    "category": "Government & Public Services", "category_zh": "政府及公共服务",
+    "subCategory": "Industry & IT", "subCategory_zh": "工业与信息化",
+    "name": "MIIT", "name_zh": "工业和信息化部",
+    "content": "The official website of the Ministry of Industry and Information Technology of the PRC.", "content_zh": "中华人民共和国工业和信息化部官方网站。",
+    "url": "https://www.miit.gov.cn/", "rating": 5
+  },
+  {
+    "category": "Development", "category_zh": "开发工具",
+    "subCategory": "Community", "subCategory_zh": "开发者社区",
+    "name": "Dev.to", "name_zh": "Dev.to",
+    "content": "A constructive and inclusive social network for software developers.", "content_zh": "一个为软件开发者打造的建设性、包容性的社交网络。",
+    "url": "https://dev.to/", "rating": 5
+  },
+  {
+    "category": "Development", "category_zh": "开发工具",
+    "subCategory": "Web Development", "subCategory_zh": "Web 开发",
+    "name": "Smashing Magazine", "name_zh": "Smashing Magazine",
+    "content": "An online magazine for professional web designers and developers.", "content_zh": "一本面向专业网页设计师和开发者的在线杂志。",
+    "url": "https://www.smashingmagazine.com/", "rating": 5
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Hardware Info", "subCategory_zh": "硬件检测",
+    "name": "Tom's Hardware", "name_zh": "Tom's Hardware",
+    "content": "The latest in computer hardware news, reviews and guides.", "content_zh": "最新的计算机硬件新闻、评测和指南。",
+    "url": "https://www.tomshardware.com/", "rating": 4
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Data Science", "subCategory_zh": "数据科学",
+    "name": "FiveThirtyEight", "name_zh": "FiveThirtyEight",
+    "content": "Data-driven news and analysis on politics, sports, science & culture.", "content_zh": "关于政治、体育、科学和文化的由数据驱动的新闻和分析。",
+    "url": "https://fivethirtyeight.com/", "rating": 4
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Deep Learning", "subCategory_zh": "深度学习",
+    "name": "ArXiv", "name_zh": "ArXiv",
+    "content": "A free distribution service and an open-access archive for scholarly articles.", "content_zh": "一个免费的学术文章分发服务和开放获取档案库。",
+    "url": "https://arxiv.org/", "rating": 5
+  },
+  {
+    "category": "Entertainment", "category_zh": "影音娱乐",
+    "subCategory": "Video", "subCategory_zh": "视频",
+    "name": "Two Minute Papers", "name_zh": "Two Minute Papers",
+    "content": "Explaining the latest exciting research papers in a few minutes.", "content_zh": "在几分钟内解释最新、最激动人心的研究论文。",
+    "url": "https://www.youtube.com/c/TwoMinutePapers", "rating": 5
+  },
+  {
+    "category": "System Utilities", "category_zh": "系统工具",
+    "subCategory": "Hardware Info", "subCategory_zh": "硬件检测",
+    "name": "AnandTech", "name_zh": "AnandTech",
+    "content": "In-depth reviews of computer hardware and technology.", "content_zh": "对计算机硬件和技术的深度评测。",
+    "url": "https://www.anandtech.com/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Data Science", "subCategory_zh": "数据科学",
+    "name": "Google Scholar", "name_zh": "谷歌学术",
+    "content": "A simple way to broadly search for scholarly literature.", "content_zh": "一个简单的方法来广泛搜索学术文献。",
+    "url": "https://scholar.google.com/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Deep Learning", "subCategory_zh": "深度学习",
+    "name": "DeepMind Blog", "name_zh": "DeepMind 博客",
+    "content": "The official blog from DeepMind, sharing their latest research.", "content_zh": "来自 DeepMind 的官方博客，分享他们的最新研究。",
+    "url": "https://deepmind.google/blog/", "rating": 5
+  },
+  {
+    "category": "Software Development", "category_zh": "软件开发",
+    "subCategory": "Software Architecture", "subCategory_zh": "软件架构",
+    "name": "Martin Fowler's Blog", "name_zh": "Martin Fowler 的博客",
+    "content": "A blog on software design and development by Martin Fowler.", "content_zh": "由 Martin Fowler 撰写的关于软件设计和开发的博客。",
+    "url": "https://martinfowler.com/", "rating": 5
+  },
+  {
+    "category": "Software Development", "category_zh": "软件开发",
+    "subCategory": "Software Architecture", "subCategory_zh": "软件架构",
+    "name": "InfoQ", "name_zh": "InfoQ",
+    "content": "Software development and architecture news, articles, and presentations.", "content_zh": "关于软件开发和架构的新闻、文章和演讲。",
+    "url": "https://www.infoq.com/", "rating": 5
+  },
+  {
+    "category": "Learning", "category_zh": "学习资源",
+    "subCategory": "Web Development", "subCategory_zh": "Web 开发",
+    "name": "Real Python", "name_zh": "Real Python",
+    "content": "High-quality Python tutorials and learning resources.", "content_zh": "高质量的 Python 教程和学习资源。",
+    "url": "https://realpython.com/", "rating": 5
+  },
+  {
+    "category": "News & Information", "category_zh": "新闻资讯",
+    "subCategory": "Tech News", "subCategory_zh": "科技新闻",
+    "name": "TechCrunch", "name_zh": "TechCrunch",
+    "content": "The latest technology news and information on startups.", "content_zh": "关于初创公司的最新科技新闻和信息。",
+    "url": "https://techcrunch.com/", "rating": 4
+  }
+]
