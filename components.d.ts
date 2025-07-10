@@ -20,15 +20,8 @@ declare module 'vue' {
     AMenuDivider: typeof import('ant-design-vue/es')['MenuDivider']
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
     ASubMenu: typeof import('ant-design-vue/es')['SubMenu']
-    ASwitch: typeof import('ant-design-vue/es')['Switch']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
-    DownOutlined: typeof import('@ant-design/icons-vue')['DownOutlined']
-    LogoutOutlined: typeof import('@ant-design/icons-vue')['LogoutOutlined']
-    MoonOutlined: typeof import('@ant-design/icons-vue')['MoonOutlined']
-    ProfileOutlined: typeof import('@ant-design/icons-vue')['ProfileOutlined']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SunOutlined: typeof import('@ant-design/icons-vue')['SunOutlined']
-    UserOutlined: typeof import('@ant-design/icons-vue')['UserOutlined']
   }
 }

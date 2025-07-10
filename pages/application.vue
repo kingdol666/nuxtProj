@@ -133,14 +133,15 @@ const resetCardStyle = (event) => {
 const failedFavicons = ref(new Set())
 
 const getFaviconUrl = (itemUrl) => {
-  if (!itemUrl) return ''
+  if (!itemUrl) return '';
   try {
-    const url = new URL(itemUrl)
-    // Use a reliable public favicon service to fetch icons
-    return `https://www.google.com/s2/favicons?domain=${url.hostname}&sz=64`
+    const url = new URL(itemUrl);
+    // Use a reliable, public, CORS-friendly favicon service directly from the client.
+    // This avoids server-side network issues.
+    return `https://unavatar.io/${url.hostname}?fallback=false`;
   } catch (error) {
     // If the URL is invalid, we can't get a favicon.
-    return ''
+    return '';
   }
 }
 
