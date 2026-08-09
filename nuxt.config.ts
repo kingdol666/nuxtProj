@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   // 「首页 /」现在是一个独立的落地页（pages/index.vue），不再重定向。
   runtimeConfig: {
     dataDir: process.env.NUXT_DATA_DIR || '',
+    authSecret: process.env.NUXT_AUTH_SECRET || 'nuxt-app-dev-secret-change-in-prod',
   },
 
   // 全局设计系统 CSS(字体 / 配色 token)

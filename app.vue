@@ -1,19 +1,24 @@
 // app.vue
 
 <script setup>
-import { computed, reactive } from 'vue';
+import { computed, reactive, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import Header from '~/components/Header.vue';
 import Sider from '~/components/Sider.vue';
+import AuthModal from '~/components/AuthModal.vue';
 import { theme } from 'ant-design-vue';
 // 1. 导入我们创建的 Composable
 import { useTheme } from '~/composables/useTheme';
+import { useAuth } from '~/composables/useAuth';
 
 // 2. 获取主题状态
 const { themeMode } = useTheme();
-
 const route = useRoute();
 const showParticles = computed(() => route.path === '/application');
+
+// 客户端启动时恢复登录态
+const { fetchMe } = useAuth()
+onMounted(() => { fetchMe() })
 
 const particlesOptions = reactive({
   background: {
@@ -153,6 +158,7 @@ const antdTheme = computed(() => {
         </a-layout-content>
       </a-layout>
     </a-layout>
+    <AuthModal />
   </a-config-provider>
 </template>
 

@@ -1,7 +1,7 @@
 import { promises as fs } from 'node:fs'
 import { join, dirname } from 'node:path'
 
-type DataKind = 'categories' | 'content' | 'tags'
+type DataKind = 'categories' | 'content' | 'tags' | 'users' | 'comments' | 'ratings'
 
 // Each resource kind maps to a backing file. (`categories` lives in
 // menu.json for historical reasons — the admin "分组" UI == the nav menu.)
@@ -9,6 +9,9 @@ const FILENAME: Record<DataKind, string> = {
   categories: 'menu.json',
   content: 'content.json',
   tags: 'tags.json',
+  users: 'users.json',
+  comments: 'comments.json',
+  ratings: 'ratings.json',
 }
 
 // ─── Data directory resolution ───────────────────────────────────────
@@ -188,4 +191,60 @@ export async function getTags(): Promise<Tag[]> {
 
 export function updateTags<R>(fn: (items: Tag[]) => R | Promise<R>): Promise<R> {
   return updateData<Tag, R>('tags', fn)
+}
+
+// ─── Users (用户系统) ────────────────────────────────────────────────
+export interface User {
+  id: string
+  username: string
+  passwordHash: string
+  avatarColor: number  // 0-5, indexes into a palette
+  bio: string
+  createdAt: number
+}
+
+export async function getUsers(): Promise<User[]> {
+  return readJson<User[]>(fileFor('users'))
+}
+
+export function updateUsers<R>(fn: (items: User[]) => R | Promise<R>): Promise<R> {
+  return updateData<User, R>('users', fn)
+}
+
+// ─── Comments (评论) ─────────────────────────────────────────────────
+export interface Comment {
+  id: string
+  contentId: string       // which app/content this belongs to
+  userId: string
+  username: string
+  avatarColor: number
+  text: string
+  parentId: string | null // null = top-level; otherwise = parent comment id
+  likedBy: string[]       // userIds who liked
+  createdAt: number
+}
+
+export async function getComments(): Promise<Comment[]> {
+  return readJson<Comment[]>(fileFor('comments'))
+}
+
+export function updateComments<R>(fn: (items: Comment[]) => R | Promise<R>): Promise<R> {
+  return updateData<Comment, R>('comments', fn)
+}
+
+// ─── Ratings (评分) ──────────────────────────────────────────────────
+export interface Rating {
+  id: string
+  contentId: string
+  userId: string
+  value: number  // 1-5
+  createdAt: number
+}
+
+export async function getRatings(): Promise<Rating[]> {
+  return readJson<Rating[]>(fileFor('ratings'))
+}
+
+export function updateRatings<R>(fn: (items: Rating[]) => R | Promise<R>): Promise<R> {
+  return updateData<Rating, R>('ratings', fn)
 }

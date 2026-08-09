@@ -15,7 +15,8 @@ import {
 
 const { themeMode, toggleTheme } = useTheme()
 const route = useRoute()
-const username = ref('Admin')
+const { user, isLoggedIn, logout, openAuthModal } = useAuth()
+const username = computed(() => user.value?.username || '')
 
 interface NavItem { key: string; label: string; to: string; icon: any }
 const navItems: NavItem[] = [
@@ -35,11 +36,21 @@ const activeKey = computed(() => {
 const userMenuOpen = ref(false)
 function toggleUserMenu() { userMenuOpen.value = !userMenuOpen.value }
 function closeUserMenu() { userMenuOpen.value = false }
-function handleLogout() {
+async function handleLogout() {
   closeUserMenu()
-  // TODO: 接入真实登出逻辑（清 token → 跳登录页）
-  alert('已触发登出！')
+  await logout()
 }
+const AVATAR_GRADIENTS = [
+  'linear-gradient(135deg,#6366f1,#8b5cf6)',
+  'linear-gradient(135deg,#06b6d4,#3b82f6)',
+  'linear-gradient(135deg,#8b5cf6,#ec4899)',
+  'linear-gradient(135deg,#f59e0b,#ef4444)',
+  'linear-gradient(135deg,#10b981,#06b6d4)',
+  'linear-gradient(135deg,#3b82f6,#6366f1)',
+]
+const avatarStyle = computed(() => ({
+  background: AVATAR_GRADIENTS[user.value?.avatarColor ?? 0],
+}))
 
 // 点击外部关闭下拉
 function onDocClick(e: MouseEvent) {
@@ -86,16 +97,20 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
           <BulbOutlined v-else />
         </button>
 
-        <div id="user-menu-root" class="user-menu-wrap">
+        <!-- 登录/用户区 -->
+        <button v-if="!isLoggedIn" class="btn-login" @click="openAuthModal">
+          <UserOutlined /> 登录
+        </button>
+        <div v-else id="user-menu-root" class="user-menu-wrap">
           <button class="user-chip" :class="{ open: userMenuOpen }" @click="toggleUserMenu">
-            <span class="user-avatar"><UserOutlined /></span>
+            <span class="user-avatar" :style="avatarStyle"><UserOutlined /></span>
             <span class="user-name">{{ username }}</span>
             <DownOutlined class="user-caret" />
           </button>
           <Transition name="popdown">
             <div v-if="userMenuOpen" class="user-dropdown glass-strong">
               <div class="dropdown-head">
-                <span class="user-avatar lg"><UserOutlined /></span>
+                <span class="user-avatar lg" :style="avatarStyle"><UserOutlined /></span>
                 <div class="dropdown-head-text">
                   <div class="dropdown-name">{{ username }}</div>
                   <div class="dropdown-sub">已登录</div>
@@ -181,6 +196,19 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
 
 /* ---- 右侧 ---- */
 .header-right { display: flex; align-items: center; gap: 10px; }
+.btn-login {
+  appearance: none; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 38px; padding: 0 18px;
+  border: none; border-radius: var(--radius-full);
+  font-family: inherit; font-size: var(--text-sm); font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 55%, #8b5cf6));
+  box-shadow: var(--shadow-accent);
+  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+  :deep(.anticon) { font-size: 15px; }
+  &:hover { transform: translateY(-2px); box-shadow: 0 10px 24px var(--accent-glow); }
+}
 .icon-action {
   appearance: none; cursor: pointer;
   display: grid; place-items: center;
