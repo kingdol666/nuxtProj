@@ -94,29 +94,47 @@ const particlesOptions = reactive({
 });
 
 // 3. 创建一个计算属性，根据 themeMode 动态返回 Antd 的主题配置
-const antdTheme = computed(() => {
-  if (themeMode.value === 'dark') {
-    return {
-      // 使用暗黑主题算法
-      algorithm: theme.darkAlgorithm,
-      token: {},
-      components: {
-        Layout: {
-          colorBgHeader: '#001529',
-          colorBgBody: '#141414',
-        }
-      }
-    };
-  }
+// 3. Antd 主题配置 —— 绑定全局设计系统 token(字体 / 主色 / 圆角)
+//    CSS 变量在 assets/css/main.css 定义;这里同步给 antd 组件。
+const FONT_SANS = "'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif";
+const FONT_MONO = "'JetBrains Mono', 'Fira Code', Consolas, monospace";
 
-  // 默认返回亮色主题配置
+const antdTheme = computed(() => {
+  const dark = themeMode.value === 'dark';
   return {
-    algorithm: theme.defaultAlgorithm,
+    algorithm: dark ? theme.darkAlgorithm : theme.defaultAlgorithm,
+    token: {
+      fontFamily: FONT_SANS,
+      fontSize: 14,
+      colorPrimary: dark ? '#818cf8' : '#6366f1',
+      borderRadius: 10,
+      wireframe: false,
+    },
     components: {
       Layout: {
-        colorBgBody: '#ffffff',
-      }
-    }
+        colorBgHeader: 'transparent',
+        colorBgBody: 'transparent',
+      },
+      Menu: {
+        itemSelectedBg: dark ? 'rgba(129,140,248,0.15)' : 'rgba(99,102,241,0.08)',
+        itemSelectedColor: dark ? '#c7d2fe' : '#4f46e5',
+        itemHoverBg: dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+      },
+      Table: {
+        headerBg: dark ? '#232330' : '#fafafa',
+        rowHoverBg: dark ? 'rgba(129,140,248,0.06)' : 'rgba(99,102,241,0.04)',
+      },
+      Modal: {
+        contentBg: dark ? '#1a1a22' : '#ffffff',
+      },
+      Button: {
+        controlHeight: 36,
+        fontWeight: 500,
+      },
+      Card: {
+        borderRadiusLG: 16,
+      },
+    },
   };
 });
 </script>
@@ -139,43 +157,28 @@ const antdTheme = computed(() => {
 </template>
 
 <style>
-/* 添加一个全局样式来处理 body 背景色，防止闪烁 */
+/* 全局背景已在 assets/css/main.css 通过 body::before / ::after 固定铺满整个视口；
+   此处只保留布局透明与基础排版，让玻璃面板悬浮于背景之上。 */
 body {
-  background-color: #fff;
-  transition: background-color 0.2s;
   margin: 0;
+  color: var(--text-primary);
+  transition: color var(--dur) var(--ease-out);
 }
 
-html.dark body {
-  background-color: #141414;
-  /* 这个颜色要和 antd 暗黑内容区背景色一致 */
-}
-
+/* 内容区透明：露出全局背景 */
 .main-content-area {
   position: relative;
-  background-image: url('/background.png');
-  /* Corrected file extension */
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background: transparent;
 }
 
-/* This pseudo-element creates the transparent overlay */
+/* 内容区顶部细微高光，增强玻璃悬浮感（不遮挡背景） */
 .main-content-area::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  /* Black overlay with 50% opacity */
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent 30%);
   z-index: 1;
-}
-
-html.dark .main-content-area::before {
-  background-color: rgba(20, 20, 20, 0.7);
-  /* Darker overlay for dark mode */
+  pointer-events: none;
 }
 
 /* --- Custom Glassmorphism Scrollbar Styles --- */

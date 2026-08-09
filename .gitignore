@@ -1,2 +1,21 @@
 node_modules/
 dist/
+
+# Nuxt build artifacts
+.nuxt/
+.output/
+.data/
+nuxt.d.ts
+
+# Logs
+*.log
+npm-debug.log*
+
+# Env
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db

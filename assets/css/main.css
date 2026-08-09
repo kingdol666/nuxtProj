@@ -1,0 +1,257 @@
+/* ════════════════════════════════════════════════════════════════════
+   全局设计系统 — Design Tokens
+   统一字体 / 配色 / 间距 / 圆角 / 阴影。所有页面共享此基础。
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── 字体族 ─────────────────────────────────────────────────────────── */
+:root {
+  --font-sans: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+  --font-display: 'Inter', 'Noto Sans SC', -apple-system, 'PingFang SC',
+    'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, 'Courier New', monospace;
+
+  /* ── 字号层级 ── */
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-md: 15px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+  --text-3xl: 36px;
+
+  /* ── 行高 ── */
+  --leading-tight: 1.25;
+  --leading-snug: 1.4;
+  --leading-normal: 1.6;
+
+  /* ── 主色 (Indigo-Violet, 现代高级) ── */
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-active: #4338ca;
+  --accent-soft: rgba(99, 102, 241, 0.1);
+  --accent-glow: rgba(99, 102, 241, 0.35);
+
+  /* 辅助色 */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+
+  /* ── 中性色 · 亮色模式 ── */
+  --text-primary: #1e1e2e;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --bg-base: #f7f7fb;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-subtle: #f3f4f6;
+  --border-color: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.14);
+
+  /* ── 阴影 ── */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.12);
+  --shadow-accent: 0 8px 24px rgba(99, 102, 241, 0.2);
+
+  /* ── 圆角 ── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-full: 9999px;
+
+  /* ── 过渡 ── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 0.15s;
+  --dur: 0.25s;
+  --dur-slow: 0.4s;
+}
+
+/* ── 暗色模式覆盖 ──────────────────────────────────────────────────── */
+html.dark {
+  --accent: #818cf8;
+  --accent-hover: #a5b4fc;
+  --accent-active: #c7d2fe;
+  --accent-soft: rgba(129, 140, 248, 0.15);
+  --accent-glow: rgba(129, 140, 248, 0.4);
+
+  --text-primary: #f3f4f6;
+  --text-secondary: #b8bcc8;
+  --text-muted: #7c8090;
+  --bg-base: #0f0f14;
+  --bg-surface: #1a1a22;
+  --bg-elevated: #232330;
+  --bg-subtle: #2a2a38;
+  --border-color: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+  --shadow-accent: 0 8px 24px rgba(129, 140, 248, 0.25);
+}
+
+/* ── 基础排版 ──────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* 数字与代码用等宽 */
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+}
+
+/* 标题用 display 字体 */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+}
+
+/* ── 选区与滚动条统一 ──────────────────────────────────────────────── */
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* ── 全局可复用工具类 ──────────────────────────────────────────────── */
+.glass {
+  background: var(--bg-surface);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border-color);
+}
+
+/* focus 可见性(无障碍) */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   玻璃拟态设计系统 — Glassmorphism Tokens & Background
+   全站统一：背景图固定铺满整个视口，所有面板(Header/Sider/Content)
+   以半透明毛玻璃悬浮其上。
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── 玻璃材质 token（按主题切换） ──────────────────────────────────── */
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-strong: rgba(255, 255, 255, 0.72);
+  --glass-bg-soft: rgba(255, 255, 255, 0.35);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-border-inset: rgba(255, 255, 255, 0.45);
+  --glass-highlight: rgba(255, 255, 255, 0.7);
+  --glass-blur: blur(24px) saturate(180%);
+  /* 全局背景叠层（照片之上盖一层带主色调的渐变，让玻璃更通透有层次） */
+  --bg-overlay: linear-gradient(135deg, rgba(15, 23, 42, 0.45) 0%, rgba(49, 46, 129, 0.4) 60%, rgba(15, 23, 42, 0.55) 100%);
+}
+html.dark {
+  --glass-bg: rgba(22, 22, 30, 0.55);
+  --glass-bg-strong: rgba(26, 26, 36, 0.78);
+  --glass-bg-soft: rgba(22, 22, 30, 0.32);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-inset: rgba(255, 255, 255, 0.06);
+  --glass-highlight: rgba(255, 255, 255, 0.08);
+  --bg-overlay: linear-gradient(135deg, rgba(10, 10, 16, 0.62) 0%, rgba(30, 27, 75, 0.5) 60%, rgba(8, 8, 14, 0.72) 100%);
+}
+
+/* ── 全局固定背景（覆盖整个视口，Header/Sider/Content 全在其上） ──── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: var(--bg-overlay);
+  z-index: -1;
+  transition: background var(--dur) var(--ease-out);
+}
+
+/* ── 玻璃工具类 ────────────────────────────────────────────────────── */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+}
+.glass-strong {
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), var(--shadow-md);
+}
+.glass-soft {
+  background: var(--glass-bg-soft);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border-inset);
+}
+
+/* 让 Nuxt 根布局透明，露出全局背景 */
+:where(#__nuxt, .ant-layout, .ant-layout-content) {
+  background: transparent !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   动效系统 — Motion Tokens & Reusable Keyframes
+   全站统一入场动效：fade-up / fade-in / scale-in，可复用。
+   ════════════════════════════════════════════════════════════════════ */
+:root {
+  --dur-enter: 0.5s;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* 入场动效工具类（用 CSS 变量控制延迟，便于错峰编排） */
+.enter-up   { animation: fade-up var(--dur-enter) var(--ease-out) both; animation-delay: var(--d, 0s); }
+.enter-fade { animation: fade-in var(--dur-enter) var(--ease-out) both; animation-delay: var(--d, 0s); }
+
+/* 页面切换过渡（配合 Nuxt app.pageTransition） */
+.page-enter-active, .page-leave-active { transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out); }
+.page-enter-from { opacity: 0; transform: translateY(8px); }
+.page-leave-to   { opacity: 0; transform: translateY(-8px); }
+
+/* 尊重「减少动态效果」的用户偏好：关闭动画与过渡，保证舒适与可访问性 */
+@media (prefers-reduced-motion: reduce) {
+  .enter-up, .enter-fade { animation: none !important; }
+  .page-enter-active, .page-leave-active { transition: opacity var(--dur-fast) var(--ease-out) !important; transform: none !important; }
+  .page-enter-from, .page-leave-to { transform: none !important; }
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+}

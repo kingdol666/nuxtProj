@@ -1,0 +1,478 @@
+[
+  {
+    "id": "seed0000",
+    "name": "UI/UX Design",
+    "name_zh": "UI/UX 设计",
+    "category": "Design Tools",
+    "category_zh": "设计工具"
+  },
+  {
+    "id": "seed0001",
+    "name": "Graphic Design",
+    "name_zh": "平面设计",
+    "category": "Design Tools",
+    "category_zh": "设计工具"
+  },
+  {
+    "id": "seed0002",
+    "name": "Prototyping",
+    "name_zh": "原型设计",
+    "category": "Design Tools",
+    "category_zh": "设计工具"
+  },
+  {
+    "id": "seed0003",
+    "name": "Stock Photos",
+    "name_zh": "图库资源",
+    "category": "Design Tools",
+    "category_zh": "设计工具"
+  },
+  {
+    "id": "seed0004",
+    "name": "Inspiration",
+    "name_zh": "灵感",
+    "category": "Design Tools",
+    "category_zh": "设计工具"
+  },
+  {
+    "id": "seed0005",
+    "name": "Editors",
+    "name_zh": "代码编辑器",
+    "category": "Development",
+    "category_zh": "开发工具"
+  },
+  {
+    "id": "seed0006",
+    "name": "Version Control",
+    "name_zh": "版本控制",
+    "category": "Development",
+    "category_zh": "开发工具"
+  },
+  {
+    "id": "seed0007",
+    "name": "API Tools",
+    "name_zh": "API 工具",
+    "category": "Development",
+    "category_zh": "开发工具"
+  },
+  {
+    "id": "seed0008",
+    "name": "Frameworks",
+    "name_zh": "前端框架",
+    "category": "Software Development",
+    "category_zh": "软件开发"
+  },
+  {
+    "id": "seed0009",
+    "name": "Code Sandbox",
+    "name_zh": "在线沙箱",
+    "category": "Development",
+    "category_zh": "开发工具"
+  },
+  {
+    "id": "seed000a",
+    "name": "Q&A",
+    "name_zh": "问答社区",
+    "category": "Development",
+    "category_zh": "开发工具"
+  },
+  {
+    "id": "seed000b",
+    "name": "Chinese Community",
+    "name_zh": "国内社区",
+    "category": "Development",
+    "category_zh": "开发工具"
+  },
+  {
+    "id": "seed000c",
+    "name": "Containers",
+    "name_zh": "容器化",
+    "category": "Software Development",
+    "category_zh": "软件开发"
+  },
+  {
+    "id": "seed000d",
+    "name": "Backend",
+    "name_zh": "后端",
+    "category": "Software Development",
+    "category_zh": "软件开发"
+  },
+  {
+    "id": "seed000e",
+    "name": "Databases",
+    "name_zh": "数据库",
+    "category": "Software Development",
+    "category_zh": "软件开发"
+  },
+  {
+    "id": "seed000f",
+    "name": "DevOps",
+    "name_zh": "DevOps",
+    "category": "Software Development",
+    "category_zh": "软件开发"
+  },
+  {
+    "id": "seed000g",
+    "name": "Chatbots",
+    "name_zh": "聊天机器人",
+    "category": "AI Tools",
+    "category_zh": "AI 工具"
+  },
+  {
+    "id": "seed000h",
+    "name": "Image Generation",
+    "name_zh": "图像生成",
+    "category": "AI Tools",
+    "category_zh": "AI 工具"
+  },
+  {
+    "id": "seed000i",
+    "name": "AI Search",
+    "name_zh": "AI 搜索",
+    "category": "AI Tools",
+    "category_zh": "AI 工具"
+  },
+  {
+    "id": "seed000j",
+    "name": "Chinese AI",
+    "name_zh": "国产 AI",
+    "category": "AI Tools",
+    "category_zh": "AI 工具"
+  },
+  {
+    "id": "seed000k",
+    "name": "Community",
+    "name_zh": "模型社区",
+    "category": "AI Tools",
+    "category_zh": "AI 工具"
+  },
+  {
+    "id": "seed000l",
+    "name": "AI Coding",
+    "name_zh": "AI 编程",
+    "category": "AI Tools",
+    "category_zh": "AI 工具"
+  },
+  {
+    "id": "seed000m",
+    "name": "Workspace",
+    "name_zh": "工作空间",
+    "category": "Productivity",
+    "category_zh": "生产力工具"
+  },
+  {
+    "id": "seed000n",
+    "name": "Translation",
+    "name_zh": "在线翻译",
+    "category": "Productivity",
+    "category_zh": "生产力工具"
+  },
+  {
+    "id": "seed000o",
+    "name": "Task Management",
+    "name_zh": "任务管理",
+    "category": "Productivity",
+    "category_zh": "生产力工具"
+  },
+  {
+    "id": "seed000p",
+    "name": "Diagramming",
+    "name_zh": "图表工具",
+    "category": "Productivity",
+    "category_zh": "生产力工具"
+  },
+  {
+    "id": "seed000q",
+    "name": "MOOC",
+    "name_zh": "在线课程",
+    "category": "Learning",
+    "category_zh": "学习资源"
+  },
+  {
+    "id": "seed000r",
+    "name": "Documentation",
+    "name_zh": "技术文档",
+    "category": "Learning",
+    "category_zh": "学习资源"
+  },
+  {
+    "id": "seed000s",
+    "name": "Free Courses",
+    "name_zh": "免费编程",
+    "category": "Learning",
+    "category_zh": "学习资源"
+  },
+  {
+    "id": "seed000t",
+    "name": "Deep Learning",
+    "name_zh": "深度学习",
+    "category": "Learning",
+    "category_zh": "学习资源"
+  },
+  {
+    "id": "seed000u",
+    "name": "Data Science",
+    "name_zh": "数据科学",
+    "category": "Learning",
+    "category_zh": "学习资源"
+  },
+  {
+    "id": "seed000v",
+    "name": "Interactive Learning",
+    "name_zh": "互动学习",
+    "category": "Learning",
+    "category_zh": "学习资源"
+  },
+  {
+    "id": "seed000w",
+    "name": "University Courses",
+    "name_zh": "大学课程",
+    "category": "Learning",
+    "category_zh": "学习资源"
+  },
+  {
+    "id": "seed000x",
+    "name": "Web Development",
+    "name_zh": "Web 开发",
+    "category": "Learning",
+    "category_zh": "学习资源"
+  },
+  {
+    "id": "seed000y",
+    "name": "Chinese Platforms",
+    "name_zh": "国内平台",
+    "category": "Learning",
+    "category_zh": "学习资源"
+  },
+  {
+    "id": "seed000z",
+    "name": "Tech News",
+    "name_zh": "科技新闻",
+    "category": "News & Information",
+    "category_zh": "新闻资讯"
+  },
+  {
+    "id": "seed0010",
+    "name": "Chinese News",
+    "name_zh": "国内新闻",
+    "category": "News & Information",
+    "category_zh": "新闻资讯"
+  },
+  {
+    "id": "seed0011",
+    "name": "Tech Media",
+    "name_zh": "科技媒体",
+    "category": "News & Information",
+    "category_zh": "新闻资讯"
+  },
+  {
+    "id": "seed0012",
+    "name": "Chinese Market",
+    "name_zh": "国内市场",
+    "category": "Finance",
+    "category_zh": "金融财经"
+  },
+  {
+    "id": "seed0013",
+    "name": "Global Market",
+    "name_zh": "全球市场",
+    "category": "Finance",
+    "category_zh": "金融财经"
+  },
+  {
+    "id": "seed0014",
+    "name": "Cryptocurrency",
+    "name_zh": "加密货币",
+    "category": "Finance",
+    "category_zh": "金融财经"
+  },
+  {
+    "id": "seed0015",
+    "name": "Instant Messaging",
+    "name_zh": "即时通讯",
+    "category": "Social & Community",
+    "category_zh": "社交社区"
+  },
+  {
+    "id": "seed0016",
+    "name": "International",
+    "name_zh": "国际电商",
+    "category": "E-commerce",
+    "category_zh": "电子商务"
+  },
+  {
+    "id": "seed0017",
+    "name": "Chinese",
+    "name_zh": "国内电商",
+    "category": "E-commerce",
+    "category_zh": "电子商务"
+  },
+  {
+    "id": "seed0018",
+    "name": "Video",
+    "name_zh": "视频",
+    "category": "Entertainment",
+    "category_zh": "影音娱乐"
+  },
+  {
+    "id": "seed0019",
+    "name": "Chinese Video",
+    "name_zh": "国内视频",
+    "category": "Entertainment",
+    "category_zh": "影音娱乐"
+  },
+  {
+    "id": "seed001a",
+    "name": "Music",
+    "name_zh": "音乐",
+    "category": "Entertainment",
+    "category_zh": "影音娱乐"
+  },
+  {
+    "id": "seed001b",
+    "name": "Food Delivery",
+    "name_zh": "外卖订餐",
+    "category": "Lifestyle",
+    "category_zh": "生活服务"
+  },
+  {
+    "id": "seed001c",
+    "name": "Recipes",
+    "name_zh": "食谱",
+    "category": "Lifestyle",
+    "category_zh": "生活服务"
+  },
+  {
+    "id": "seed001d",
+    "name": "Movies",
+    "name_zh": "电影",
+    "category": "Lifestyle",
+    "category_zh": "生活服务"
+  },
+  {
+    "id": "seed001e",
+    "name": "PaaS",
+    "name_zh": "平台即服务",
+    "category": "Cloud Services",
+    "category_zh": "云服务"
+  },
+  {
+    "id": "seed001f",
+    "name": "IaaS",
+    "name_zh": "基础设施即服务",
+    "category": "Cloud Services",
+    "category_zh": "云服务"
+  },
+  {
+    "id": "seed001g",
+    "name": "Archivers",
+    "name_zh": "压缩工具",
+    "category": "System Utilities",
+    "category_zh": "系统工具"
+  },
+  {
+    "id": "seed001h",
+    "name": "System Cleanup",
+    "name_zh": "系统清理",
+    "category": "System Utilities",
+    "category_zh": "系统工具"
+  },
+  {
+    "id": "seed001i",
+    "name": "Hardware Info",
+    "name_zh": "硬件检测",
+    "category": "System Utilities",
+    "category_zh": "系统工具"
+  },
+  {
+    "id": "seed001j",
+    "name": "PC Building",
+    "name_zh": "电脑装机",
+    "category": "System Utilities",
+    "category_zh": "系统工具"
+  },
+  {
+    "id": "seed001k",
+    "name": "Hardware Repair",
+    "name_zh": "硬件修复",
+    "category": "System Utilities",
+    "category_zh": "系统工具"
+  },
+  {
+    "id": "seed001l",
+    "name": "Online Diagnostics",
+    "name_zh": "在线诊断",
+    "category": "System Utilities",
+    "category_zh": "系统工具"
+  },
+  {
+    "id": "seed001m",
+    "name": "Global",
+    "name_zh": "国际求职",
+    "category": "Job & Career",
+    "category_zh": "求职招聘"
+  },
+  {
+    "id": "seed001n",
+    "name": "Booking",
+    "name_zh": "预订",
+    "category": "Travel & Accommodation",
+    "category_zh": "旅行住宿"
+  },
+  {
+    "id": "seed001o",
+    "name": "Flights",
+    "name_zh": "机票",
+    "category": "Travel & Accommodation",
+    "category_zh": "旅行住宿"
+  },
+  {
+    "id": "seed001p",
+    "name": "Stores",
+    "name_zh": "游戏商店",
+    "category": "Gaming",
+    "category_zh": "游戏"
+  },
+  {
+    "id": "seed001q",
+    "name": "News & Reviews",
+    "name_zh": "新闻与评测",
+    "category": "Gaming",
+    "category_zh": "游戏"
+  },
+  {
+    "id": "seed001r",
+    "name": "Streaming",
+    "name_zh": "游戏直播",
+    "category": "Gaming",
+    "category_zh": "游戏"
+  },
+  {
+    "id": "seed001s",
+    "name": "Central Government",
+    "name_zh": "中央政府",
+    "category": "Government & Public Services",
+    "category_zh": "政府及公共服务"
+  },
+  {
+    "id": "seed001t",
+    "name": "Public Health",
+    "name_zh": "公共卫生",
+    "category": "Government & Public Services",
+    "category_zh": "政府及公共服务"
+  },
+  {
+    "id": "seed001u",
+    "name": "Industry & IT",
+    "name_zh": "工业与信息化",
+    "category": "Government & Public Services",
+    "category_zh": "政府及公共服务"
+  },
+  {
+    "id": "seed001v",
+    "name": "Software Architecture",
+    "name_zh": "软件架构",
+    "category": "Software Development",
+    "category_zh": "软件开发"
+  }
+]

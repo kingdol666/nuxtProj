@@ -1,40 +1,52 @@
 // composables/useTheme.ts
+//
+// 主题切换，SSR 安全、无闪烁（FOUC）：
+// - 主题通过 cookie 持久化，服务端渲染时即可读到 → 首屏直接渲染正确配色。
+// - 通过 nuxtApp hook 在 SSR 输出的 <html> 上内联写入 class，避免水合后再切换。
+// - 客户端切换主题时同步更新 cookie、localStorage 与 <html> class。
 
-import { useState, watch, onMounted } from '#imports';
-import type { Ref } from 'vue';
+import { useState, useCookie, watch, onMounted } from '#imports'
+import type { Ref } from 'vue'
+
+type ThemeMode = 'light' | 'dark'
 
 export const useTheme = () => {
-  // 1. 创建一个 Nuxt 全局状态，并明确指定其类型
-  const themeMode: Ref<'light' | 'dark'> = useState('theme', () => 'light');
+  const cookie = useCookie<ThemeMode>('theme', {
+    default: () => 'light',
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 365,
+  })
 
-  // 2. 切换主题的函数
-  const toggleTheme = () => {
-    themeMode.value = themeMode.value === 'light' ? 'dark' : 'light';
-  };
+  const themeMode: Ref<ThemeMode> = useState('theme', () => cookie.value)
 
-  // 3. 监听主题变化，并更新 localStorage 和 <html> 的 class
-  watch(themeMode, (newMode) => {
-    if (process.client) { // 确保只在客户端执行
-      localStorage.setItem('theme', newMode);
-      // 为 <html> 标签添加或移除 'dark' 类
-      document.documentElement.classList.toggle('dark', newMode === 'dark');
+  const applyHtmlClass = (mode: ThemeMode) => {
+    document.documentElement.classList.toggle('dark', mode === 'dark')
+  }
+
+  // 服务端：在 SSR 输出的 <html> 上写入 class（首屏即正确，无闪烁）。
+  const nuxtApp = useNuxtApp()
+  nuxtApp.hook('app:rendered', () => {
+    if (themeMode.value === 'dark') {
+      useHead({ htmlAttrs: { class: 'dark' } })
     }
-  });
+  })
 
-  // 4. 在组件挂载时，从 localStorage 读取保存的主题设置
+  // 客户端：水合后统一 <html> class，并双向同步 cookie / localStorage。
   onMounted(() => {
-    if (process.client) {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
-        themeMode.value = savedTheme;
-      }
-      // 首次加载时也设置一下 class
-      document.documentElement.classList.toggle('dark', themeMode.value === 'dark');
-    }
-  });
+    applyHtmlClass(themeMode.value)
+  })
 
-  return {
-    themeMode,
-    toggleTheme,
-  };
-};
+  watch(themeMode, (newMode) => {
+    cookie.value = newMode
+    if (import.meta.client) {
+      localStorage.setItem('theme', newMode)
+      applyHtmlClass(newMode)
+    }
+  })
+
+  const toggleTheme = () => {
+    themeMode.value = themeMode.value === 'light' ? 'dark' : 'light'
+  }
+
+  return { themeMode, toggleTheme }
+}

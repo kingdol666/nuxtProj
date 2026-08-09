@@ -1,283 +1,263 @@
 <script setup lang="ts">
-import { useTheme } from '../composables/useTheme'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useRoute } from 'vue-router'
+import { useTheme } from '~/composables/useTheme'
+import {
+  BulbOutlined,
+  BulbFilled,
+  UserOutlined,
+  LogoutOutlined,
+  HomeOutlined,
+  AppstoreOutlined,
+  DashboardOutlined,
+  DownOutlined,
+} from '@ant-design/icons-vue'
+
 const { themeMode, toggleTheme } = useTheme()
-import { ref, watch, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { UserOutlined, DownOutlined, LogoutOutlined, ProfileOutlined , BulbOutlined} from '@ant-design/icons-vue';
+const route = useRoute()
+const username = ref('Admin')
 
-// --- 响应式数据 ---
-const username = ref('Admin'); // 你可以从 Pinia store 或 API 获取真实用户名
-const route = useRoute();
-const router = useRouter();
+interface NavItem { key: string; label: string; to: string; icon: any }
+const navItems: NavItem[] = [
+  { key: 'home', label: '首页', to: '/', icon: HomeOutlined },
+  { key: 'application', label: '应用推荐', to: '/application', icon: AppstoreOutlined },
+  { key: 'admin', label: '后台管理', to: '/admin', icon: DashboardOutlined },
+]
 
-// --- 导航菜单高亮逻辑 ---
-// 创建一个 ref 来存储当前选中的菜单项 key
-const selectedKeys = ref<string[]>([]);
+const activeKey = computed(() => {
+  const p = route.path
+  if (p.startsWith('/application')) return 'application'
+  if (p.startsWith('/admin')) return 'admin'
+  return 'home'
+})
 
-// 监听路由变化，并更新菜单的选中状态
-watch(
-  () => route.path,
-  (newPath) => {
-    // 根据路由路径来决定哪个菜单项应该高亮
-    if (newPath.startsWith('/application')) {
-      selectedKeys.value = ['application'];
-    } else {
-      // 默认/其他路径都高亮首页
-      selectedKeys.value = ['home'];
-    }
-  },
-  { immediate: true } // 立即执行一次，确保初始加载时菜单正确高亮
-);
+// 用户下拉菜单（自绘，避免 a-dropdown 的 SSR 状态问题）
+const userMenuOpen = ref(false)
+function toggleUserMenu() { userMenuOpen.value = !userMenuOpen.value }
+function closeUserMenu() { userMenuOpen.value = false }
+function handleLogout() {
+  closeUserMenu()
+  // TODO: 接入真实登出逻辑（清 token → 跳登录页）
+  alert('已触发登出！')
+}
 
-// --- 用户下拉菜单处理 ---
-const handleMenuClick = ({ key }: { key: string | number }) => {
-  if (key === 'logout') {
-    // 在这里实现你的登出逻辑
-    console.log('User wants to log out.');
-    // 例如：清除 token，然后跳转到登录页
-    // router.push('/login');
-    alert('已觸發登出！');
-  }
-  if (key === 'profile') {
-    router.push('/profile'); // 跳转到个人资料页
-  }
-};
+// 点击外部关闭下拉
+function onDocClick(e: MouseEvent) {
+  const root = document.getElementById('user-menu-root')
+  if (root && !root.contains(e.target as Node)) closeUserMenu()
+}
+onMounted(() => document.addEventListener('click', onDocClick))
+onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
 </script>
 
 <template>
-  <a-layout-header class="header-container" :class="themeMode">
-    <div class="header-content">
-      <!-- 左侧区域：Logo 和导航菜单 -->
-      <div class="left-section">
-        <!-- Logo -->
-        <div class="logo">
-          <nuxt-link to="/">
-            <img src="/logo.ico" alt="Site Logo" class="logo-img" />
-            <div class="theme-switch">
-              <AButton @click="toggleTheme" type="text">
-                <BulbOutlined :style="{ color: themeMode === 'dark' ? '#ffffff' : '#888888' }" />
-              </AButton>
-            </div>
-            <span class="logo-text">Nuxt Admin</span>
-          </nuxt-link>
-        </div>
+  <header class="app-header glass-strong">
+    <div class="header-inner">
+      <!-- 左：品牌 + 导航 -->
+      <div class="header-left">
+        <nuxt-link to="/" class="brand">
+          <img src="/logo.ico" alt="logo" class="brand-logo" />
+          <span class="brand-text">Nuxt Admin</span>
+        </nuxt-link>
 
-        <!-- 导航菜单 -->
-        <a-menu
-          v-model:selectedKeys="selectedKeys"
-          :theme="themeMode"
-          mode="horizontal"
-          class="header-menu"
-          :style="{ lineHeight: '64px' }"
-        >
-          <a-menu-item key="home">
-            <nuxt-link to="/">首页</nuxt-link>
-          </a-menu-item>
-          <a-menu-item key="application">
-            <nuxt-link to="/application">应用推荐</nuxt-link>
-          </a-menu-item>
-        </a-menu>
+        <nav class="nav-pills">
+          <nuxt-link
+            v-for="item in navItems"
+            :key="item.key"
+            :to="item.to"
+            class="nav-pill"
+            :class="{ active: activeKey === item.key }"
+          >
+            <component :is="item.icon" class="nav-pill-icon" />
+            <span class="nav-pill-label">{{ item.label }}</span>
+          </nuxt-link>
+        </nav>
       </div>
 
-      <!-- 右侧区域：用户信息和操作 -->
-      <div class="right-section">
-        <a-dropdown>
-          <!-- 下拉菜单的触发器 -->
-          <a class="user-trigger" @click.prevent>
-            <a-avatar :size="32" style="margin-right: 8px;">
-              <template #icon><UserOutlined /></template>
-              <!-- 如果有头像 URL，可以这样用: <img :src="avatarUrl" /> -->
-            </a-avatar>
-            <span class="username">{{ username }}</span>
-            <DownOutlined style="margin-left: 8px; font-size: 12px;" />
-          </a>
-          
-          <!-- 下拉菜单的内容 -->
-          <template #overlay>
-            <a-menu @click="handleMenuClick">
-              <a-menu-item key="profile">
-                <ProfileOutlined />
-                <span style="margin-left: 8px;">个人中心</span>
-              </a-menu-item>
-              <a-menu-divider />
-              <a-menu-item key="logout" danger>
-                <LogoutOutlined />
-                <span style="margin-left: 8px;">退出登录</span>
-              </a-menu-item>
-            </a-menu>
-          </template>
-        </a-dropdown>
+      <!-- 右：主题切换 + 用户 -->
+      <div class="header-right">
+        <button
+          class="icon-action"
+          :title="themeMode === 'dark' ? '切换到亮色' : '切换到暗色'"
+          aria-label="切换主题"
+          @click="toggleTheme"
+        >
+          <BulbFilled v-if="themeMode === 'dark'" />
+          <BulbOutlined v-else />
+        </button>
+
+        <div id="user-menu-root" class="user-menu-wrap">
+          <button class="user-chip" :class="{ open: userMenuOpen }" @click="toggleUserMenu">
+            <span class="user-avatar"><UserOutlined /></span>
+            <span class="user-name">{{ username }}</span>
+            <DownOutlined class="user-caret" />
+          </button>
+          <Transition name="popdown">
+            <div v-if="userMenuOpen" class="user-dropdown glass-strong">
+              <div class="dropdown-head">
+                <span class="user-avatar lg"><UserOutlined /></span>
+                <div class="dropdown-head-text">
+                  <div class="dropdown-name">{{ username }}</div>
+                  <div class="dropdown-sub">已登录</div>
+                </div>
+              </div>
+              <div class="dropdown-divider" />
+              <button class="dropdown-item danger" @click="handleLogout">
+                <LogoutOutlined /><span>退出登录</span>
+              </button>
+            </div>
+          </Transition>
+        </div>
       </div>
     </div>
-  </a-layout-header>
+  </header>
 </template>
 
-<style scoped>
-/* 整个头部容器 */
-.header-container {
-  padding: 0 24px; /* 左右留白 */
+<style scoped lang="less">
+.app-header {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20;
   width: 100%;
-  
-  /* --- Light Mode Glass Effect --- */
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-}
-
-/* --- Dark Mode Override --- */
-.header-container.dark {
-  background: rgba(20, 20, 25, 0.65);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* 内容区，使用 flex 布局实现左右分布 */
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-}
-
-/* 左侧区域容器 */
-.left-section {
-  display: flex;
-  align-items: center;
-}
-
-/* Logo 样式 */
-.logo {
   height: 64px;
-  line-height: 64px;
-  margin-right: 40px; /* Logo 和菜单间的距离 */
+  padding: 0 24px;
+  box-sizing: border-box;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid var(--glass-border);
 }
-.logo a {
-  display: flex;
-  align-items: center;
+.header-inner {
   height: 100%;
-}
-.logo-img {
-  height: 32px; /* Logo 图片高度 */
-  margin-right: 12px;
-}
-.logo-text {
-  font-size: 20px;
-  font-weight: 600;
-  white-space: nowrap; /* 防止文字换行 */
-  
-  /* --- Light Mode Text Color --- */
-  color: #000000;
-}
-
-/* --- Dark Mode Override --- */
-.header-container.dark .logo-text {
-  color: white;
-}
-
-/* 头部导航菜单的透明背景 */
-.header-menu {
-  background: transparent;
-  border-bottom: none;
-}
-
-/* 确保菜单项在透明背景下可读 */
-.header-menu .a-menu-item a {
-  transition: color 0.3s;
-  
-  /* --- Light Mode Menu Text Color --- */
-  color: #000000;
-}
-
-.header-menu .a-menu-item-selected a,
-.header-menu .a-menu-item a:hover {
-  color: #000000;
-}
-
-/* --- Dark Mode Overrides --- */
-.header-container.dark .header-menu .a-menu-item a {
-  color: #ffffff;
-}
-
-.header-container.dark .header-menu .a-menu-item-selected a,
-.header-container.dark .header-menu .a-menu-item a:hover {
-  color: #ffffff;
-}
-
-/* 右侧用户区域 */
-.right-section {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-/* 用户下拉菜单触发器样式 */
-.user-trigger {
-  display: flex;
-  align-items: center;
-  padding: 0 12px;
-  height: 100%;
-  cursor: pointer;
-  transition: all 0.2s;
-  
-  /* --- Light Mode User Trigger Color --- */
-  color: #000000;
+/* ---- 左侧 ---- */
+.header-left { display: flex; align-items: center; gap: 28px; }
+.brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; }
+.brand-logo {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 0 0 1px var(--glass-border-inset);
 }
-.user-trigger:hover {
-  background: rgba(0, 0, 0, 0.04);
-}
-
-/* --- Dark Mode Overrides --- */
-.header-container.dark .user-trigger {
-  color: #ffffff;
-}
-.header-container.dark .user-trigger:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-.username {
-  font-size: 14px;
+.brand-text {
+  font-family: var(--font-display);
+  font-size: 19px; font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  white-space: nowrap;
 }
 
-/* 移除 NuxtLink 的默认下划线 */
-a {
+/* ---- 导航胶囊 ---- */
+.nav-pills {
+  display: flex; align-items: center; gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius-full);
+  background: var(--glass-bg-soft);
+  border: 1px solid var(--glass-border-inset);
+}
+.nav-pill {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 16px;
+  border: none; background: transparent;
   text-decoration: none;
+  font-family: inherit; font-size: var(--text-sm); font-weight: 600;
+  color: var(--text-secondary);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.nav-pill-icon { font-size: 15px; }
+.nav-pill:hover { color: var(--text-primary); }
+.nav-pill.active {
+  color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
-/* --- Responsive Styles --- */
-@media (max-width: 768px) {
-  .header-container {
-    padding: 0 16px; /* Reduce padding on mobile */
-  }
-
-  .logo {
-    margin-right: 10px; /* Reduce margin */
-  }
-
-  .logo-text {
-    display: none; /* Hide logo text on mobile */
-  }
-
-  /* Hide the main navigation menu on mobile */
-  .left-section > .a-menu {
-    display: none;
-  }
-
-  .username {
-    display: none; /* Hide username on mobile */
-  }
-
-  .user-trigger {
-    padding: 0 8px;
-  }
+/* ---- 右侧 ---- */
+.header-right { display: flex; align-items: center; gap: 10px; }
+.icon-action {
+  appearance: none; cursor: pointer;
+  display: grid; place-items: center;
+  width: 38px; height: 38px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border-inset);
+  background: var(--glass-bg-soft);
+  color: var(--text-secondary);
+  font-size: 17px;
+  transition: all var(--dur-fast) var(--ease-out);
+  &:hover { color: #fadb14; border-color: color-mix(in srgb, #fadb14 40%, transparent); transform: translateY(-1px); }
 }
 
-@media (max-width: 480px) {
-  .logo-img {
-    margin-right: 8px;
-  }
-  .theme-switch {
-    margin-left: auto;
-  }
+/* ---- 用户菜单 ---- */
+.user-menu-wrap { position: relative; }
+.user-chip {
+  appearance: none; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 9px;
+  height: 38px; padding: 0 10px 0 6px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border-inset);
+  background: var(--glass-bg-soft);
+  font-family: inherit; font-size: var(--text-sm); font-weight: 600;
+  color: var(--text-primary);
+  transition: all var(--dur-fast) var(--ease-out);
+  &:hover, &.open { border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
+}
+.user-avatar {
+  display: grid; place-items: center;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  font-size: 14px; color: #fff;
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 50%, #8b5cf6));
+  &.lg { width: 36px; height: 36px; font-size: 17px; }
+}
+.user-name { white-space: nowrap; }
+.user-caret { font-size: 11px; opacity: 0.7; transition: transform var(--dur-fast) var(--ease-out); }
+.user-chip.open .user-caret { transform: rotate(180deg); }
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 10px); right: 0;
+  min-width: 220px;
+  padding: 8px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 30;
+}
+.dropdown-head { display: flex; align-items: center; gap: 11px; padding: 8px 10px; }
+.dropdown-name { font-weight: 700; color: var(--text-primary); font-size: var(--text-base); }
+.dropdown-sub { font-size: var(--text-xs); color: var(--text-muted); margin-top: 1px; }
+.dropdown-divider { height: 1px; background: var(--glass-border-inset); margin: 6px 4px; }
+.dropdown-item {
+  appearance: none; cursor: pointer;
+  width: 100%;
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 10px; border: none; background: transparent;
+  border-radius: var(--radius-sm);
+  font-family: inherit; font-size: var(--text-sm); font-weight: 500;
+  color: var(--text-primary);
+  transition: background var(--dur-fast) var(--ease-out);
+  :deep(.anticon) { font-size: 15px; opacity: 0.8; }
+  &:hover { background: var(--accent-soft); }
+  &.danger { color: var(--danger); &:hover { background: color-mix(in srgb, var(--danger) 12%, transparent); } }
+}
+
+/* 下拉动画 */
+.popdown-enter-active, .popdown-leave-active { transition: all 0.18s var(--ease-out); }
+.popdown-enter-from, .popdown-leave-to { opacity: 0; transform: translateY(-8px) scale(0.97); }
+
+/* ---- 响应式 ---- */
+@media (max-width: 860px) {
+  .nav-pills { display: none; }
+}
+@media (max-width: 560px) {
+  .app-header { padding: 0 14px; }
+  .brand-text { display: none; }
+  .user-name { display: none; }
 }
 </style>
