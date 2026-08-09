@@ -215,7 +215,7 @@ async function submitRating(value: number) {
   const prev = userRating.value
   userRating.value = value
   try {
-    await $fetch('/api/ratings', { method: 'POST', body: { contentId: props.item.id, value } })
+    await $fetch('/api/ratings', { method: 'POST', body: { contentId: props.item!.id, value } })
     flashToast('评分已提交')
     await loadRating()
   } catch (e: any) {
@@ -252,7 +252,7 @@ async function submitComment() {
   try {
     const created = await $fetch<Comment>('/api/comments', {
       method: 'POST',
-      body: { contentId: props.item.id, text, parentId: null },
+      body: { contentId: props.item!.id, text, parentId: null },
     })
     allComments.value.unshift(created)
     newCommentText.value = ''
@@ -277,7 +277,7 @@ async function submitReply(parentId: string) {
   try {
     const created = await $fetch<Comment>('/api/comments', {
       method: 'POST',
-      body: { contentId: props.item.id, text, parentId },
+      body: { contentId: props.item!.id, text, parentId },
     })
     allComments.value.push(created)
     replyTexts.value[parentId] = ''

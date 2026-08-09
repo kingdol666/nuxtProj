@@ -523,6 +523,7 @@ function useCountUp(source: () => number) {
   const display = ref(source())
   let raf = 0
   watch(source, (to, prev = 0) => {
+    const from = prev || 0
     cancelAnimationFrame(raf)
     const start = performance.now()
     const dur = 650

@@ -1,1 +1,11 @@
-[{"id":"admin-root","username":"admin","passwordHash":"4b9522e9980f2189fae93413e7b11a08:1fe27e5afaab7accf71399b9075842d0f49403bc7227afec2a04ed267134717284b45d8a98a982b72a28509a43744c9331deb32efd768f75eeced8c44fffece0","role":"admin","avatarColor":0,"bio":"系统管理员","createdAt":1786291478482}]
+[
+  {
+    "id": "admin-root",
+    "username": "admin",
+    "passwordHash": "4b9522e9980f2189fae93413e7b11a08:1fe27e5afaab7accf71399b9075842d0f49403bc7227afec2a04ed267134717284b45d8a98a982b72a28509a43744c9331deb32efd768f75eeced8c44fffece0",
+    "role": "admin",
+    "avatarColor": 0,
+    "bio": "系统管理员",
+    "createdAt": 1786291478482
+  }
+]

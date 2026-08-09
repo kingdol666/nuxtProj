@@ -3,8 +3,8 @@ import { updateContent, type ContentItem } from '~~/server/utils/db'
 
 export default defineEventHandler(async (event) => {
   await requireAdmin(event)
+  const id = getRouterParam(event, 'id')
   const body = await readBody<Partial<ContentItem>>(event)
-
   if (!id) {
     throw createError({ statusCode: 400, statusMessage: 'id is required' })
   }
