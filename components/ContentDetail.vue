@@ -140,11 +140,16 @@ function persist() {
   } catch { /* ignore */ }
 }
 function toggleLike() {
+  if (!isLoggedIn.value) { openAuthModal(); return }
   liked.value = !liked.value
   if (liked.value) { likeBurst.value = true; setTimeout(() => { likeBurst.value = false }, 420) }
   persist()
 }
-function toggleSave() { saved.value = !saved.value; persist() }
+function toggleSave() {
+  if (!isLoggedIn.value) { openAuthModal(); return }
+  saved.value = !saved.value
+  persist()
+}
 
 // ─────────────────────────── 分享 ───────────────────────────
 const toast = ref('')
@@ -154,13 +159,36 @@ function flashToast(t: string) {
   clearTimeout(toastTimer)
   toastTimer = setTimeout(() => { toast.value = '' }, 2200)
 }
-async function share() {
-  const url = props.item?.url
-  if (!url) { flashToast('暂无链接可分享'); return }
+// 分享：生成本站内容的深链接（/application?detail=<id>），访问即打开该详情。
+// 优先用 Clipboard API；降级用 textarea + execCommand（兼容非 HTTPS / 旧浏览器）。
+async function copyToClipboard(text: string): Promise<boolean> {
   try {
-    await navigator.clipboard.writeText(url)
-    flashToast('链接已复制到剪贴板')
-  } catch { flashToast('复制失败，请手动复制') }
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text)
+      return true
+    }
+  } catch { /* fall through */ }
+  try {
+    const ta = document.createElement('textarea')
+    ta.value = text
+    ta.style.position = 'fixed'
+    ta.style.opacity = '0'
+    document.body.appendChild(ta)
+    ta.select()
+    const ok = document.execCommand('copy')
+    document.body.removeChild(ta)
+    return ok
+  } catch { return false }
+}
+
+async function share() {
+  const id = props.item?.id
+  if (!id) { flashToast('暂无可分享的内容'); return }
+  // 深链接：指向本站应用推荐页并自动打开该内容详情
+  const origin = typeof window !== 'undefined' ? window.location.origin : ''
+  const shareUrl = `${origin}/application?detail=${id}`
+  const ok = await copyToClipboard(shareUrl)
+  flashToast(ok ? '分享链接已复制，去粘贴给朋友吧' : '复制失败，请手动复制')
 }
 
 // ─────────────────────────── 用户评分 ───────────────────────────

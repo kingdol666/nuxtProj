@@ -423,6 +423,13 @@ onMounted(async () => {
     }
   )
   document.querySelectorAll('.category-section').forEach((section) => observer.observe(section))
+
+  // 深链接：?detail=<id> → 自动打开对应内容详情 Modal（支持分享链接直达）
+  const detailId = window.location.search.match(/[?&]detail=([^&]+)/)
+  if (detailId && detailId[1]) {
+    const item = contentItems.value.find((i) => i.id === decodeURIComponent(detailId[1]))
+    if (item) openDetail(item)
+  }
 })
 
 onUnmounted(() => {

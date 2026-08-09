@@ -84,7 +84,14 @@ export function setAuthCookie(event: H3Event, userId: string) {
 }
 
 export function clearAuthCookie(event: H3Event) {
-  deleteCookie(event, COOKIE_NAME, { path: '/' })
+  // 显式用与 setAuthCookie 完全一致的属性(maxAge=0 过期)清除 cookie，
+  // 保证浏览器按 name+path 精确匹配并删除。
+  setCookie(event, COOKIE_NAME, '', {
+    httpOnly: true,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 0,
+  })
 }
 
 // ─── Current user resolution ──────────────────────────────────────────
