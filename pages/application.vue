@@ -97,14 +97,13 @@
         </div>
 
         <div class="card-grid">
-          <a
+          <button
             v-for="(item, index) in sec.items"
             :key="item.id || item.name"
-            :href="item.url"
-            target="_blank"
-            rel="noopener noreferrer"
+            type="button"
             class="card-link"
             :style="{ '--i': index }"
+            @click="openDetail(item)"
           >
             <article
               class="card"
@@ -155,7 +154,7 @@
                 </div>
               </div>
             </article>
-          </a>
+          </button>
         </div>
       </section>
 
@@ -179,6 +178,9 @@
     </main>
 
     <Comments />
+
+    <!-- ============ 内容详情 Modal（小红书风格） ============ -->
+    <ContentDetail v-model="detailOpen" :item="detailItem" />
 
     <!-- ============ Floating action buttons ============ -->
     <div class="fab-container">
@@ -221,6 +223,7 @@ import {
   ArrowUpOutlined,
 } from '@ant-design/icons-vue'
 import Comments from '~/components/Comments.vue'
+import ContentDetail from '~/components/ContentDetail.vue'
 
 // Dynamically render an Ant Design icon from its string name.
 const AntIcon = (props) => {
@@ -318,6 +321,14 @@ const handleFaviconError = (itemUrl) => {
   failedFavicons.value = next
 }
 
+
+// ---- 内容详情 Modal（小红书风格）----
+const detailOpen = ref(false)
+const detailItem = ref(null)
+const openDetail = (item) => {
+  detailItem.value = item
+  detailOpen.value = true
+}
 const getHostname = (itemUrl) => {
   try {
     return new URL(itemUrl).hostname.replace(/^www\./, '')
@@ -861,9 +872,16 @@ html {
 }
 
 .card-link {
+  /* 现为 <button>：重置原生按钮样式，保留卡片视觉 */
   display: block;
-  text-decoration: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  padding: 0;
   color: inherit;
+  cursor: pointer;
   border-radius: var(--radius-xl);
   animation: float-soft 7s ease-in-out infinite;
   animation-delay: calc(var(--i, 0) * 0.12s);
