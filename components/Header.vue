@@ -15,15 +15,19 @@ import {
 
 const { themeMode, toggleTheme } = useTheme()
 const route = useRoute()
-const { user, isLoggedIn, logout, openAuthModal } = useAuth()
+const { user, isLoggedIn, isAdmin, logout, openAuthModal } = useAuth()
 const username = computed(() => user.value?.username || '')
 
 interface NavItem { key: string; label: string; to: string; icon: any }
-const navItems: NavItem[] = [
-  { key: 'home', label: '首页', to: '/', icon: HomeOutlined },
-  { key: 'application', label: '应用推荐', to: '/application', icon: AppstoreOutlined },
-  { key: 'admin', label: '后台管理', to: '/admin', icon: DashboardOutlined },
-]
+// 后台管理仅对 admin 角色可见
+const navItems = computed<NavItem[]>(() => {
+  const items: NavItem[] = [
+    { key: 'home', label: '首页', to: '/', icon: HomeOutlined },
+    { key: 'application', label: '应用推荐', to: '/application', icon: AppstoreOutlined },
+  ]
+  if (isAdmin.value) items.push({ key: 'admin', label: '后台管理', to: '/admin', icon: DashboardOutlined })
+  return items
+})
 
 const activeKey = computed(() => {
   const p = route.path

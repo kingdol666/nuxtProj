@@ -198,6 +198,7 @@ export interface User {
   id: string
   username: string
   passwordHash: string
+  role: 'admin' | 'user'  // 角色：admin 可管理后台，user 为普通用户
   avatarColor: number  // 0-5, indexes into a palette
   bio: string
   createdAt: number

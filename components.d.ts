@@ -36,8 +36,10 @@ declare module 'vue' {
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     FileTextOutlined: typeof import('@ant-design/icons-vue')['FileTextOutlined']
     LinkOutlined: typeof import('@ant-design/icons-vue')['LinkOutlined']
+    LockOutlined: typeof import('@ant-design/icons-vue')['LockOutlined']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SearchOutlined: typeof import('@ant-design/icons-vue')['SearchOutlined']
+    WarningFilled: typeof import('@ant-design/icons-vue')['WarningFilled']
   }
 }

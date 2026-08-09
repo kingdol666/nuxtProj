@@ -9,15 +9,20 @@ import {
 } from '@ant-design/icons-vue'
 
 const { themeMode } = useTheme()
+const { isAdmin } = useAuth()
 const route = useRoute()
 const collapsed = ref(false)
 
 interface NavItem { key: string; label: string; to: string; desc: string; icon: any }
-const navItems: NavItem[] = [
-  { key: 'home', label: '首页', to: '/', desc: '欢迎页', icon: HomeOutlined },
-  { key: 'application', label: '应用推荐', to: '/application', desc: '浏览全部应用', icon: AppstoreOutlined },
-  { key: 'admin', label: '后台管理', to: '/admin', desc: '内容 / 分组 / 标签', icon: DashboardOutlined },
-]
+// 后台管理仅对 admin 角色可见
+const navItems = computed<NavItem[]>(() => {
+  const items: NavItem[] = [
+    { key: 'home', label: '首页', to: '/', desc: '欢迎页', icon: HomeOutlined },
+    { key: 'application', label: '应用推荐', to: '/application', desc: '浏览全部应用', icon: AppstoreOutlined },
+  ]
+  if (isAdmin.value) items.push({ key: 'admin', label: '后台管理', to: '/admin', desc: '内容 / 分组 / 标签', icon: DashboardOutlined })
+  return items
+})
 
 const activeKey = computed(() => {
   const p = route.path

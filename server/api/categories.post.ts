@@ -1,6 +1,8 @@
+import { requireAdmin } from '~~/server/utils/auth'
 import { updateCategories, genId, type Category } from '~~/server/utils/db'
 
 export default defineEventHandler(async (event) => {
+  await requireAdmin(event)
   const body = await readBody<Category>(event)
 
   if (!body?.title?.trim()) {

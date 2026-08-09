@@ -23,6 +23,7 @@ export default defineEventHandler(async (event) => {
       id: genId(),
       username,
       passwordHash: await hashPassword(password),
+      role: 'user' as const,  // 注册用户默认为普通用户
       avatarColor: users.length % AVATAR_PALETTE_COUNT,
       bio: '',
       createdAt: Date.now(),

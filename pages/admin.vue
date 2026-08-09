@@ -12,6 +12,7 @@
 //   弹窗 / 通知初始均不可见，SSR 不产生多余 DOM，零水合错配。
 import { ref, reactive, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useTheme } from '~/composables/useTheme'
+import { useAuth } from '~/composables/useAuth'
 import { useContentStore } from '~/stores/contentStore'
 import { useMenuStore } from '~/stores/menuStore'
 import {
@@ -30,8 +31,8 @@ import {
   CloseOutlined,
   CheckCircleFilled,
   CloseCircleFilled,
-  WarningFilled,
   InfoCircleFilled,
+  LockOutlined,
 } from '@ant-design/icons-vue'
 
 definePageMeta({ title: '后台管理' })
@@ -39,6 +40,10 @@ definePageMeta({ title: '后台管理' })
 const { themeMode } = useTheme()
 const contentStore = useContentStore()
 const menuStore = useMenuStore()
+
+const { user, isLoggedIn, isAdmin, fetchMe, openAuthModal } = useAuth()
+// 权限守卫：检查登录态与角色。loading = 正在判定；denied = 已登录但非 admin
+const authState = ref<'loading' | 'denied' | 'denied-not-logged-in' | 'ok'>('loading')
 const isDark = computed(() => themeMode.value === 'dark')
 
 const activeTab = ref<'content' | 'category' | 'tag'>('content')
@@ -568,7 +573,18 @@ function onKeydown(e: KeyboardEvent) {
   else if (catModalVisible.value && !catSaving.value) catModalVisible.value = false
   else if (tagModalVisible.value && !tagSaving.value) tagModalVisible.value = false
 }
-onMounted(() => {
+onMounted(async () => {
+  // 权限守卫：先确认登录态与角色，通过后才加载数据
+  await fetchMe()
+  if (!isLoggedIn.value) {
+    authState.value = 'denied-not-logged-in'
+    return
+  }
+  if (!isAdmin.value) {
+    authState.value = 'denied'
+    return
+  }
+  authState.value = 'ok'
   window.addEventListener('keydown', onKeydown)
   refreshAll()
 })
@@ -577,6 +593,24 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 
 <template>
   <div class="admin-page" :class="{ dark: isDark }">
+    <!-- 权限守卫：非 admin 显示拒绝/加载界面 -->
+    <div v-if="authState === 'loading'" class="guard-screen">
+      <span class="guard-spinner" />
+      <p>正在验证权限…</p>
+    </div>
+    <div v-else-if="authState === 'denied-not-logged-in'" class="guard-screen">
+      <LockOutlined class="guard-icon" />
+      <h2 class="guard-title">需要登录</h2>
+      <p class="guard-text">后台管理仅限管理员访问，请先登录管理员账号。</p>
+      <button class="btn btn-primary" @click="openAuthModal">登录</button>
+    </div>
+    <div v-else-if="authState === 'denied'" class="guard-screen">
+      <LockOutlined class="guard-icon" />
+      <h2 class="guard-title">权限不足</h2>
+      <p class="guard-text">当前账号（{{ user?.username }}）没有管理员权限，无法访问后台管理。</p>
+      <nuxt-link to="/application" class="btn btn-ghost">返回应用推荐</nuxt-link>
+    </div>
+    <template v-else>
     <!-- 顶部品牌栏 -->
     <header class="admin-hero surface enter-up" style="--d:0s">
       <div class="hero-brand">
@@ -1101,6 +1135,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
         </TransitionGroup>
       </div>
     </Teleport>
+    </template>
   </div>
 </template>
 
@@ -1110,6 +1145,23 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
   color: var(--text-primary);
   font-family: var(--font-sans);
 }
+
+/* ---- 权限守卫界面 ---- */
+.guard-screen {
+  min-height: calc(100vh - 64px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 16px; text-align: center; padding: 40px 24px;
+}
+.guard-spinner {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 3px solid var(--glass-border-inset);
+  border-top-color: var(--accent);
+  animation: spin 0.7s linear infinite;
+}
+.guard-icon { font-size: 56px; color: var(--accent); }
+.guard-title { margin: 0; font-size: 24px; font-weight: 800; color: var(--text-primary); }
+.guard-text { margin: 0; font-size: var(--text-base); color: var(--text-secondary); max-width: 420px; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* ---- 玻璃拟态表面（与全站玻璃主题一致） ---- */
 .surface {

@@ -1,7 +1,8 @@
+import { requireAdmin } from '~~/server/utils/auth'
 import { updateTags, type Tag } from '~~/server/utils/db'
 
 export default defineEventHandler(async (event) => {
-  const id = getRouterParam(event, 'id')
+  await requireAdmin(event)
   const body = await readBody<Partial<Tag>>(event)
 
   if (!id) {

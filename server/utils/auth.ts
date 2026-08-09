@@ -107,3 +107,12 @@ export async function requireUser(event: H3Event): Promise<Omit<User, 'passwordH
   if (!user) throw createError({ statusCode: 401, statusMessage: '请先登录' })
   return user
 }
+
+// Require admin role — throws 401 if not authed, 403 if not admin.
+export async function requireAdmin(event: H3Event): Promise<Omit<User, 'passwordHash'>> {
+  const user = await requireUser(event)
+  if (user.role !== 'admin') {
+    throw createError({ statusCode: 403, statusMessage: '需要管理员权限' })
+  }
+  return user
+}

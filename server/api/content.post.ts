@@ -1,6 +1,8 @@
+import { requireAdmin } from '~~/server/utils/auth'
 import { updateContent, genId, type ContentItem } from '~~/server/utils/db'
 
 export default defineEventHandler(async (event) => {
+  await requireAdmin(event)
   const body = await readBody<ContentItem>(event)
 
   if (!body?.name?.trim()) {

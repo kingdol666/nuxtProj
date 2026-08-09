@@ -2,11 +2,12 @@
 //
 // 全局用户状态：SSR 安全的 useState + cookie 同步。
 // 提供 register / login / logout / fetchMe 及登录态判断。
-import { useState } from '#imports'
+import { useState, computed } from '#imports'
 
 export interface CurrentUser {
   id: string
   username: string
+  role: 'admin' | 'user'
   avatarColor: number
   bio: string
   createdAt: number
@@ -16,6 +17,7 @@ export const useAuth = () => {
   // 全局共享的用户状态（SSR 安全：服务端渲染时通过 /api/auth/me 预取）
   const user = useState<CurrentUser | null>('auth-user', () => null)
   const isLoggedIn = computed(() => !!user.value)
+  const isAdmin = computed(() => user.value?.role === 'admin')
 
   async function fetchMe() {
     try {
@@ -54,5 +56,5 @@ export const useAuth = () => {
   function openAuthModal() { authModalOpen.value = true }
   function closeAuthModal() { authModalOpen.value = false }
 
-  return { user, isLoggedIn, fetchMe, register, login, logout, authModalOpen, openAuthModal, closeAuthModal }
+  return { user, isLoggedIn, isAdmin, fetchMe, register, login, logout, authModalOpen, openAuthModal, closeAuthModal }
 }
