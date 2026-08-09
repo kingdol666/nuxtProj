@@ -177,6 +177,8 @@ const defaultContentForm = () => ({
   name_zh: '',
   content: '',
   content_zh: '',
+  detail: '',
+  detail_zh: '',
   url: '',
   rating: 0,
 })
@@ -199,9 +201,10 @@ function openContentEdit(record: any) {
     subCategory: record.subCategory || '',
     subCategory_zh: record.subCategory_zh || '',
     name: record.name || '',
-    name_zh: record.name_zh || '',
-    content: record.content || '',
     content_zh: record.content_zh || '',
+    detail: record.detail || '',
+    detail_zh: record.detail_zh || '',
+    content: record.content || '',
     url: record.url || '',
     rating: Number(record.rating) || 0,
   })
@@ -239,6 +242,8 @@ async function saveContent() {
       name_zh: (contentForm.name_zh || contentForm.name).trim(),
       content: contentForm.content || '',
       content_zh: contentForm.content_zh || contentForm.content || '',
+      detail: contentForm.detail || '',
+      detail_zh: contentForm.detail_zh || contentForm.detail || '',
       url: contentForm.url.trim(),
       rating: Number(contentForm.rating) || 0,
     }
@@ -929,6 +934,14 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
             <div class="form-row">
               <label class="form-label">中文描述 (content_zh)</label>
               <textarea v-model="contentForm.content_zh" class="form-input" rows="2" placeholder="留空则默认同 content" />
+            </div>
+            <div class="form-row">
+              <label class="form-label">详细介绍 (detail)</label>
+              <textarea v-model="contentForm.detail" class="form-input" rows="4" placeholder="英文详细介绍（选填）" />
+            </div>
+            <div class="form-row">
+              <label class="form-label">中文详细介绍 (detail_zh)</label>
+              <textarea v-model="contentForm.detail_zh" class="form-input" rows="4" placeholder="留空则默认同 detail" />
             </div>
             <div class="form-row">
               <label class="form-label">链接 (url)</label>

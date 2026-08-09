@@ -34,6 +34,7 @@ declare module 'vue' {
     ATabs: typeof import('ant-design-vue/es')['Tabs']
     ATag: typeof import('ant-design-vue/es')['Tag']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
+    FileTextOutlined: typeof import('@ant-design/icons-vue')['FileTextOutlined']
     LinkOutlined: typeof import('@ant-design/icons-vue')['LinkOutlined']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

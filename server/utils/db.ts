@@ -153,6 +153,8 @@ export interface ContentItem {
   name_zh: string
   content: string
   content_zh: string
+  detail: string
+  detail_zh: string
   url: string
   rating: number
 }

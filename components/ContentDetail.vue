@@ -13,6 +13,7 @@ import { ref, computed, watch, onBeforeUnmount, nextTick } from 'vue'
 import { useTheme } from '~/composables/useTheme'
 import {
   CloseOutlined,
+  FileTextOutlined,
   StarFilled,
   StarOutlined,
   HeartFilled,
@@ -36,6 +37,8 @@ interface ContentItem {
   name_zh: string
   content: string
   content_zh: string
+  detail: string
+  detail_zh: string
   url: string
   rating: number
 }
@@ -270,10 +273,17 @@ onBeforeUnmount(() => {
                     <span class="rating-label">评分</span>
                   </div>
 
-                  <!-- 描述 -->
+                  <!-- 简介 -->
                   <div class="detail-desc">
-                    <p class="desc-zh">{{ item.content_zh || item.content || '暂无描述' }}</p>
+                    <p class="desc-zh">{{ item.content_zh || item.content || '暂无简介' }}</p>
                     <p v-if="item.content && item.content_zh && item.content !== item.content_zh" class="desc-en">{{ item.content }}</p>
+                  </div>
+
+                  <!-- 详细介绍 -->
+                  <div v-if="(item.detail_zh || item.detail)" class="detail-full">
+                    <div class="full-head"><FileTextOutlined /> 详细介绍</div>
+                    <p class="full-zh">{{ item.detail_zh || item.detail }}</p>
+                    <p v-if="item.detail && item.detail_zh && item.detail !== item.detail_zh" class="full-en">{{ item.detail }}</p>
                   </div>
 
                   <!-- 链接 -->
@@ -541,6 +551,34 @@ onBeforeUnmount(() => {
   color: var(--text-muted);
   padding-left: 12px;
   border-left: 2px solid var(--glass-border-inset);
+}
+
+/* 详细介绍 */
+.detail-full { margin-bottom: 18px; }
+.full-head {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-weight: 700; font-size: var(--text-sm);
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  :deep(.anticon) { color: var(--accent); }
+}
+.full-zh {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: 1.85;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--glass-bg-soft);
+  border: 1px solid var(--glass-border-inset);
+}
+.full-en {
+  margin: 10px 0 0;
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  color: var(--text-muted);
+  white-space: pre-wrap;
 }
 
 .detail-link {

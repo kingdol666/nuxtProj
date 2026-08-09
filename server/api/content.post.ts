@@ -17,6 +17,8 @@ export default defineEventHandler(async (event) => {
     name_zh: body.name_zh?.trim() || body.name.trim(),
     content: body.content?.trim() || '',
     content_zh: body.content_zh?.trim() || body.content?.trim() || '',
+    detail: body.detail?.trim() || '',
+    detail_zh: body.detail_zh?.trim() || body.detail?.trim() || '',
     url: body.url?.trim() || '',
     rating: Number(body.rating) || 0,
   }

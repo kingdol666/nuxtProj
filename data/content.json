@@ -10,7 +10,9 @@
     "content_zh": "一款强大的在线协作界面设计工具。",
     "url": "https://www.figma.com/",
     "rating": 5,
-    "id": "msl6dz43bmbni"
+    "id": "msl6dz43bmbni",
+    "detail_zh": "Figma 是全球最受欢迎的协作式界面设计工具，支持多人实时在线协作编辑。它运行于浏览器，无需安装即可使用，涵盖矢量绘图、原型交互、组件库、自动布局与设计系统管理。凭借强大的 Dev Mode，设计师与开发者之间的交付变得前所未有地顺畅。",
+    "detail": "Figma is the world's most popular collaborative interface design tool, supporting real-time multiplayer editing. It runs in the browser, covering vector drawing, interactive prototyping, component libraries, auto layout, and design system management. Its Dev Mode streamlines designer-to-developer handoff like never before."
   },
   {
     "category": "Design Tools",
@@ -23,7 +25,9 @@
     "content_zh": "macOS 平台强大的矢量设计工具。",
     "url": "https://www.sketch.com/",
     "rating": 4,
-    "id": "msl6dz43gcsc4"
+    "id": "msl6dz43gcsc4",
+    "detail_zh": "Sketch 是 macOS 平台经典的矢量设计工具，曾定义了现代 UI 设计工作流。它以轻量高效著称，通过丰富的插件生态（如 Sketch Pack、Craft）可扩展出无限可能，支持符号（Symbol）与共享样式实现设计系统的复用。",
+    "detail": "Sketch is the classic vector design tool for macOS that helped define modern UI design workflows. Known for being lightweight and efficient, its rich plugin ecosystem enables infinite extensibility, with Symbols and shared styles supporting reusable design systems."
   },
   {
     "category": "Design Tools",
@@ -36,7 +40,9 @@
     "content_zh": "一个简单易用的在线设计平台。",
     "url": "https://www.canva.com/",
     "rating": 5,
-    "id": "msl6dz43hlh48"
+    "id": "msl6dz43hlh48",
+    "detail_zh": "Canva 是一个面向所有人的在线设计平台，让没有设计经验的人也能轻松创建海报、演示文稿、社交媒体图片与视频。它内置海量模板、图片素材与字体，配合拖拽式操作，几分钟即可产出专业级作品。",
+    "detail": "Canva is an online design platform for everyone, enabling people with no design experience to easily create posters, presentations, social media graphics, and videos. With massive built-in templates, stock images, and fonts plus drag-and-drop, you can produce professional results in minutes."
   },
   {
     "category": "Design Tools",
@@ -49,7 +55,9 @@
     "content_zh": "用于复杂交互的高保真原型设计工具。",
     "url": "https://www.protopie.io/",
     "rating": 4,
-    "id": "msl6dz434acbf"
+    "id": "msl6dz434acbf",
+    "detail_zh": "ProtoPie 是一款高保真原型设计工具，无需代码即可制作复杂的交互原型。它支持传感器（倾斜、声音、震动）与跨设备联动，让设计师验证真实交互体验，是高级原型设计的利器。",
+    "detail": "ProtoPie is a high-fidelity prototyping tool that creates complex interactive prototypes without code. It supports sensors (tilt, sound, vibration) and cross-device interactions, letting designers validate real interactive experiences, a powerful tool for advanced prototyping."
   },
   {
     "category": "Design Tools",
@@ -62,7 +70,9 @@
     "content_zh": "互联网上可免费使用的图片来源。",
     "url": "https://unsplash.com/",
     "rating": 5,
-    "id": "msl6dz430bj6x"
+    "id": "msl6dz430bj6x",
+    "detail_zh": "Unsplash 是互联网上最知名的免费高清图片社区，由全球摄影师无偿贡献作品。其图片质量极高、风格大气，被广泛应用于网页、印刷与产品设计中，拥有强大的 API 便于集成。",
+    "detail": "Unsplash is the internet's most well-known free high-resolution photo community, with images contributed freely by photographers worldwide. Its exceptionally high-quality, atmospheric images are widely used in web, print, and product design, with a powerful API for integration."
   },
   {
     "category": "Design Tools",
@@ -75,7 +85,9 @@
     "content_zh": "由才华横溢的创作者分享的免费库存照片和视频。",
     "url": "https://www.pexels.com/",
     "rating": 5,
-    "id": "msl6dz43ix3tb"
+    "id": "msl6dz43ix3tb",
+    "detail_zh": "Pexels 提供海量高质量且完全免费的库存照片与视频，均可用于商业用途而无需署名。它的搜索体验出色，每周持续更新，是设计师与内容创作者寻找素材的宝藏网站。",
+    "detail": "Pexels offers massive high-quality, completely free stock photos and videos, all usable commercially without attribution. With excellent search and weekly updates, it's a treasure trove for designers and content creators seeking assets."
   },
   {
     "category": "Design Tools",
@@ -88,7 +100,9 @@
     "content_zh": "令人惊叹的免版税图片和免版税库存。",
     "url": "https://pixabay.com/",
     "rating": 4,
-    "id": "msl6dz43v0y2c"
+    "id": "msl6dz43v0y2c",
+    "detail_zh": "Pixabay 是一个免版税的素材库，提供图片、矢量图、插画与视频，全部可在其许可下免费商用。内容总量超过数百万，覆盖面广，是多语言创作者的经济之选。",
+    "detail": "Pixabay is a royalty-free media library offering images, vectors, illustrations, and videos, all free for commercial use under its license. With millions of items and broad coverage, it's an economical choice for multilingual creators."
   },
   {
     "category": "Design Tools",
@@ -101,7 +115,9 @@
     "content_zh": "一个供设计师分享作品的平台。",
     "url": "https://dribbble.com/",
     "rating": 5,
-    "id": "msl6dz43jnm6b"
+    "id": "msl6dz43jnm6b",
+    "detail_zh": "Dribbble 是全球设计师展示与发现创意作品的顶级社区，被誉为设计界的「Ins」。设计师在此分享 Shot（作品片段），获取灵感、曝光与工作机会，众多知名科技公司也在此招募设计人才。",
+    "detail": "Dribbble is a top global community for designers to showcase and discover creative work, often called the Instagram of design. Designers share Shots for inspiration, exposure, and job opportunities, with many major tech companies recruiting design talent here."
   },
   {
     "category": "Design Tools",
@@ -114,7 +130,9 @@
     "content_zh": "一个展示和发现创意作品的平台。",
     "url": "https://www.behance.net/",
     "rating": 4,
-    "id": "msl6dz434woir"
+    "id": "msl6dz434woir",
+    "detail_zh": "Behance 是 Adobe 旗下的创意作品展示平台，汇集了平面设计、插画、摄影、动态影像等全领域的精选项目。它支持完整的案例故事呈现，是了解行业趋势与建立个人作品集的首选之地。",
+    "detail": "Behance is Adobe's creative portfolio platform, gathering curated projects across graphic design, illustration, photography, and motion. It supports full case-story presentations, making it the go-to place to track industry trends and build your portfolio."
   },
   {
     "category": "Development",
@@ -127,7 +145,9 @@
     "content_zh": "微软出品的强大且流行的代码编辑器。",
     "url": "https://code.visualstudio.com/",
     "rating": 5,
-    "id": "msl6dz43qgizy"
+    "id": "msl6dz43qgizy",
+    "detail_zh": "Visual Studio Code 是微软出品的免费开源代码编辑器，凭借轻量、快速与强大的扩展生态成为全球最流行的开发工具。它内置智能补全（IntelliSense）、调试、Git 集成与终端，几乎支持所有编程语言。",
+    "detail": "Visual Studio Code is Microsoft's free, open-source code editor, the world's most popular development tool thanks to its lightweight speed and powerful extension ecosystem. It features built-in IntelliSense, debugging, Git integration, and a terminal, supporting virtually all programming languages."
   },
   {
     "category": "Development",
@@ -140,7 +160,9 @@
     "content_zh": "全球领先的软件开发平台。",
     "url": "https://github.com/",
     "rating": 5,
-    "id": "msl6dz430ubpn"
+    "id": "msl6dz430ubpn",
+    "detail_zh": "GitHub 是全球最大的代码托管与协作平台，基于 Git 版本控制，服务超过一亿开发者。它集成了 Issues、Pull Request、Actions（CI/CD）、Packages 等完整开发工作流，是开源世界的核心枢纽。",
+    "detail": "GitHub is the world's largest code hosting and collaboration platform, built on Git and serving over 100 million developers. It integrates Issues, Pull Requests, Actions (CI/CD), and Packages into a complete development workflow, making it the heart of the open-source world."
   },
   {
     "category": "Development",
@@ -153,7 +175,9 @@
     "content_zh": "API 开发的协作平台。",
     "url": "https://www.postman.com/",
     "rating": 4,
-    "id": "msl6dz437j86r"
+    "id": "msl6dz437j86r",
+    "detail_zh": "Postman 是 API 开发的协作平台，支持接口设计、调试、测试、文档生成与 Mock。它的图形化界面让 HTTP 请求调试变得直观高效，团队协作功能让 API 生命周期管理更加顺畅。",
+    "detail": "Postman is a collaboration platform for API development, supporting design, debugging, testing, documentation generation, and mocking. Its graphical interface makes HTTP request debugging intuitive and efficient, while team collaboration streamlines API lifecycle management."
   },
   {
     "category": "Software Development",
@@ -166,7 +190,9 @@
     "content_zh": "渐进式 JavaScript 框架。",
     "url": "https://vuejs.org/",
     "rating": 5,
-    "id": "msl6dz43y3bor"
+    "id": "msl6dz43y3bor",
+    "detail_zh": "Vue.js 是一个渐进式 JavaScript 框架，以易学、灵活与文档优秀著称。它的响应式系统与单文件组件（SFC）让开发体验极其顺滑，在国内拥有最活跃的社区，适合从简单页面到复杂 SPA。",
+    "detail": "Vue.js is a progressive JavaScript framework known for being easy to learn, flexible, and well-documented. Its reactive system and Single File Components make development extremely smooth, with the most active community in China, suitable for everything from simple pages to complex SPAs."
   },
   {
     "category": "Development",
@@ -179,7 +205,9 @@
     "content_zh": "一个用于测试和展示用户创建的 HTML、CSS 和 JavaScript 代码片段的在线社区。",
     "url": "https://codepen.io/",
     "rating": 4,
-    "id": "msl6dz43ohmnl"
+    "id": "msl6dz43ohmnl",
+    "detail_zh": "CodePen 是一个在线的前端代码编辑与展示社区，支持 HTML、CSS、JavaScript 的实时预览。开发者在此分享创意 Demo、测试代码片段、寻找灵感，是前端工程师的 playground。",
+    "detail": "CodePen is an online frontend code editor and showcase community with live preview for HTML, CSS, and JavaScript. Developers share creative demos, test snippets, and find inspiration, making it a playground for frontend engineers."
   },
   {
     "category": "Development",
@@ -192,7 +220,9 @@
     "content_zh": "最大的程序员在线社区，供他们学习、分享知识和建立职业生涯。",
     "url": "https://stackoverflow.com/",
     "rating": 5,
-    "id": "msl6dz43nj8jf"
+    "id": "msl6dz43nj8jf",
+    "detail_zh": "Stack Overflow 是全球最大的程序员问答社区，几乎每个开发者都曾在此找到解决问题的答案。它采用声望驱动的机制确保回答质量，积累了海量的编程知识库，是技术学习的必备工具。",
+    "detail": "Stack Overflow is the world's largest Q&A community for programmers, where nearly every developer has found solutions. Its reputation-driven system ensures answer quality, building a massive programming knowledge base that's essential for technical learning."
   },
   {
     "category": "Development",
@@ -205,7 +235,9 @@
     "content_zh": "中国领先的开发者社区。",
     "url": "https://juejin.cn/",
     "rating": 4,
-    "id": "msl6dz430l4ca"
+    "id": "msl6dz430l4ca",
+    "detail_zh": "掘金是国内活跃的开发者技术社区，聚焦前端、后端、Android、iOS 与 AI 领域。它的文章质量高、更新及时，沸点与专栏让技术交流生动有趣，是国内程序员的聚集地。",
+    "detail": "Juejin is an active Chinese developer community focused on frontend, backend, Android, iOS, and AI. With high-quality, timely articles and engaging Points and Columns, it's a gathering place for Chinese programmers."
   },
   {
     "category": "Software Development",
@@ -218,7 +250,9 @@
     "content_zh": "一个用于在容器中开发、交付和运行应用程序的平台。",
     "url": "https://www.docker.com/",
     "rating": 5,
-    "id": "msl6dz43oj710"
+    "id": "msl6dz43oj710",
+    "detail_zh": "Docker 是容器化技术的代名词，通过将应用及其依赖打包进轻量容器，实现「一次构建，到处运行」。它彻底改变了软件交付流程，是现代 DevOps 与云原生架构的核心基石。",
+    "detail": "Docker is synonymous with containerization technology, packaging applications and their dependencies into lightweight containers for build once, run anywhere. It revolutionized software delivery and is the core foundation of modern DevOps and cloud-native architecture."
   },
   {
     "category": "Software Development",
@@ -231,7 +265,9 @@
     "content_zh": "一个用于构建用户界面的 JavaScript 库。",
     "url": "https://react.dev/",
     "rating": 5,
-    "id": "msl6dz43fcea0"
+    "id": "msl6dz43fcea0",
+    "detail_zh": "React 是由 Meta（Facebook）开源的声明式 UI 库，采用组件化与虚拟 DOM 理念，是当今最流行的前端框架之一。它的生态极其庞大，Hooks 让函数式组件焕发新生，驱动着无数知名产品。",
+    "detail": "React is a declarative UI library open-sourced by Meta (Facebook), adopting componentization and virtual DOM, and is one of today's most popular frontend frameworks. Its massive ecosystem and Hooks that revitalized functional components power countless well-known products."
   },
   {
     "category": "Software Development",
@@ -244,7 +280,9 @@
     "content_zh": "一个基于 Chrome V8 引擎的 JavaScript 运行时。",
     "url": "https://nodejs.org/",
     "rating": 5,
-    "id": "msl6dz43c4xs7"
+    "id": "msl6dz43c4xs7",
+    "detail_zh": "Node.js 是基于 Chrome V8 引擎构建的 JavaScript 运行时，让开发者能用 JS 编写服务端程序。它采用事件驱动、非阻塞 I/O 模型，擅长构建高并发的网络应用，是全栈 JavaScript 的基石。",
+    "detail": "Node.js is a JavaScript runtime built on Chrome's V8 engine, enabling developers to write server-side programs in JS. Its event-driven, non-blocking I/O model excels at building highly concurrent network applications, forming the foundation of full-stack JavaScript."
   },
   {
     "category": "Software Development",
@@ -257,7 +295,9 @@
     "content_zh": "世界上最先进的开源关系数据库。",
     "url": "https://www.postgresql.org/",
     "rating": 5,
-    "id": "msl6dz43jhce4"
+    "id": "msl6dz43jhce4",
+    "detail_zh": "PostgreSQL 是世界上最先进的开源关系型数据库，以稳定、强大与标准合规闻名。它支持复杂的查询、JSON、全文检索、地理数据（PostGIS）与扩展机制，被无数高要求的生产系统所信赖。",
+    "detail": "PostgreSQL is the world's most advanced open-source relational database, renowned for stability, power, and standards compliance. It supports complex queries, JSON, full-text search, geospatial data (PostGIS), and extensibility, trusted by countless demanding production systems."
   },
   {
     "category": "Software Development",
@@ -270,7 +310,9 @@
     "content_zh": "领先的开源自动化服务器。",
     "url": "https://www.jenkins.io/",
     "rating": 4,
-    "id": "msl6dz43htfzj"
+    "id": "msl6dz43htfzj",
+    "detail_zh": "Jenkins 是最广泛使用的开源自动化服务器，用于持续集成与持续交付（CI/CD）。它拥有超过 1800 个插件，能与几乎所有构建、测试、部署工具集成，高度可定制但配置有一定门槛。",
+    "detail": "Jenkins is the most widely used open-source automation server for continuous integration and delivery (CI/CD). With over 1800 plugins, it integrates with virtually all build, test, and deployment tools, highly customizable though with a learning curve."
   },
   {
     "category": "AI Tools",
@@ -283,7 +325,9 @@
     "content_zh": "由 OpenAI 开发的对话式 AI 模型。",
     "url": "https://chat.openai.com/",
     "rating": 5,
-    "id": "msl6dz4324if1"
+    "id": "msl6dz4324if1",
+    "detail_zh": "ChatGPT 是由 OpenAI 开发的对话式 AI，基于 GPT 系列大模型，能进行自然流畅的多轮对话、写作、编程、分析与推理。它支持联网搜索、图像识别、代码执行与自定义 GPT，是 AI 领域最具标志性的产品。",
+    "detail": "ChatGPT is a conversational AI developed by OpenAI, based on the GPT model series, capable of natural multi-turn dialogue, writing, coding, analysis, and reasoning. It supports web search, image recognition, code execution, and custom GPTs, making it the most iconic product in AI."
   },
   {
     "category": "AI Tools",
@@ -296,7 +340,9 @@
     "content_zh": "一个独立的研究实验室，可根据文本描述创建图像。",
     "url": "https://www.midjourney.com/",
     "rating": 5,
-    "id": "msl6dz43sgg37"
+    "id": "msl6dz43sgg37",
+    "detail_zh": "Midjourney 是全球顶级的 AI 文本生成图像模型，以惊人的艺术质感与美学品味著称。它通过 Discord 或网页操作，擅长插画、概念设计、摄影级写实与风格化创作，是设计师与艺术家的灵感引擎。",
+    "detail": "Midjourney is a world-leading text-to-image AI model renowned for stunning artistic quality and aesthetic taste. Operated via Discord or web, it excels at illustration, concept design, photorealistic, and stylized creation, an inspiration engine for designers and artists."
   },
   {
     "category": "AI Tools",
@@ -309,7 +355,9 @@
     "content_zh": "一个由 AI 驱动的搜索引擎。",
     "url": "https://www.perplexity.ai/",
     "rating": 4,
-    "id": "msl6dz43s9lyh"
+    "id": "msl6dz43s9lyh",
+    "detail_zh": "Perplexity AI 是由 AI 驱动的对话式搜索引擎，每次回答都附带可点击的来源引用。它结合了大模型的推理与实时联网检索，适合做研究、事实核查与深度提问。",
+    "detail": "Perplexity AI is an AI-powered conversational search engine that provides answers with clickable source citations. It combines LLM reasoning with real-time web retrieval, ideal for research, fact-checking, and in-depth questioning."
   },
   {
     "category": "AI Tools",
@@ -322,7 +370,9 @@
     "content_zh": "百度出品的大语言模型。",
     "url": "https://yiyan.baidu.com/",
     "rating": 4,
-    "id": "msl6dz43u6nmy"
+    "id": "msl6dz43u6nmy",
+    "detail_zh": "文心一言是百度出品的大语言模型对话产品，基于文心大模型，支持对话、创作、图片生成与文档分析。它结合百度搜索实现联网问答，是国内较早面向公众的 AI 助手。",
+    "detail": "Wenxin Yiyan is Baidu's conversational LLM product based on the ERNIE model, supporting dialogue, creation, image generation, and document analysis. Combined with Baidu Search for web-enabled Q&A, it's one of China's earlier AI assistants for the public."
   },
   {
     "category": "AI Tools",
@@ -335,7 +385,9 @@
     "content_zh": "月之暗面公司出品的智能助手。",
     "url": "https://kimi.moonshot.cn/",
     "rating": 5,
-    "id": "msl6dz4354epe"
+    "id": "msl6dz4354epe",
+    "detail_zh": "Kimi 是月之暗面（Moonshot AI）出品的智能助手，以超长上下文（支持 200 万字）闻名。它擅长处理长文档、学术论文与网页总结，是国内研究与办公场景的得力工具。",
+    "detail": "Kimi is an intelligent assistant from Moonshot AI, famous for ultra-long context (supporting 2 million characters). It excels at processing long documents, academic papers, and web summarization, a powerful tool for research and office scenarios in China."
   },
   {
     "category": "AI Tools",
@@ -348,7 +400,9 @@
     "content_zh": "由深度求索公司开发的AI模型，擅长代码和推理。",
     "url": "https://www.deepseek.com/",
     "rating": 5,
-    "id": "msl6dz43c03gc"
+    "id": "msl6dz43c03gc",
+    "detail_zh": "DeepSeek（深度求索）是由深度求索公司开发的 AI 大模型，在代码生成与数学推理上表现卓越。它以开源、低成本与高性价比闻名，R1 推理模型曾引发行业轰动。",
+    "detail": "DeepSeek is an AI large model developed by DeepSeek (the company), excelling in code generation and mathematical reasoning. Known for being open-source, low-cost, and high-value, its R1 reasoning model once caused an industry sensation."
   },
   {
     "category": "AI Tools",
@@ -361,7 +415,9 @@
     "content_zh": "阿里云出品的大语言模型。",
     "url": "https://tongyi.aliyun.com/",
     "rating": 4,
-    "id": "msl6dz43hxd2c"
+    "id": "msl6dz43hxd2c",
+    "detail_zh": "通义千问是阿里云出品的大语言模型，具备强大的中英文理解、代码与多模态能力。它全面开源多个尺寸版本，并与阿里云服务深度集成，适合企业级应用与定制化部署。",
+    "detail": "Tongyi Qianwen is a large language model from Alibaba Cloud with strong Chinese-English understanding, coding, and multimodal capabilities. It fully open-sources multiple sizes and integrates deeply with Alibaba Cloud services, suitable for enterprise applications and custom deployment."
   },
   {
     "category": "AI Tools",
@@ -374,7 +430,9 @@
     "content_zh": "字节跳动出品的AI聊天机器人。",
     "url": "https://www.doubao.com/",
     "rating": 4,
-    "id": "msl6dz43sgg0u"
+    "id": "msl6dz43sgg0u",
+    "detail_zh": "豆包是字节跳动出品的 AI 聊天助手，集成于抖音生态，支持对话、写作、图片生成与角色扮演。它响应迅速、免费易用，是国内大众用户接触 AI 的低门槛入口。",
+    "detail": "Doubao is an AI chat assistant from ByteDance, integrated into the Douyin ecosystem, supporting conversation, writing, image generation, and roleplay. Fast, free, and easy to use, it's a low-barrier entry for mainstream Chinese users to access AI."
   },
   {
     "category": "AI Tools",
@@ -387,7 +445,9 @@
     "content_zh": "共建未来的 AI 社区。",
     "url": "https://huggingface.co/",
     "rating": 5,
-    "id": "msl6dz438ktwb"
+    "id": "msl6dz438ktwb",
+    "detail_zh": "Hugging Face 是「AI 界的 GitHub」，汇聚了数十万个开源模型、数据集与 Demo（Spaces）。它的 Transformers 库是 NLP 与多模态开发的事实标准，是构建与分享 AI 应用的核心社区。",
+    "detail": "Hugging Face is the GitHub of AI, hosting hundreds of thousands of open-source models, datasets, and Demos (Spaces). Its Transformers library is the de facto standard for NLP and multimodal development, the core community for building and sharing AI applications."
   },
   {
     "category": "AI Tools",
@@ -400,7 +460,9 @@
     "content_zh": "一个可以处理任何规模任务的下一代AI助手。",
     "url": "https://claude.ai/",
     "rating": 5,
-    "id": "msl6dz432em8l"
+    "id": "msl6dz432em8l",
+    "detail_zh": "Claude 是 Anthropic 开发的下一代 AI 助手，以安全、诚实与强大的长文本处理著称。它的上下文窗口高达 20 万 token，擅长分析长文档、编写代码与细致推理，是 professionals 的得力伙伴。",
+    "detail": "Claude is a next-generation AI assistant developed by Anthropic, known for safety, honesty, and powerful long-text processing. With a context window of up to 200K tokens, it excels at analyzing long documents, writing code, and nuanced reasoning, a powerful partner for professionals."
   },
   {
     "category": "AI Tools",
@@ -413,7 +475,9 @@
     "content_zh": "由谷歌开发的系列多模态AI模型。",
     "url": "https://gemini.google.com/",
     "rating": 4,
-    "id": "msl6dz43sqmob"
+    "id": "msl6dz43sqmob",
+    "detail_zh": "Google Gemini 是谷歌开发的多模态 AI 模型系列，能同时理解文本、图像、音频与视频。它与谷歌全家桶（搜索、文档、邮件）深度集成，具备联网能力与强大的推理表现。",
+    "detail": "Google Gemini is Google's multimodal AI model series capable of understanding text, images, audio, and video simultaneously. It's deeply integrated with Google's suite (Search, Docs, Gmail) with web access and strong reasoning performance."
   },
   {
     "category": "AI Tools",
@@ -426,7 +490,9 @@
     "content_zh": "一个深度学习的文本到图像模型。",
     "url": "https://stablediffusionweb.com/",
     "rating": 5,
-    "id": "msl6dz43fkgmd"
+    "id": "msl6dz43fkgmd",
+    "detail_zh": "Stable Diffusion 是一个开源的文本到图像扩散模型，可在本地 GPU 上运行，完全免费且可自定义。它拥有庞大的社区与 ControlNet、LoRA 等扩展，是追求可控性与隐私的创作者的首选。",
+    "detail": "Stable Diffusion is an open-source text-to-image diffusion model that runs on local GPUs, completely free and customizable. With a massive community and extensions like ControlNet and LoRA, it's the top choice for creators seeking control and privacy."
   },
   {
     "category": "AI Tools",
@@ -439,7 +505,9 @@
     "content_zh": "您的AI结对程序员。",
     "url": "https://github.com/features/copilot",
     "rating": 5,
-    "id": "msl6dz43zvuds"
+    "id": "msl6dz43zvuds",
+    "detail_zh": "GitHub Copilot 是由 GitHub 与 OpenAI 合作的 AI 结对程序员，能在编辑器内根据上下文自动补全代码、生成函数与解释逻辑。它支持数十种语言与主流 IDE，显著提升开发效率。",
+    "detail": "GitHub Copilot is an AI pair programmer from GitHub and OpenAI that auto-completes code, generates functions, and explains logic contextually within your editor. It supports dozens of languages and major IDEs, significantly boosting development efficiency."
   },
   {
     "category": "Productivity",
@@ -452,7 +520,9 @@
     "content_zh": "集笔记、任务、数据库于一体的多功能工具。",
     "url": "https://www.notion.so/",
     "rating": 5,
-    "id": "msl6dz43tfbua"
+    "id": "msl6dz43tfbua",
+    "detail_zh": "Notion 是集笔记、任务、数据库、Wiki 与项目管理于一体的全能工作空间。它的模块化「Block」设计极其灵活，能搭建从个人待办到企业知识库的一切，是现代知识工作者的瑞士军刀。",
+    "detail": "Notion is an all-in-one workspace combining notes, tasks, databases, wikis, and project management. Its modular Block design is incredibly flexible, capable of building everything from personal to-dos to enterprise knowledge bases, the Swiss Army knife of modern knowledge workers."
   },
   {
     "category": "Productivity",
@@ -465,7 +535,9 @@
     "content_zh": "一站式企业协作与管理平台。",
     "url": "https://www.feishu.cn/",
     "rating": 4,
-    "id": "msl6dz43e97hf"
+    "id": "msl6dz43e97hf",
+    "detail_zh": "飞书是字节跳动旗下的一站式企业协作平台，整合了即时通讯、文档、表格、日历、视频会议与 OKR。它的多维表格与自动化能力强大，让团队协作与信息流转高效顺畅。",
+    "detail": "Feishu is ByteDance's all-in-one enterprise collaboration platform integrating instant messaging, documents, spreadsheets, calendars, video conferencing, and OKRs. Its powerful multi-dimensional tables and automation make team collaboration and information flow efficient."
   },
   {
     "category": "Productivity",
@@ -478,7 +550,9 @@
     "content_zh": "一个由 AI 驱动的翻译服务。",
     "url": "https://www.deepl.com/",
     "rating": 5,
-    "id": "msl6dz43302qa"
+    "id": "msl6dz43302qa",
+    "detail_zh": "DeepL 是由 AI 驱动的翻译服务，其译文质量被公认超越 Google 翻译，尤其在中英、欧语种互译上更自然准确。它支持文档整体翻译、术语表与写作润色，是跨语言工作者的首选工具。",
+    "detail": "DeepL is an AI-powered translation service whose quality is widely recognized as surpassing Google Translate, especially natural and accurate for Chinese-English and European languages. It supports whole-document translation, glossaries, and writing polish, the top choice for cross-language workers."
   },
   {
     "category": "Productivity",
@@ -491,7 +565,9 @@
     "content_zh": "基于看板风格的网页列表制作应用。",
     "url": "https://trello.com/",
     "rating": 4,
-    "id": "msl6dz4302ptu"
+    "id": "msl6dz4302ptu",
+    "detail_zh": "Trello 是基于看板（Kanban）风格的项目管理工具，用列表与卡片直观地组织任务流程。它的操作简单、可视化强，配合 Power-Up 可扩展日历、自动化等能力，适合个人与小团队。",
+    "detail": "Trello is a Kanban-style project management tool that organizes task workflows visually with lists and cards. Simple to operate and highly visual, with Power-Ups extending to calendars and automation, it's ideal for individuals and small teams."
   },
   {
     "category": "Productivity",
@@ -504,7 +580,9 @@
     "content_zh": "一个虚拟协作白板工具。",
     "url": "https://excalidraw.com/",
     "rating": 4,
-    "id": "msl6dz43bwsrf"
+    "id": "msl6dz43bwsrf",
+    "detail_zh": "Excalidraw 是一个虚拟协作白板工具，以手绘风格的图表与流程图闻名。它的交互极简，打开即用，支持多人实时协作与端到端加密，非常适合绘制架构图、思维导图与草图。",
+    "detail": "Excalidraw is a virtual collaborative whiteboard famous for its hand-drawn-style diagrams and flowcharts. With minimal, instant-start interaction, multiplayer real-time collaboration, and end-to-end encryption, it's perfect for architecture diagrams, mind maps, and sketches."
   },
   {
     "category": "Learning",
@@ -517,7 +595,9 @@
     "content_zh": "通过世界一流大学和公司的在线课程、证书和学位来培养技能。",
     "url": "https://www.coursera.org/",
     "rating": 5,
-    "id": "msl6dz431bs2i"
+    "id": "msl6dz431bs2i",
+    "detail_zh": "Coursera 与全球顶尖大学（斯坦福、耶鲁）及企业（Google、IBM）合作，提供在线课程、专业证书与学位。它的课程质量高、体系完整，覆盖计算机、商业、数据科学等，是系统学习的优质平台。",
+    "detail": "Coursera partners with top universities (Stanford, Yale) and companies (Google, IBM) to offer online courses, professional certificates, and degrees. With high-quality, structured courses across CS, business, and data science, it's a premium platform for systematic learning."
   },
   {
     "category": "Learning",
@@ -530,7 +610,9 @@
     "content_zh": "由开发者为开发者提供的资源。",
     "url": "https://developer.mozilla.org/",
     "rating": 5,
-    "id": "msl6dz434s4lw"
+    "id": "msl6dz434s4lw",
+    "detail_zh": "MDN Web Docs（Mozilla 开发者网络）是由 Mozilla 维护的 Web 技术权威文档，涵盖 HTML、CSS、JavaScript、Web API 等。它的内容准确、示例详实、持续更新，是前端开发者不可或缺的参考圣经。",
+    "detail": "MDN Web Docs (Mozilla Developer Network) is the authoritative Web technology documentation maintained by Mozilla, covering HTML, CSS, JavaScript, and Web APIs. With accurate content, detailed examples, and continuous updates, it's an indispensable reference bible for frontend developers."
   },
   {
     "category": "Learning",
@@ -543,7 +625,9 @@
     "content_zh": "免费学习编程。构建项目。获得认证。",
     "url": "https://www.freecodecamp.org/",
     "rating": 5,
-    "id": "msl6dz43gdfqv"
+    "id": "msl6dz43gdfqv",
+    "detail_zh": "freeCodeCamp 是一个完全免费的编程学习平台，通过项目实战与认证体系教你 Web 开发全栈技能。它的课程循序渐进，社区活跃，已帮助数十万人转行进入技术行业。",
+    "detail": "freeCodeCamp is a completely free programming learning platform that teaches full-stack web development through hands-on projects and certifications. Its progressive curriculum and active community have helped hundreds of thousands transition into tech careers."
   },
   {
     "category": "Learning",
@@ -556,7 +640,9 @@
     "content_zh": "一个开源机器学习框架，可加速从研究原型到生产部署的过程。",
     "url": "https://pytorch.org/",
     "rating": 5,
-    "id": "msl6dz43vvevq"
+    "id": "msl6dz43vvevq",
+    "detail_zh": "PyTorch 是由 Meta 开源的深度学习框架，以动态计算图与 Pythonic API 赢得研究界青睐。它灵活、易调试，从研究原型到生产部署（TorchServe）全链路覆盖，是 AI 研究的主流选择。",
+    "detail": "PyTorch is an open-source deep learning framework from Meta, winning the research community with dynamic computation graphs and Pythonic APIs. Flexible and easy to debug, it covers the full chain from research prototypes to production (TorchServe), the mainstream choice for AI research."
   },
   {
     "category": "Learning",
@@ -569,7 +655,9 @@
     "content_zh": "一个端到端的开源机器学习平台。",
     "url": "https://www.tensorflow.org/",
     "rating": 5,
-    "id": "msl6dz43j65vn"
+    "id": "msl6dz43j65vn",
+    "detail_zh": "TensorFlow 是 Google 开源的端到端机器学习平台，支持从研究到移动端部署（Lite）与 Web（JS）。它的生态完整、工具链成熟，Keras 高层 API 让入门更友好，是工业界广泛使用的框架。",
+    "detail": "TensorFlow is Google's open-source end-to-end ML platform, supporting research to mobile (Lite) and web (JS) deployment. With a complete ecosystem, mature toolchain, and the beginner-friendly Keras high-level API, it's widely used in industry."
   },
   {
     "category": "Learning",
@@ -582,7 +670,9 @@
     "content_zh": "让神经网络不再“高不可攀”。为程序员提供的实用深度学习课程。",
     "url": "https://www.fast.ai/",
     "rating": 5,
-    "id": "msl6dz430qzkj"
+    "id": "msl6dz430qzkj",
+    "detail_zh": "fast.ai 致力于让深度学习不再「高不可攀」，为程序员提供实用的 top-down 学习路径。它的免费课程由 Jeremy Howard 主讲，几行代码即可训练 SOTA 模型，是入门 AI 的最佳实践派课程。",
+    "detail": "fast.ai makes deep learning accessible, providing programmers with a practical top-down learning path. Its free courses by Jeremy Howard let you train SOTA models in a few lines of code, the best practice-first course for getting into AI."
   },
   {
     "category": "Learning",
@@ -595,7 +685,9 @@
     "content_zh": "通过世界顶尖专家的AI教育，发展或开创您的新事业。",
     "url": "https://www.deeplearning.ai/",
     "rating": 5,
-    "id": "msl6dz43kkdrl"
+    "id": "msl6dz43kkdrl",
+    "detail_zh": "DeepLearning.AI 由吴恩达（Andrew Ng）创立，提供世界顶尖的深度学习教育。它的深度学习专项课程与短课程覆盖从基础到前沿，是无数人 AI 启蒙与进阶的首选。",
+    "detail": "DeepLearning.AI, founded by Andrew Ng, provides world-class deep learning education. Its Deep Learning Specialization and short courses span from fundamentals to frontiers, the first choice for countless people's AI enlightenment and advancement."
   },
   {
     "category": "Learning",
@@ -608,7 +700,9 @@
     "content_zh": "深度学习的API。一个简化构建和训练深度学习模型过程的开源库。",
     "url": "https://keras.io/",
     "rating": 5,
-    "id": "msl6dz43ki124"
+    "id": "msl6dz43ki124",
+    "detail_zh": "Keras 是一个高级深度学习 API，以简洁、易用著称，可运行在 TensorFlow 之上。它让构建与训练神经网络只需几行代码，是快速实验与教学的首选，3.0 起支持多后端。",
+    "detail": "Keras is a high-level deep learning API known for simplicity and ease of use, running on top of TensorFlow. It lets you build and train neural networks in a few lines, the top choice for rapid experimentation and teaching, with multi-backend support since 3.0."
   },
   {
     "category": "Learning",
@@ -621,7 +715,9 @@
     "content_zh": "一个免费开放的机器学习论文、代码、数据集、方法和评估表的资源库。",
     "url": "https://paperswithcode.com/",
     "rating": 5,
-    "id": "msl6dz43gxuxj"
+    "id": "msl6dz43gxuxj",
+    "detail_zh": "Papers with Code 是一个免费开放的资源库，将 AI 论文、官方代码、数据集与基准榜单（SOTA）整合在一起。它让复现与对比研究成果变得前所未有地便捷，是 AI 研究者的神器。",
+    "detail": "Papers with Code is a free, open resource that integrates AI papers, official code, datasets, and benchmark leaderboards (SOTA). It makes reproducing and comparing research results unprecedentedly convenient, a must-have tool for AI researchers."
   },
   {
     "category": "Learning",
@@ -634,7 +730,9 @@
     "content_zh": "一个用于机器学习研究的交互式可视化期刊。",
     "url": "https://distill.pub/",
     "rating": 5,
-    "id": "msl6dz43xl9h0"
+    "id": "msl6dz43xl9h0",
+    "detail_zh": "Distill 是一个专注于机器学习研究的交互式可视化期刊，以极其精美的动态图解阐释复杂概念。它的每篇文章都是科普与学术的典范，虽然更新不多但篇篇经典。",
+    "detail": "Distill is an interactive visualization journal for ML research, explaining complex concepts with exquisite animated illustrations. Each article is a model of science communication and scholarship—infrequently updated but every piece a classic."
   },
   {
     "category": "Learning",
@@ -647,7 +745,9 @@
     "content_zh": "来自谷歌 AI 的最新消息和研究成果。",
     "url": "https://ai.googleblog.com/",
     "rating": 5,
-    "id": "msl6dz43m1la8"
+    "id": "msl6dz43m1la8",
+    "detail_zh": "Google AI Blog 是谷歌 AI 的官方博客，分享其最新研究成果与技术突破。它涵盖大模型、机器学习、计算机视觉与量子计算，是追踪全球顶尖 AI 进展的权威来源。",
+    "detail": "Google AI Blog is the official blog of Google AI, sharing its latest research achievements and technical breakthroughs. Covering large models, ML, computer vision, and quantum computing, it's an authoritative source for tracking top global AI progress."
   },
   {
     "category": "Learning",
@@ -660,7 +760,9 @@
     "content_zh": "一个用于开发和比较强化学习算法的工具包。",
     "url": "https://gymnasium.farama.org/",
     "rating": 5,
-    "id": "msl6dz4368nhg"
+    "id": "msl6dz4368nhg",
+    "detail_zh": "OpenAI Gym 是用于开发与比较强化学习算法的标准工具包，提供丰富的标准环境（Atari、CartPole 等）。它定义了统一的 Env 接口，是强化学习入门与研究的通用基准。",
+    "detail": "OpenAI Gym is the standard toolkit for developing and comparing reinforcement learning algorithms, providing rich standard environments (Atari, CartPole, etc.). It defines a unified Env interface, the universal benchmark for RL learning and research."
   },
   {
     "category": "Learning",
@@ -673,7 +775,9 @@
     "content_zh": "由 OpenAI 推出的深度强化学习教育资源。",
     "url": "https://spinningup.openai.com/",
     "rating": 5,
-    "id": "msl6dz43nhsu5"
+    "id": "msl6dz43nhsu5",
+    "detail_zh": "Spinning Up 由 OpenAI 出品，是深度强化学习的教育资源库。它系统讲解 RL 基础、关键论文与实现，并提供带注释的代码，是入门深度强化学习的权威路径。",
+    "detail": "Spinning Up, produced by OpenAI, is an educational resource library for deep reinforcement learning. It systematically covers RL foundations, key papers, and implementations with annotated code, the authoritative path into deep RL."
   },
   {
     "category": "Learning",
@@ -686,7 +790,9 @@
     "content_zh": "全球最大的数据科学社区，提供强大的工具和资源，助您实现数据科学目标。",
     "url": "https://www.kaggle.com/",
     "rating": 5,
-    "id": "msl6dz43x5g06"
+    "id": "msl6dz43x5g06",
+    "detail_zh": "Kaggle 是全球最大的数据科学与机器学习社区，提供数据集、Notebook、竞赛与免费 GPU。它的竞赛曾孵化无数顶尖方案，是数据科学家展示实力与学习的顶级舞台。",
+    "detail": "Kaggle is the world's largest data science and machine learning community, offering datasets, notebooks, competitions, and free GPUs. Its competitions have spawned countless top solutions, the premier stage for data scientists to showcase and learn."
   },
   {
     "category": "Learning",
@@ -699,7 +805,9 @@
     "content_zh": "一个快速、强大、灵活且易于使用的开源数据分析和操作工具。",
     "url": "https://pandas.pydata.org/",
     "rating": 4,
-    "id": "msl6dz437qxpf"
+    "id": "msl6dz437qxpf",
+    "detail_zh": "Pandas 是 Python 数据分析的核心库，提供 DataFrame 与 Series 数据结构，擅长数据清洗、变换、聚合与可视化。它几乎是所有数据科学工作流的起点，与 NumPy、Matplotlib 无缝配合。",
+    "detail": "Pandas is the core Python data analysis library, providing DataFrame and Series data structures, excelling at data cleaning, transformation, aggregation, and visualization. It's the starting point of nearly all data science workflows, working seamlessly with NumPy and Matplotlib."
   },
   {
     "category": "Learning",
@@ -712,7 +820,9 @@
     "content_zh": "简单高效的预测性数据分析工具，人人可用，并可在各种环境中重复使用。",
     "url": "https://scikit-learn.org/",
     "rating": 5,
-    "id": "msl6dz43kawp1"
+    "id": "msl6dz43kawp1",
+    "detail_zh": "Scikit-learn 是 Python 最经典的机器学习库，提供分类、回归、聚类、降维与预处理等完整算法。它的 API 统一优雅、文档出色，是传统机器学习入门与实战的事实标准。",
+    "detail": "Scikit-learn is Python's most classic machine learning library, providing classification, regression, clustering, dimensionality reduction, and preprocessing. With a unified, elegant API and excellent documentation, it's the de facto standard for traditional ML learning and practice."
   },
   {
     "category": "Learning",
@@ -725,7 +835,9 @@
     "content_zh": "一个分享概念、想法和代码的 Medium 出版物。",
     "url": "https://towardsdatascience.com/",
     "rating": 4,
-    "id": "msl6dz4381o2x"
+    "id": "msl6dz4381o2x",
+    "detail_zh": "Towards Data Science 是 Medium 上的数据科学旗舰出版物，分享概念、方法与实战代码。它的作者来自全球业界与学界，内容兼顾深度与可读性，是数据从业者持续学习的优质来源。",
+    "detail": "Towards Data Science is Medium's flagship data science publication, sharing concepts, methods, and practical code. With authors from industry and academia worldwide, it balances depth and readability, a quality source for continuous learning by data professionals."
   },
   {
     "category": "Learning",
@@ -738,7 +850,9 @@
     "content_zh": "一个在线互动平台，提供12种不同编程语言的免费编码课程。",
     "url": "https://www.codecademy.com/",
     "rating": 4,
-    "id": "msl6dz432g33p"
+    "id": "msl6dz432g33p",
+    "detail_zh": "Codecademy 是一个互动式编程学习平台，在浏览器中边学边写代码，支持 Python、Java、Go 等 12+ 语言。它的即时反馈让学习曲线更平缓，适合零基础入门。",
+    "detail": "Codecademy is an interactive programming learning platform where you code in-browser while learning, supporting 12+ languages including Python, Java, and Go. Its instant feedback flattens the learning curve, ideal for beginners from scratch."
   },
   {
     "category": "Learning",
@@ -751,7 +865,9 @@
     "content_zh": "一个帮助您提升技能、扩展知识和准备技术面试的平台。",
     "url": "https://leetcode.com/",
     "rating": 5,
-    "id": "msl6dz4346gg6"
+    "id": "msl6dz4346gg6",
+    "detail_zh": "LeetCode 是全球最知名的算法与数据结构练习平台，也是技术面试准备的首选。它收录数千道编程题，按难度与主题分类，配合周赛与企业题库，帮助开发者系统提升编码与算法能力。",
+    "detail": "LeetCode is the world's most renowned algorithm and data structure practice platform and the top choice for technical interview prep. With thousands of problems categorized by difficulty and topic, plus contests and company-tagged questions, it systematically improves coding and algorithm skills."
   },
   {
     "category": "Learning",
@@ -764,7 +880,9 @@
     "content_zh": "获取全球140所顶尖机构的2000门免费在线课程。",
     "url": "https://www.edx.org/",
     "rating": 5,
-    "id": "msl6dz43bvrxd"
+    "id": "msl6dz43bvrxd",
+    "detail_zh": "edX 由哈佛与 MIT 创立，汇聚全球 140+ 顶尖机构的 2000+ 门免费在线课程。它涵盖计算机、工程、人文等广泛领域，提供微硕士与专业证书，是高质量学术学习的开放门户。",
+    "detail": "edX, founded by Harvard and MIT, gathers 2000+ free online courses from 140+ top institutions worldwide. Spanning CS, engineering, and humanities, it offers MicroMasters and professional certificates, an open portal for high-quality academic learning."
   },
   {
     "category": "Learning",
@@ -777,7 +895,9 @@
     "content_zh": "一个免费开源的全栈课程。",
     "url": "https://www.theodinproject.com/",
     "rating": 5,
-    "id": "msl6dz43qkmt4"
+    "id": "msl6dz43qkmt4",
+    "detail_zh": "The Odin Project 是一个免费开源的全栈 Web 开发课程，以项目驱动学习 Ruby on Rails 与 Node.js 路径。它的课程设计贴近真实开发，社区互助活跃，是自学成才的优秀路径。",
+    "detail": "The Odin Project is a free, open-source full-stack web development curriculum, project-driven across Ruby on Rails and Node.js paths. Its realistic, project-based design and active community make it an excellent self-taught path."
   },
   {
     "category": "Learning",
@@ -790,7 +910,9 @@
     "content_zh": "每日发布关于CSS、HTML、JavaScript以及所有与网页设计和开发相关的文章。",
     "url": "https://css-tricks.com/",
     "rating": 4,
-    "id": "msl6dz43cz117"
+    "id": "msl6dz43cz117",
+    "detail_zh": "CSS-Tricks 是一个专注于 CSS 与前端开发的权威博客与资源站，每日发布实用教程、技巧与指南。它的 Flexbox / Grid 完整指南被誉为最佳参考，是前端开发者必收藏的网站。",
+    "detail": "CSS-Tricks is an authoritative blog and resource site focused on CSS and frontend development, publishing practical tutorials and guides daily. Its complete Flexbox/Grid guides are considered the best references, a must-bookmark for frontend developers."
   },
   {
     "category": "Learning",
@@ -803,7 +925,9 @@
     "content_zh": "中国领先的IT技能教育平台。",
     "url": "https://www.imooc.com/",
     "rating": 4,
-    "id": "msl6dz434mc9h"
+    "id": "msl6dz434mc9h",
+    "detail_zh": "慕课网是国内领先的 IT 技能教育平台，提供大量免费与付费的编程视频课程。内容覆盖前端、后端、移动开发与人工智能，以实战项目为特色，适合中文学习者系统提升技能。",
+    "detail": "imooc (Muke) is China's leading IT skills education platform, offering numerous free and paid programming video courses. Covering frontend, backend, mobile, and AI with a focus on real-world projects, it's ideal for Chinese learners to systematically improve."
   },
   {
     "category": "News & Information",
@@ -816,7 +940,9 @@
     "content_zh": "一个专注于计算机科学和创业的社交新闻网站。",
     "url": "https://news.ycombinator.com/",
     "rating": 4,
-    "id": "msl6dz43s7xgy"
+    "id": "msl6dz43s7xgy",
+    "detail_zh": "Hacker News 是由 Y Combinator 运营的社交新闻网站，聚焦计算机科学、创业与技术。它的社区高质量、讨论深刻，是全球技术人追踪趋势与交流思想的经典阵地。",
+    "detail": "Hacker News is a social news site operated by Y Combinator, focusing on computer science, startups, and technology. With a high-quality community and deep discussions, it's a classic hub for tech people worldwide to track trends and exchange ideas."
   },
   {
     "category": "News & Information",
@@ -829,7 +955,9 @@
     "content_zh": "中国最大的新闻门户网站之一。",
     "url": "https://news.sina.com.cn/",
     "rating": 3,
-    "id": "msl6dz43488lb"
+    "id": "msl6dz43488lb",
+    "detail_zh": "新浪新闻是中国最大的综合性新闻门户之一，提供全天候的国内国际要闻、财经、体育与娱乐资讯。它的内容覆盖广、更新及时，是大众获取信息的主流渠道。",
+    "detail": "Sina News is one of China's largest comprehensive news portals, providing 24/7 domestic and international headlines, finance, sports, and entertainment. With broad coverage and timely updates, it's a mainstream channel for the public to get information."
   },
   {
     "category": "News & Information",
@@ -842,7 +970,9 @@
     "content_zh": "中国领先的科技和商业媒体平台。",
     "url": "https://36kr.com/",
     "rating": 4,
-    "id": "msl6dz43xukef"
+    "id": "msl6dz43xukef",
+    "detail_zh": "36氪是中国领先的科技与商业媒体，聚焦创投、新经济与前沿科技。它的报道快速全面，提供深度行业分析与企业服务，是了解中国创新生态的窗口。",
+    "detail": "36Kr is China's leading tech and business media, focusing on venture capital, the new economy, and frontier tech. With fast, comprehensive coverage and deep industry analysis plus enterprise services, it's a window into China's innovation ecosystem."
   },
   {
     "category": "Finance",
@@ -855,7 +985,9 @@
     "content_zh": "中国领先的财经信息及服务提供商。",
     "url": "https://www.eastmoney.com/",
     "rating": 4,
-    "id": "msl6dz43z3nvj"
+    "id": "msl6dz43z3nvj",
+    "detail_zh": "东方财富是中国领先的财经信息与服务提供商，覆盖股票、基金、债券与行情交易。它的东方财富网与股吧社区活跃，是股民与投资者获取行情与交流的综合平台。",
+    "detail": "East Money is China's leading financial information and service provider, covering stocks, funds, bonds, and market trading. Its website and active Guba community form a comprehensive platform for investors to get quotes and exchange views."
   },
   {
     "category": "Finance",
@@ -868,7 +1000,9 @@
     "content_zh": "全球商业、金融信息和新闻资讯的领先提供商。",
     "url": "https://www.bloomberg.com/",
     "rating": 5,
-    "id": "msl6dz434bnaq"
+    "id": "msl6dz434bnaq",
+    "detail_zh": "Bloomberg（彭博）是全球商业、金融信息与新闻资讯的领先提供商。它的终端（Bloomberg Terminal）是金融专业人士的标配，网站提供实时市场数据、深度分析与全球财经报道。",
+    "detail": "Bloomberg is a leading global provider of business, financial information, and news. Its Terminal is standard for finance professionals, while the website provides real-time market data, in-depth analysis, and global financial coverage."
   },
   {
     "category": "Finance",
@@ -881,7 +1015,9 @@
     "content_zh": "全球最受引用的加密资产价格跟踪网站。",
     "url": "https://coinmarketcap.com/",
     "rating": 4,
-    "id": "msl6dz43tvg92"
+    "id": "msl6dz43tvg92",
+    "detail_zh": "CoinMarketCap 是全球最受引用的加密货币价格追踪网站，提供上万种币种的实时价格、市值与交易量。它是加密市场的权威数据源，被投资者、媒体与项目方广泛使用。",
+    "detail": "CoinMarketCap is the world's most-cited cryptocurrency price tracking website, providing real-time prices, market cap, and volume for thousands of coins. The authoritative data source for crypto markets, it's widely used by investors, media, and projects."
   },
   {
     "category": "Social & Community",
@@ -894,7 +1030,9 @@
     "content_zh": "一个由众多社区组成的网络，人们可以在这里深入了解自己的兴趣、爱好和热情。",
     "url": "https://www.reddit.com/",
     "rating": 4,
-    "id": "msl6dz43ejarg"
+    "id": "msl6dz43ejarg",
+    "detail_zh": "Reddit 是由成千上万个兴趣社区（Subreddit）组成的社交平台，人们在此就任何话题深入讨论。它的投票机制筛选优质内容，是互联网文化与小众兴趣的发源地与集散地。",
+    "detail": "Reddit is a social platform composed of thousands of interest communities (Subreddits) where people discuss any topic in depth. Its voting mechanism surfaces quality content, the birthplace and hub of internet culture and niche interests."
   },
   {
     "category": "Social & Community",
@@ -907,7 +1045,9 @@
     "content_zh": "中国高质量的问答社区。",
     "url": "https://www.zhihu.com/",
     "rating": 4,
-    "id": "msl6dz43qv513"
+    "id": "msl6dz43qv513",
+    "detail_zh": "知乎是中国高质量的问答社区与知识分享平台，聚集了大量专业创作者。它的长文回答深入专业，覆盖科技、职场、生活等领域，是中文互联网获取深度知识与见解的首选。",
+    "detail": "Zhihu is China's high-quality Q&A community and knowledge-sharing platform, gathering many professional creators. Its in-depth, expert long-form answers span tech, career, and life, the top choice for deep knowledge and insights on the Chinese internet."
   },
   {
     "category": "Social & Community",
@@ -920,7 +1060,9 @@
     "content_zh": "一个基于云的即时消息和IP语音服务。",
     "url": "https://telegram.org/",
     "rating": 5,
-    "id": "msl6dz43hn3en"
+    "id": "msl6dz43hn3en",
+    "detail_zh": "Telegram 是一款注重速度、隐私与加密的跨平台即时通讯应用。它支持超大群组、频道、机器人、文件大附件与丰富的贴纸生态，功能远超普通聊天软件，在全球拥有数亿用户。",
+    "detail": "Telegram is a cross-platform messaging app focused on speed, privacy, and encryption. It supports huge groups, channels, bots, large file attachments, and a rich sticker ecosystem, far exceeding ordinary chat apps, with hundreds of millions of users worldwide."
   },
   {
     "category": "E-commerce",
@@ -933,7 +1075,9 @@
     "content_zh": "全球最大的在线零售商。",
     "url": "https://www.amazon.com/",
     "rating": 5,
-    "id": "msl6dz43w8sut"
+    "id": "msl6dz43w8sut",
+    "detail_zh": "Amazon 是全球最大的在线零售商与云计算（AWS）领导者。它的电商业务覆盖全球，Prime 会员、物流与评价体系成熟，AWS 则是云计算的行业基石。",
+    "detail": "Amazon is the world's largest online retailer and leader in cloud computing (AWS). Its e-commerce spans the globe with mature Prime membership, logistics, and review systems, while AWS is the cornerstone of the cloud industry."
   },
   {
     "category": "E-commerce",
@@ -946,7 +1090,9 @@
     "content_zh": "中国两大B2C在线零售商之一。",
     "url": "https://www.jd.com/",
     "rating": 4,
-    "id": "msl6dz43zj5dn"
+    "id": "msl6dz43zj5dn",
+    "detail_zh": "京东是中国两大 B2C 在线零售商之一，以正品保障与自建物流（当日/次日达）著称。它的家电数码品类优势明显，PLUS 会员与售后服务体验在国内电商中口碑突出。",
+    "detail": "JD.com is one of China's two largest B2C online retailers, known for authentic goods and self-built logistics (same/next-day delivery). Strong in electronics and appliances, its PLUS membership and after-sales service have standout reputation among Chinese e-commerce."
   },
   {
     "category": "Entertainment",
@@ -959,7 +1105,9 @@
     "content_zh": "全球最大的视频分享平台。",
     "url": "https://www.youtube.com/",
     "rating": 5,
-    "id": "msl6dz43qoydl"
+    "id": "msl6dz43qoydl",
+    "detail_zh": "YouTube 是全球最大的视频分享平台，每天播放数十亿小时的视频。它覆盖音乐、游戏、教育、科技等一切领域，创作者生态成熟，是娱乐、学习与信息获取的超级中枢。",
+    "detail": "YouTube is the world's largest video-sharing platform, streaming billions of hours daily. Covering music, gaming, education, tech, and everything else with a mature creator ecosystem, it's a super hub for entertainment, learning, and information."
   },
   {
     "category": "Entertainment",
@@ -972,7 +1120,9 @@
     "content_zh": "中国流行的视频分享和直播平台。",
     "url": "https://www.bilibili.com/",
     "rating": 5,
-    "id": "msl6dz439t1ng"
+    "id": "msl6dz439t1ng",
+    "detail_zh": "Bilibili（B 站）是中国年轻人聚集的视频社区，以弹幕文化与高质量 PGC/UGC 内容著称。它覆盖动画、游戏、知识、生活等分区，是 Z 世代学习、娱乐与文化交流的主阵地。",
+    "detail": "Bilibili is a video community where Chinese youth gather, famous for danmaku culture and high-quality PGC/UGC content. Covering animation, gaming, knowledge, and lifestyle, it's the main platform for Gen Z to learn, entertain, and exchange culture."
   },
   {
     "category": "Entertainment",
@@ -985,7 +1135,9 @@
     "content_zh": "一个数字音乐、播客和视频服务。",
     "url": "https://www.spotify.com/",
     "rating": 5,
-    "id": "msl6dz435yju6"
+    "id": "msl6dz435yju6",
+    "detail_zh": "Spotify 是全球领先的数字音乐与播客流媒体服务，拥有超亿首曲目的庞大曲库。它的个性化推荐（每周发现）与歌单生态出色，跨设备同步流畅，是音乐爱好者的首选。",
+    "detail": "Spotify is a leading global digital music and podcast streaming service with a massive catalog of over 100 million tracks. Its personalized recommendations (Discover Weekly), playlist ecosystem, and smooth cross-device sync make it the top choice for music lovers."
   },
   {
     "category": "Lifestyle",
@@ -998,7 +1150,9 @@
     "content_zh": "中国领先的生活服务电子商务平台。",
     "url": "https://www.meituan.com/",
     "rating": 4,
-    "id": "msl6dz43rpij1"
+    "id": "msl6dz43rpij1",
+    "detail_zh": "美团是中国领先的生活服务电子商务平台，提供外卖、到店餐饮、酒店、门票与打车等本地生活服务。它的「美团外卖」与团购优惠深入人心，是日常消费的超级 App。",
+    "detail": "Meituan is China's leading lifestyle services e-commerce platform, offering food delivery, dining, hotels, tickets, and ride-hailing local services. Its Meituan Delivery and group-buy deals are deeply embedded in daily life, a super app for everyday consumption."
   },
   {
     "category": "Lifestyle",
@@ -1011,7 +1165,9 @@
     "content_zh": "一个以社区为基础的美食网站，提供食谱、烹饪技巧和膳食创意。",
     "url": "https://www.allrecipes.com/",
     "rating": 4,
-    "id": "msl6dz43iim2o"
+    "id": "msl6dz43iim2o",
+    "detail_zh": "Allrecipes 是一个以社区为基础的美食网站，提供海量家常食谱、烹饪技巧与膳食创意。它的食谱由用户贡献、配图详尽，并按评分与评价排序，是下厨找灵感的实用宝库。",
+    "detail": "Allrecipes is a community-based food website offering a huge collection of home recipes, cooking tips, and meal ideas. Its user-contributed, photo-rich recipes sorted by ratings and reviews make it a practical treasure trove for kitchen inspiration."
   },
   {
     "category": "Lifestyle",
@@ -1024,7 +1180,9 @@
     "content_zh": "全球最受欢迎、最权威的电影、电视和名人内容来源。",
     "url": "https://www.imdb.com/",
     "rating": 5,
-    "id": "msl6dz435lpjp"
+    "id": "msl6dz435lpjp",
+    "detail_zh": "IMDb 是全球最受欢迎、最权威的电影、电视与名人数据库。它提供详尽的演职人员、剧情、评分（1-10）与影评，是影迷选片与了解影视信息的标准参考。",
+    "detail": "IMDb is the world's most popular and authoritative database for movies, TV, and celebrities. It provides detailed cast, plot, ratings (1-10), and reviews, the standard reference for film fans to pick movies and learn about productions."
   },
   {
     "category": "Cloud Services",
@@ -1037,7 +1195,9 @@
     "content_zh": "专为前端框架和静态网站打造的平台。",
     "url": "https://vercel.com/",
     "rating": 5,
-    "id": "msl6dz43y37np"
+    "id": "msl6dz43y37np",
+    "detail_zh": "Vercel 是专为前端框架与静态网站打造的平台，也是 Next.js 的创造者。它提供极致的部署速度、边缘网络与预览部署，让每一次提交都能获得一个可分享的预览链接。",
+    "detail": "Vercel is a platform built for frontend frameworks and static sites, and the creator of Next.js. It offers extreme deployment speed, an edge network, and preview deployments, giving every commit a shareable preview URL."
   },
   {
     "category": "Cloud Services",
@@ -1050,7 +1210,9 @@
     "content_zh": "一个用于自动化现代 Web 项目的一体化平台。",
     "url": "https://www.netlify.com/",
     "rating": 4,
-    "id": "msl6dz43p2jqr"
+    "id": "msl6dz43p2jqr",
+    "detail_zh": "Netlify 是一个一体化平台，用于自动化构建、部署与托管现代 Web 项目。它支持从 Git 推送即部署、全球 CDN、无服务器函数与表单处理，让前端开发者无需运维即可上线产品。",
+    "detail": "Netlify is an all-in-one platform for automating the build, deployment, and hosting of modern web projects. It supports deploy-on-Git-push, global CDN, serverless functions, and form handling, letting frontend developers ship products without operations."
   },
   {
     "category": "Cloud Services",
@@ -1063,7 +1225,9 @@
     "content_zh": "全球领先的云计算及人工智能科技公司。",
     "url": "https://www.alibabacloud.com/",
     "rating": 4,
-    "id": "msl6dz43o85ft"
+    "id": "msl6dz43o85ft",
+    "detail_zh": "阿里云是全球领先的云计算与人工智能科技公司，也是中国最大的云服务商。它提供计算、存储、数据库、AI 与企业应用等全栈服务，支撑着双十一等超大规模业务场景。",
+    "detail": "Alibaba Cloud is a leading global cloud computing and AI technology company and China's largest cloud provider. Offering full-stack services from compute, storage, and databases to AI and enterprise applications, it powers super-large-scale scenarios like Singles' Day (Double 11)."
   },
   {
     "category": "System Utilities",
@@ -1076,7 +1240,9 @@
     "content_zh": "一款免费开源的文件压缩工具。",
     "url": "https://www.7-zip.org/",
     "rating": 5,
-    "id": "msl6dz43wp0c2"
+    "id": "msl6dz43wp0c2",
+    "detail_zh": "7-Zip 是一款免费开源的文件压缩工具，以高压缩比与广泛格式支持（7z、ZIP、RAR、TAR）著称。它轻量无广告，命令行与图形界面兼备，是 Windows 平台必备的解压利器。",
+    "detail": "7-Zip is a free, open-source file archiver known for high compression ratios and broad format support (7z, ZIP, RAR, TAR). Lightweight and ad-free with both CLI and GUI, it's an essential extraction tool for Windows."
   },
   {
     "category": "System Utilities",
@@ -1089,7 +1255,9 @@
     "content_zh": "用于清理潜在无用文件的实用工具。",
     "url": "https://www.ccleaner.com/",
     "rating": 3,
-    "id": "msl6dz433yr7q"
+    "id": "msl6dz433yr7q",
+    "detail_zh": "CCleaner 是知名的系统清理与优化工具，能清除无用文件、注册表垃圾与浏览器缓存，释放磁盘空间。它还含软件管理、启动项控制与隐私清理，适合维护电脑的整洁流畅。",
+    "detail": "CCleaner is a well-known system cleaning and optimization tool that removes junk files, registry clutter, and browser cache to free disk space. It also includes software management, startup control, and privacy cleaning, ideal for keeping PCs tidy and fast."
   },
   {
     "category": "System Utilities",
@@ -1102,7 +1270,9 @@
     "content_zh": "一款收集系统主要设备信息的免费软件。",
     "url": "https://www.cpuid.com/softwares/cpu-z.html",
     "rating": 5,
-    "id": "msl6dz43mj5bj"
+    "id": "msl6dz43mj5bj",
+    "detail_zh": "CPU-Z 是一款免费轻量的系统信息工具，能详细显示处理器、主板、内存与缓存规格。它的信息准确、读取快速，是装机与排查硬件问题的必备小工具。",
+    "detail": "CPU-Z is a free, lightweight system information tool that displays detailed processor, motherboard, memory, and cache specifications. Accurate and fast, it's an essential utility for PC building and hardware troubleshooting."
   },
   {
     "category": "System Utilities",
@@ -1115,7 +1285,9 @@
     "content_zh": "一款旨在为您提供有关显卡和 GPU 所有信息的轻量级实用程序。",
     "url": "https://www.techpowerup.com/gpuz/",
     "rating": 5,
-    "id": "msl6dz434ncfj"
+    "id": "msl6dz434ncfj",
+    "detail_zh": "GPU-Z 是一款专用于显卡的轻量信息工具，能读取 GPU 型号、显存、频率、温度与驱动版本。它支持最新显卡，是游戏玩家与矿工了解显卡状态的得力助手。",
+    "detail": "GPU-Z is a lightweight tool dedicated to graphics cards, reading GPU model, VRAM, clocks, temperature, and driver version. Supporting the latest GPUs, it's a handy assistant for gamers and miners to monitor GPU status."
   },
   {
     "category": "System Utilities",
@@ -1128,7 +1300,9 @@
     "content_zh": "一款帮助您更新计算机上所有过时驱动程序的工具。",
     "url": "https://www.iobit.com/en/driver-booster.php",
     "rating": 4,
-    "id": "msl6dz43o2mr7"
+    "id": "msl6dz43o2mr7",
+    "detail_zh": "Driver Booster 是 IObit 出品的驱动更新工具，能一键扫描并更新过时或缺失的硬件驱动。它的驱动库庞大、操作简单，适合不想手动找驱动的普通用户保持系统最新。",
+    "detail": "Driver Booster from IObit scans and updates outdated or missing hardware drivers in one click. With a large driver database and simple operation, it's ideal for average users who want to keep their system up-to-date without manually finding drivers."
   },
   {
     "category": "System Utilities",
@@ -1141,7 +1315,9 @@
     "content_zh": "一个可以让你组建虚拟电脑并检查组件兼容性的网站。",
     "url": "https://pcpartpicker.com/",
     "rating": 5,
-    "id": "msl6dz43ahb8v"
+    "id": "msl6dz43ahb8v",
+    "detail_zh": "PCPartPicker 是装机爱好者的必备网站，能组建虚拟电脑并自动检查组件兼容性与功耗。它的价格对比跨多个电商，搭配社区 Build 灵感，让 DIY 装机规划变得简单可靠。",
+    "detail": "PCPartPicker is an essential site for PC building enthusiasts, letting you build virtual PCs with automatic compatibility and wattage checks. Its cross-retailer price comparison and community build inspiration make DIY PC planning simple and reliable."
   },
   {
     "category": "System Utilities",
@@ -1154,7 +1330,9 @@
     "content_zh": "中国主流的科技门户网站，提供电脑组装模拟器。",
     "url": "https://diy.zol.com.cn/",
     "rating": 4,
-    "id": "msl6dz4323rvy"
+    "id": "msl6dz4323rvy",
+    "detail_zh": "中关村在线（ZOL）是中国主流的科技门户网站，提供数码产品的报价、评测与论坛社区。它的电脑组装模拟器与详尽参数库，是装机与选购数码产品的实用工具。",
+    "detail": "ZOL.com.cn (ZOL) is a mainstream Chinese tech portal offering digital product pricing, reviews, and forums. Its PC builder simulator and detailed spec database are practical tools for PC building and digital product shopping."
   },
   {
     "category": "System Utilities",
@@ -1167,7 +1345,9 @@
     "content_zh": "另一个中国主流的科技门户网站，提供DIY装机工具。",
     "url": "https://diy.pconline.com.cn/",
     "rating": 4,
-    "id": "msl6dz43azid4"
+    "id": "msl6dz43azid4",
+    "detail_zh": "太平洋电脑网是国内主流的科技门户网站，提供硬件、手机、数码产品的评测、报价与导购。它的 DIY 装机模拟器与详尽评测，是消费者购买决策的参考。",
+    "detail": "PConline.com.cn is a mainstream Chinese tech portal providing reviews, pricing, and buying guides for hardware, phones, and digital products. Its DIY PC builder simulator and detailed reviews aid consumer purchasing decisions."
   },
   {
     "category": "System Utilities",
@@ -1180,7 +1360,9 @@
     "content_zh": "一款功能强大的系统信息、诊断和基准测试工具。",
     "url": "https://www.aida64.com/",
     "rating": 5,
-    "id": "msl6dz43f2yka"
+    "id": "msl6dz43f2yka",
+    "detail_zh": "AIDA64 是功能强大的系统信息、诊断与基准测试套件，提供详尽的硬件检测与压力测试。它的报告可导出多种格式，传感器监控实时精准，是硬件评测与运维的专业之选。",
+    "detail": "AIDA64 is a powerful system information, diagnostics, and benchmarking suite providing exhaustive hardware detection and stress testing. With exportable reports and real-time, precise sensor monitoring, it's the professional choice for hardware reviews and IT operations."
   },
   {
     "category": "System Utilities",
@@ -1193,7 +1375,9 @@
     "content_zh": "用于 x86 和 ARM 计算机的免费、独立的内存测试软件。",
     "url": "https://www.memtest86.com/",
     "rating": 5,
-    "id": "msl6dz432e197"
+    "id": "msl6dz432e197",
+    "detail_zh": "MemTest86 是用于 x86 与 ARM 计算机的免费、独立内存测试软件，从 U 盘启动即可深度检测内存错误。它的检测彻底、无需操作系统，是排查蓝屏与死机问题的权威工具。",
+    "detail": "MemTest86 is free, standalone memory testing software for x86 and ARM computers, booting from USB to deeply detect memory errors. Thorough and OS-independent, it's the authoritative tool for troubleshooting blue screens and crashes."
   },
   {
     "category": "System Utilities",
@@ -1206,7 +1390,9 @@
     "content_zh": "一款硬盘/固态硬盘工具软件，支持部分 USB、Intel RAID 和 NVMe。",
     "url": "https://crystalmark.info/en/software/crystaldiskinfo/",
     "rating": 4,
-    "id": "msl6dz43gs307"
+    "id": "msl6dz43gs307",
+    "detail_zh": "CrystalDiskInfo 是一款硬盘与固态硬盘健康监测工具，通过读取 S.M.A.R.T. 信息评估磁盘状态。它支持 NVMe、USB 与 RAID，能提前预警磁盘故障，是数据安全的前哨。",
+    "detail": "CrystalDiskInfo is a disk and SSD health monitoring tool that assesses drive status by reading S.M.A.R.T. data. Supporting NVMe, USB, and RAID, it provides early warnings of drive failures, a sentinel for data safety."
   },
   {
     "category": "System Utilities",
@@ -1219,7 +1405,9 @@
     "content_zh": "一个基于维基的网站，教人们如何修理几乎任何东西。",
     "url": "https://www.ifixit.com/",
     "rating": 5,
-    "id": "msl6dz43ze4hq"
+    "id": "msl6dz43ze4hq",
+    "detail_zh": "iFixit 是一个基于维基的维修指南网站，教人们如何拆解与修理几乎任何电子产品。它的拆解报告与维修评分影响产品可维修性设计，是 DIY 维修与右到维修运动的旗帜。",
+    "detail": "iFixit is a wiki-based repair guide site teaching people how to dissemble and fix nearly any electronic device. Its teardown reports and repairability scores influence product design, the flagship of DIY repair and the Right to Repair movement."
   },
   {
     "category": "System Utilities",
@@ -1232,7 +1420,9 @@
     "content_zh": "国内流行的硬件检测工具箱。",
     "url": "http://www.tbtool.cn/",
     "rating": 5,
-    "id": "msl6dz43lzadv"
+    "id": "msl6dz43lzadv",
+    "detail_zh": "图吧工具箱是国内流行的硬件检测工具集，整合了 CPU-Z、GPU-Z、AIDA64 等常用检测软件。它便携免安装、一键调起，是装机佬与硬件爱好者的随身百宝箱。",
+    "detail": "Tuba Toolbox is a popular Chinese hardware detection toolkit integrating common utilities like CPU-Z, GPU-Z, and AIDA64. Portable, installation-free, and one-click, it's the all-purpose kit for PC builders and hardware enthusiasts."
   },
   {
     "category": "System Utilities",
@@ -1245,7 +1435,9 @@
     "content_zh": "在不到一分钟的时间内快速测试您的电脑性能。",
     "url": "https://www.userbenchmark.com/",
     "rating": 4,
-    "id": "msl6dz43xlmwv"
+    "id": "msl6dz43xlmwv",
+    "detail_zh": "UserBenchmark 能在一分钟内快速测试电脑的 CPU、GPU、SSD 与内存性能，并与全球用户横向对比。它的排名直观、无需安装，是快速了解硬件相对性能的便捷工具。",
+    "detail": "UserBenchmark quickly tests your PC's CPU, GPU, SSD, and memory performance in under a minute, comparing against users worldwide. With intuitive rankings and no installation, it's a convenient tool to gauge relative hardware performance."
   },
   {
     "category": "System Utilities",
@@ -1258,7 +1450,9 @@
     "content_zh": "提供深入的硬件信息、实时系统监控和报告。",
     "url": "https://www.hwinfo.com/",
     "rating": 5,
-    "id": "msl6dz43ny6iu"
+    "id": "msl6dz43ny6iu",
+    "detail_zh": "HWiNFO 提供深入的硬件信息、实时系统监控与详尽报告，是专业级硬件诊断工具。它支持传感器读取（温度、电压、风扇），信息量远超同类，适合高级用户与超频玩家。",
+    "detail": "HWiNFO provides in-depth hardware information, real-time system monitoring, and detailed reports, a professional-grade hardware diagnostic tool. It supports sensor readings (temperature, voltage, fans) with far more detail than peers, suited for advanced users and overclockers."
   },
   {
     "category": "System Utilities",
@@ -1271,7 +1465,9 @@
     "content_zh": "适用于您电脑的快速、轻巧、高级的系统信息工具。",
     "url": "https://www.ccleaner.com/speccy",
     "rating": 4,
-    "id": "msl6dz43wfif4"
+    "id": "msl6dz43wfif4",
+    "detail_zh": "Speccy 是 Piriform 出品的快速、轻量系统信息工具，能一览 CPU、内存、主板、显卡与存储的详细规格。它的界面清爽、操作简单，适合普通用户快速了解电脑配置。",
+    "detail": "Speccy is a fast, lightweight system information tool from Piriform that gives an overview of detailed CPU, memory, motherboard, graphics, and storage specs. With a clean interface and simple operation, it's ideal for average users to quickly check PC specs."
   },
   {
     "category": "System Utilities",
@@ -1284,7 +1480,9 @@
     "content_zh": "一个用于在线测试键盘的工具。",
     "url": "https://www.keyboardtester.com/",
     "rating": 5,
-    "id": "msl6dz43fuyd8"
+    "id": "msl6dz43fuyd8",
+    "detail_zh": "Keyboard Tester 是一个在线键盘测试工具，逐键检测是否有按键失灵或连键。它无需安装、即开即用，是排查键盘硬件故障与验机的好帮手。",
+    "detail": "Keyboard Tester is an online tool that tests each key individually to detect dead or chattering keys. Requiring no installation and ready instantly, it's a handy helper for diagnosing keyboard hardware faults and inspecting new purchases."
   },
   {
     "category": "System Utilities",
@@ -1297,7 +1495,9 @@
     "content_zh": "一个全面的在线显示器测试工具。",
     "url": "https://www.eizo.be/monitor-test/",
     "rating": 5,
-    "id": "msl6dz431c6vd"
+    "id": "msl6dz431c6vd",
+    "detail_zh": "EIZO Monitor Test 是由知名显示器厂商 EIZO 提供的全面在线显示器测试工具。它包含坏点、均匀性、色彩与响应时间等测试，是验机与校色的专业参考。",
+    "detail": "EIZO Monitor Test is a comprehensive online monitor testing tool from the renowned display manufacturer EIZO. It includes dead pixel, uniformity, color, and response time tests, a professional reference for inspection and calibration."
   },
   {
     "category": "Job & Career",
@@ -1310,7 +1510,9 @@
     "content_zh": "全球最大的职业社交网站。",
     "url": "https://www.linkedin.com/",
     "rating": 5,
-    "id": "msl6dz43dzfjp"
+    "id": "msl6dz43dzfjp",
+    "detail_zh": "LinkedIn（领英）是全球最大的职业社交平台，连接数亿职场人士与企业。它用于建立职业人脉、求职招聘、内容分享与企业品牌建设，是 B2B 营销与职业发展的核心阵地。",
+    "detail": "LinkedIn is the world's largest professional networking platform, connecting hundreds of millions of professionals and businesses. Used for networking, job seeking and recruiting, content sharing, and employer branding, it's the core hub for B2B marketing and career development."
   },
   {
     "category": "Job & Career",
@@ -1323,7 +1525,9 @@
     "content_zh": "查找工作、公司评论和薪资信息。",
     "url": "https://www.glassdoor.com/",
     "rating": 4,
-    "id": "msl6dz43yopgs"
+    "id": "msl6dz43yopgs",
+    "detail_zh": "Glassdoor 提供工作搜索、公司评价、薪资信息与面试经验，帮助求职者全面了解潜在雇主。它的匿名评价机制让员工真实发声，是求职决策与雇主品牌研究的重要参考。",
+    "detail": "Glassdoor provides job search, company reviews, salary information, and interview experiences, helping job seekers understand potential employers comprehensively. Its anonymous review mechanism gives employees a real voice, an important reference for job decisions and employer brand research."
   },
   {
     "category": "Job & Career",
@@ -1336,7 +1540,9 @@
     "content_zh": "中国领先的在线招聘平台。",
     "url": "https://www.zhaopin.com/",
     "rating": 4,
-    "id": "msl6dz43qp2ku"
+    "id": "msl6dz43qp2ku",
+    "detail_zh": "智联招聘是中国领先的在线招聘平台之一，提供海量职位与人才库。它的服务覆盖校园招聘、猎头与测评，是国内求职者与企业长期信赖的综合性招聘渠道。",
+    "detail": "Zhaopin (Zhaopin Recruitment) is one of China's leading online recruitment platforms, offering massive job listings and talent pools. Covering campus recruitment, headhunting, and assessments, it's a long-trusted comprehensive recruitment channel for job seekers and companies."
   },
   {
     "category": "Job & Career",
@@ -1349,7 +1555,9 @@
     "content_zh": "中国流行的移动端招聘平台。",
     "url": "https://www.zhipin.com/",
     "rating": 5,
-    "id": "msl6dz43cobc0"
+    "id": "msl6dz43cobc0",
+    "detail_zh": "Boss 直聘是中国流行的移动端招聘平台，首创「直接开聊」的直聘模式，让求职者与 Boss 直接沟通。它的职位覆盖广、反馈快，是国内求职与招聘的主流选择。",
+    "detail": "Boss Zhipin is a popular Chinese mobile recruitment platform, pioneering a direct-chat model where job seekers talk directly with bosses. With broad job coverage and fast feedback, it's a mainstream choice for job seeking and recruiting in China."
   },
   {
     "category": "Travel & Accommodation",
@@ -1362,7 +1570,9 @@
     "content_zh": "全球领先的在线住宿预订网站。",
     "url": "https://www.booking.com/",
     "rating": 5,
-    "id": "msl6dz43hf0zv"
+    "id": "msl6dz43hf0zv",
+    "detail_zh": "Booking.com 是全球领先的在线住宿预订网站，提供酒店、公寓、度假村等海量房源。它的免费取消政策与即时确认预订体验友好，覆盖全球目的地，是商旅与自由行的常备工具。",
+    "detail": "Booking.com is a leading global online accommodation booking site, offering a massive selection of hotels, apartments, and resorts. Its free cancellation policy and instant confirmation are user-friendly, covering destinations worldwide, a standby tool for business and leisure travel."
   },
   {
     "category": "Travel & Accommodation",
@@ -1375,7 +1585,9 @@
     "content_zh": "一个提供独特住宿和体验的社区市场。",
     "url": "https://www.airbnb.com/",
     "rating": 5,
-    "id": "msl6dz43ezo3w"
+    "id": "msl6dz43ezo3w",
+    "detail_zh": "Airbnb 是一个提供独特住宿与体验的全球社区市场，连接房东与旅行者。它让出行住宿选择更丰富、更具本地特色，从民宿到树屋、城堡，带来与众不同的旅行体验。",
+    "detail": "Airbnb is a global community marketplace for unique stays and experiences, connecting hosts with travelers. It enriches lodging choices with local character—from homestays to treehouses and castles—delivering distinctive travel experiences."
   },
   {
     "category": "Travel & Accommodation",
@@ -1388,7 +1600,9 @@
     "content_zh": "领先的一站式旅行服务提供商。",
     "url": "https://www.trip.com/",
     "rating": 4,
-    "id": "msl6dz43q4ybj"
+    "id": "msl6dz43q4ybj",
+    "detail_zh": "Trip.com（携程国际）是领先的一站式旅行服务提供商，提供机票、酒店、火车票、门票与度假预订。它的服务覆盖全球，多语言多币种支持完善，是国内外出行的综合平台。",
+    "detail": "Trip.com (Ctrip International) is a leading one-stop travel service provider offering flights, hotels, trains, tickets, and vacation bookings. With global coverage and comprehensive multi-language, multi-currency support, it's a comprehensive platform for domestic and international travel."
   },
   {
     "category": "Travel & Accommodation",
@@ -1401,7 +1615,9 @@
     "content_zh": "一个全球性的航班、酒店和租车搜索引擎。",
     "url": "https://www.skyscanner.com/",
     "rating": 4,
-    "id": "msl6dz43qupjc"
+    "id": "msl6dz43qupjc",
+    "detail_zh": "Skyscanner（天巡）是一个全球性的航班、酒店与租车比价搜索引擎。它的「整月」与「任意目的地」搜索非常适合灵活出行，能帮你找到最便宜的机票组合。",
+    "detail": "Skyscanner is a global flight, hotel, and car rental search engine. Its whole-month and everywhere searches are perfect for flexible travel, helping you find the cheapest flight combinations."
   },
   {
     "category": "Gaming",
@@ -1414,7 +1630,9 @@
     "content_zh": "玩、讨论和创作游戏的终极目的地。",
     "url": "https://store.steampowered.com/",
     "rating": 5,
-    "id": "msl6dz430k3ck"
+    "id": "msl6dz430k3ck",
+    "detail_zh": "Steam 是 Valve 运营的全球最大 PC 游戏发行平台，提供游戏购买、下载、社区与创意工坊。它的季节性大促与评测体系影响深远，是 PC 玩家玩游戏、买游戏与交流的核心目的地。",
+    "detail": "Steam is the world's largest PC game distribution platform operated by Valve, offering game purchasing, downloads, community, and Workshop. Its seasonal sales and review system are hugely influential, the core destination for PC gamers to play, buy, and connect."
   },
   {
     "category": "Gaming",
@@ -1427,7 +1645,9 @@
     "content_zh": "您的游戏、电影和科技新闻与评测来源。",
     "url": "https://www.ign.com/",
     "rating": 4,
-    "id": "msl6dz43mkup6"
+    "id": "msl6dz43mkup6",
+    "detail_zh": "IGN 是全球知名的游戏、电影与科技娱乐媒体，提供新闻、评测、攻略与视频。它的评分体系广受关注，是玩家与影迷了解新作口碑的风向标。",
+    "detail": "IGN is a globally renowned media outlet for gaming, movies, and tech entertainment, providing news, reviews, guides, and videos. Its scoring system is widely watched, a bellwether for gamers and movie fans to gauge new release reception."
   },
   {
     "category": "Gaming",
@@ -1440,7 +1660,9 @@
     "content_zh": "全球领先的游戏玩家直播平台。",
     "url": "https://www.twitch.tv/",
     "rating": 5,
-    "id": "msl6dz43w7mof"
+    "id": "msl6dz43w7mof",
+    "detail_zh": "Twitch 是全球领先的游戏直播平台，玩家在此实时直播与观看游戏、电竞赛事与创意内容。它的社区互动（弹幕、订阅、Bits）活跃，也是非游戏内容（音乐、聊天）的增长地。",
+    "detail": "Twitch is the world's leading game live-streaming platform, where players broadcast and watch games, esports, and creative content in real time. Its active community interactions (chat, subscriptions, Bits) also drive growth in non-gaming content like music and Just Chatting."
   },
   {
     "category": "Gaming",
@@ -1453,7 +1675,9 @@
     "content_zh": "一个流行的中文游戏社区。",
     "url": "https://bbs.nga.cn/",
     "rating": 4,
-    "id": "msl6dz43grlic"
+    "id": "msl6dz43grlic",
+    "detail_zh": "NGA（艾泽拉斯国家地理）是国内流行的中文游戏社区，起源于魔兽世界，现已覆盖各类游戏与生活话题。它的讨论深度与玩家文化浓厚，是国内硬核玩家的聚集地。",
+    "detail": "NGA (Azeroth National Geographic) is a popular Chinese gaming community that originated with World of Warcraft and now covers all game genres and lifestyle topics. With deep discussions and rich player culture, it's a gathering place for hardcore Chinese gamers."
   },
   {
     "category": "Government & Public Services",
@@ -1466,7 +1690,9 @@
     "content_zh": "中华人民共和国中央人民政府官方门户网站。",
     "url": "https://www.gov.cn/",
     "rating": 5,
-    "id": "msl6dz4371xd3"
+    "id": "msl6dz4371xd3",
+    "detail_zh": "中国政府网是中华人民共和国中央人民政府官方门户网站，发布政务信息、政策法规与便民服务。它是公众了解国家大政方针、办理政务事项的权威官方渠道。",
+    "detail": "Gov.cn is the official portal of the State Council of the People's Republic of China, publishing government information, policies, and public services. It's the authoritative official channel for the public to learn about national policies and handle government affairs."
   },
   {
     "category": "Government & Public Services",
@@ -1479,7 +1705,9 @@
     "content_zh": "中华人民共和国国家卫生健康委员会官方网站。",
     "url": "http://www.nhc.gov.cn/",
     "rating": 5,
-    "id": "msl6dz43hcuyf"
+    "id": "msl6dz43hcuyf",
+    "detail_zh": "国家卫健委网站是中华人民共和国国家卫生健康委员会官方网站，发布健康政策、疫情信息与公共卫生指南。它是公众获取权威健康资讯与卫生服务的官方渠道。",
+    "detail": "The NHC website is the official site of China's National Health Commission, publishing health policies, epidemic information, and public health guidelines. It's the official channel for the public to access authoritative health information and services."
   },
   {
     "category": "Government & Public Services",
@@ -1492,7 +1720,9 @@
     "content_zh": "中华人民共和国工业和信息化部官方网站。",
     "url": "https://www.miit.gov.cn/",
     "rating": 5,
-    "id": "msl6dz431amqt"
+    "id": "msl6dz431amqt",
+    "detail_zh": "工信部网站是中华人民共和国工业和信息化部官方网站，发布行业政策、标准与产业数据。它覆盖通信、制造、软件等领域，是了解中国信息产业监管与趋势的权威来源。",
+    "detail": "The MIIT website is the official site of China's Ministry of Industry and Information Technology, publishing industry policies, standards, and data. Covering telecom, manufacturing, and software, it's an authoritative source for China's IT industry regulation and trends."
   },
   {
     "category": "Development",
@@ -1505,7 +1735,9 @@
     "content_zh": "一个为软件开发者打造的建设性、包容性的社交网络。",
     "url": "https://dev.to/",
     "rating": 5,
-    "id": "msl6dz43nnplc"
+    "id": "msl6dz43nnplc",
+    "detail_zh": "Dev.to 是一个为软件开发者打造的建设性、包容性技术社区，任何人都能在此发布文章、讨论与学习。它的氛围友好、内容优质，涵盖前后端、职业发展等广泛话题。",
+    "detail": "Dev.to is a constructive, inclusive technical community built for software developers where anyone can publish articles, discuss, and learn. With a friendly atmosphere and quality content, it covers a wide range of topics from frontend and backend to career development."
   },
   {
     "category": "Development",
@@ -1518,7 +1750,9 @@
     "content_zh": "一本面向专业网页设计师和开发者的在线杂志。",
     "url": "https://www.smashingmagazine.com/",
     "rating": 5,
-    "id": "msl6dz4339160"
+    "id": "msl6dz4339160",
+    "detail_zh": "Smashing Magazine 是面向专业网页设计师与开发者的顶尖在线杂志。它发布深度教程、设计趋势与最佳实践，图书与 SmashingConf 大会同样享有盛誉，是前端与设计领域的权威。",
+    "detail": "Smashing Magazine is a top online magazine for professional web designers and developers. Publishing in-depth tutorials, design trends, and best practices, its books and SmashingConf are equally prestigious, an authority in frontend and design."
   },
   {
     "category": "System Utilities",
@@ -1531,7 +1765,9 @@
     "content_zh": "最新的计算机硬件新闻、评测和指南。",
     "url": "https://www.tomshardware.com/",
     "rating": 4,
-    "id": "msl6dz43kx8n9"
+    "id": "msl6dz43kx8n9",
+    "detail_zh": "Tom's Hardware 提供最新的计算机硬件新闻、深度评测与购买指南，涵盖 CPU、显卡、主板与存储。它的评测严谨、排行权威，是装机玩家与硬件爱好者的必读媒体。",
+    "detail": "Tom's Hardware provides the latest computer hardware news, in-depth reviews, and buying guides covering CPUs, GPUs, motherboards, and storage. With rigorous testing and authoritative rankings, it's a must-read for PC builders and hardware enthusiasts."
   },
   {
     "category": "Learning",
@@ -1544,7 +1780,9 @@
     "content_zh": "关于政治、体育、科学和文化的由数据驱动的新闻和分析。",
     "url": "https://fivethirtyeight.com/",
     "rating": 4,
-    "id": "msl6dz43sifkt"
+    "id": "msl6dz43sifkt",
+    "detail_zh": "FiveThirtyEight（由 Nate Silver 创立）以数据驱动的方式报道政治、体育、科学与文化。它的统计模型与选举预测闻名，是数据新闻领域的标杆。",
+    "detail": "FiveThirtyEight (founded by Nate Silver) covers politics, sports, science, and culture in a data-driven way. Famous for its statistical models and election forecasts, it's a benchmark in data journalism."
   },
   {
     "category": "Learning",
@@ -1557,7 +1795,9 @@
     "content_zh": "一个免费的学术文章分发服务和开放获取档案库。",
     "url": "https://arxiv.org/",
     "rating": 5,
-    "id": "msl6dz43oq5u5"
+    "id": "msl6dz43oq5u5",
+    "detail_zh": "arXiv 是物理学、数学、计算机科学与 AI 领域最著名的预印本（preprint）论文库。研究者在此第一时间发布未正式发表的成果，是追踪前沿 AI 研究的必经之地。",
+    "detail": "arXiv is the most famous preprint repository for physics, mathematics, CS, and AI. Researchers post unpublished findings here first, making it the essential place to track cutting-edge AI research."
   },
   {
     "category": "Entertainment",
@@ -1570,7 +1810,9 @@
     "content_zh": "在几分钟内解释最新、最激动人心的研究论文。",
     "url": "https://www.youtube.com/c/TwoMinutePapers",
     "rating": 5,
-    "id": "msl6dz43pht6y"
+    "id": "msl6dz43pht6y",
+    "detail_zh": "Two Minute Papers 是由 Károly Zsolnai-Fehér 主讲的 YouTube 科普频道，用几分钟通俗讲解最前沿的 AI 与图形学论文。它的讲解热情洋溢、深入浅出，是追踪前沿研究的轻松入口。",
+    "detail": "Two Minute Papers is a YouTube science channel by Károly Zsolnai-Fehér that explains cutting-edge AI and graphics papers in minutes. With enthusiastic, accessible explanations, it's a relaxing entry point to track frontier research."
   },
   {
     "category": "System Utilities",
@@ -1583,7 +1825,9 @@
     "content_zh": "对计算机硬件和技术的深度评测。",
     "url": "https://www.anandtech.com/",
     "rating": 5,
-    "id": "msl6dz43sqsiy"
+    "id": "msl6dz43sqsiy",
+    "detail_zh": "AnandTech 曾是硬件评测领域的金标准，以极其深入的技术分析与严谨测试闻名。虽然已停更，但其历史评测与论坛依然是硬件知识的宝库，影响了一代硬件媒体。",
+    "detail": "AnandTech was the gold standard in hardware reviews, famous for extremely deep technical analysis and rigorous testing. Though no longer updating, its historical reviews and forums remain a treasure trove of hardware knowledge that influenced a generation of media."
   },
   {
     "category": "Learning",
@@ -1596,7 +1840,9 @@
     "content_zh": "一个简单的方法来广泛搜索学术文献。",
     "url": "https://scholar.google.com/",
     "rating": 5,
-    "id": "msl6dz435q6z2"
+    "id": "msl6dz435q6z2",
+    "detail_zh": "Google Scholar 是谷歌提供的免费学术文献搜索引擎，覆盖期刊、会议、学位论文与专利。它能追踪引用、导出文献与管理个人学术档案，是科研工作者必备的检索工具。",
+    "detail": "Google Scholar is Google's free academic literature search engine covering journals, conferences, theses, and patents. It tracks citations, exports references, and manages personal academic profiles, an essential search tool for researchers."
   },
   {
     "category": "Learning",
@@ -1609,7 +1855,9 @@
     "content_zh": "来自 DeepMind 的官方博客，分享他们的最新研究。",
     "url": "https://deepmind.google/blog/",
     "rating": 5,
-    "id": "msl6dz43un2un"
+    "id": "msl6dz43un2un",
+    "detail_zh": "DeepMind Blog 来自谷歌 DeepMind 的官方博客，分享 AlphaFold、Gemini 等里程碑式研究。它的文章深入浅出，是了解强化学习、蛋白质折叠与通用 AI 前沿的窗口。",
+    "detail": "DeepMind Blog is the official blog of Google DeepMind, sharing milestone research like AlphaFold and Gemini. With accessible depth, it's a window into the frontiers of reinforcement learning, protein folding, and general AI."
   },
   {
     "category": "Software Development",
@@ -1622,7 +1870,9 @@
     "content_zh": "由 Martin Fowler 撰写的关于软件设计和开发的博客。",
     "url": "https://martinfowler.com/",
     "rating": 5,
-    "id": "msl6dz437585j"
+    "id": "msl6dz437585j",
+    "detail_zh": "Martin Fowler 是软件架构与敏捷开发领域的泰斗，其博客深入探讨重构、微服务、企业架构与设计模式。他的文章思想深刻、影响深远，是资深工程师与架构师必读的经典。",
+    "detail": "Martin Fowler is an authority in software architecture and agile development, and his blog deeply explores refactoring, microservices, enterprise architecture, and design patterns. His profoundly influential articles are must-read classics for senior engineers and architects."
   },
   {
     "category": "Software Development",
@@ -1635,7 +1885,9 @@
     "content_zh": "关于软件开发和架构的新闻、文章和演讲。",
     "url": "https://www.infoq.com/",
     "rating": 5,
-    "id": "msl6dz43993f8"
+    "id": "msl6dz43993f8",
+    "detail_zh": "InfoQ 是一个面向软件开发者与架构师的技术媒体，提供深度新闻、文章、演讲与 QCon 大会报道。它关注架构、微服务、云原生等前沿趋势，是技术决策者洞察行业的高价值平台。",
+    "detail": "InfoQ is a technical media outlet for software developers and architects, providing in-depth news, articles, talks, and QCon coverage. Focusing on architecture, microservices, and cloud-native trends, it's a high-value platform for tech decision-makers."
   },
   {
     "category": "Learning",
@@ -1648,7 +1900,9 @@
     "content_zh": "高质量的 Python 教程和学习资源。",
     "url": "https://realpython.com/",
     "rating": 5,
-    "id": "msl6dz430kdlo"
+    "id": "msl6dz430kdlo",
+    "detail_zh": "Real Python 提供高质量的 Python 教程，从基础语法到 Web、数据科学与自动化，内容深入且实用。它的文章图文并茂、讲解透彻，是 Python 进阶者必收藏的学习资源。",
+    "detail": "Real Python offers high-quality Python tutorials from basic syntax to web, data science, and automation, with deep and practical content. Its well-illustrated, thorough articles are a must-bookmark resource for Python learners advancing their skills."
   },
   {
     "category": "News & Information",
@@ -1661,6 +1915,8 @@
     "content_zh": "关于初创公司的最新科技新闻和信息。",
     "url": "https://techcrunch.com/",
     "rating": 4,
-    "id": "msl6dz43advsb"
+    "id": "msl6dz43advsb",
+    "detail_zh": "TechCrunch 是全球顶尖的科技媒体，专注于初创公司、风险投资与科技产业新闻。它的报道快速、深度兼具，Crunchboard 招聘与 Disrupt 大会更丰富了其生态。",
+    "detail": "TechCrunch is a top global tech media outlet focused on startups, venture capital, and the tech industry. With fast, in-depth coverage, plus Crunchboard jobs and the Disrupt conference, it enriches the tech ecosystem."
   }
 ]
