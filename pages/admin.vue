@@ -513,25 +513,23 @@ async function onDeleteTag(tag: any) {
 // ─────────────────────────── 全局 ───────────────────────────
 const anyLoading = computed(() => contentLoading.value || catLoading.value || tagLoading.value)
 // ─────────────────────────── 数字滚动动效 ───────────────────────────
-// SSR 安全：仅客户端用 rAF 缓动；服务端直接取目标值，首屏不闪。
+// SSR 安全：rAF 缓动仅客户端有意义；watch 在 SSR 不会触发（onMounted 不执行）。
 function useCountUp(source: () => number) {
   const display = ref(source())
   let raf = 0
-  if (import.meta.client) {
-    watch(source, (to, prev = 0) => {
-      const from = prev || 0
-      cancelAnimationFrame(raf)
-      const start = performance.now()
-      const dur = 650
-      const step = (now: number) => {
-        const t = Math.min(1, (now - start) / dur)
-        const eased = 1 - Math.pow(1 - t, 3) // easeOutCubic
-        display.value = Math.round(from + (to - from) * eased)
-        if (t < 1) raf = requestAnimationFrame(step)
-      }
-      raf = requestAnimationFrame(step)
-    })
-  }
+  watch(source, (to, prev = 0) => {
+    cancelAnimationFrame(raf)
+    const start = performance.now()
+    const dur = 650
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / dur)
+      const eased = 1 - Math.pow(1 - t, 3) // easeOutCubic
+      display.value = Math.round(from + (to - from) * eased)
+      if (t < 1) raf = requestAnimationFrame(step)
+    }
+    if (import.meta.client) raf = requestAnimationFrame(step)
+    else display.value = to
+  })
   return display
 }
 const contentCount = useCountUp(() => contentList.value.length)
@@ -603,8 +601,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
       >
         <span class="stat-icon stat-icon-indigo"><FileTextOutlined /></span>
         <span class="stat-meta">
-          <span class="stat-num">{{ contentCount }}</span>
-          <span class="stat-label">内容条目</span>
+          <span class="stat-num">{{ contentList.length }}</span>
         </span>
         <span class="stat-spark" />
       </button>
@@ -616,7 +613,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
       >
         <span class="stat-icon stat-icon-cyan"><AppstoreOutlined /></span>
         <span class="stat-meta">
-          <span class="stat-num">{{ categoryCount }}</span>
+          <span class="stat-num">{{ categoryList.length }}</span>
           <span class="stat-label">内容分组</span>
         </span>
         <span class="stat-spark" />
@@ -629,7 +626,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
       >
         <span class="stat-icon stat-icon-violet"><TagsOutlined /></span>
         <span class="stat-meta">
-          <span class="stat-num">{{ tagCount }}</span>
+          <span class="stat-num">{{ tagsList.length }}</span>
           <span class="stat-label">预定义标签</span>
         </span>
         <span class="stat-spark" />
