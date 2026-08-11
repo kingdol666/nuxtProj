@@ -9,6 +9,8 @@ import {
   CloseOutlined,
   DeleteOutlined,
   SendOutlined,
+  StarOutlined,
+  StarFilled,
 } from '@ant-design/icons-vue'
 import { usePosts, type Post } from '~/composables/usePosts'
 import { useAuth } from '~/composables/useAuth'
@@ -27,7 +29,30 @@ const tags = ref<string[]>([])
 const tagInput = ref('')
 const uploading = ref(false)
 const submitting = ref(false)
-
+// 封面索引（多图时用户选择哪张做封面；默认第一张）
+const coverIndex = ref(0)
+// 未上传图片时的自动封面配色（10 套渐变）
+const gradientPalettes = [
+  { from: '#667eea', to: '#764ba2', name: '紫罗兰' },
+  { from: '#f093fb', to: '#f5576c', name: '粉色' },
+  { from: '#4facfe', to: '#00f2fe', name: '青色' },
+  { from: '#43e97b', to: '#38f9d7', name: '绿色' },
+  { from: '#fa709a', to: '#fee140', name: '橙粉' },
+  { from: '#30cfd0', to: '#330867', name: '深蓝' },
+  { from: '#a8edea', to: '#fed6e3', name: '薄荷粉' },
+  { from: '#ff9a9e', to: '#fecfef', name: '浅粉' },
+  { from: '#ffecd2', to: '#fcb69f', name: '暖橙' },
+  { from: '#a1c4fd', to: '#c2e9fb', name: '天蓝' },
+]
+const selectedGradient = ref(0)
+// 封面预览图 URL（无图片时根据标题/配色实时生成）
+const coverPreviewUrl = computed(() => {
+  if (images.value.length > 0) return images.value[coverIndex.value] || ''
+  const titleEnc = encodeURIComponent(title.value.trim() || '未填写标题')
+  const contentEnc = encodeURIComponent(content.value.trim().slice(0, 100))
+  const tagsEnc = encodeURIComponent(tags.value.join(','))
+  return `/api/poster/cover?title=${titleEnc}&content=${contentEnc}&tags=${tagsEnc}&gradient=${selectedGradient.value}&t=${Date.now()}`
+})
 const fileInput = ref<HTMLInputElement | null>(null)
 
 // 进入弹窗时：编辑模式回填，否则清空
@@ -41,6 +66,8 @@ watch(() => props.open, (v) => {
     videos.value = p ? [...(p.videos || [])] : []
     tags.value = p ? [...(p.tags || [])] : []
     tagInput.value = ''
+    coverIndex.value = 0
+    selectedGradient.value = 0
   }
 })
 
@@ -81,7 +108,10 @@ async function onFiles(e: Event) {
   }
 }
 
-function removeImage(i: number) { images.value.splice(i, 1) }
+function removeImage(i: number) {
+  images.value.splice(i, 1)
+  if (coverIndex.value >= images.value.length) coverIndex.value = Math.max(0, images.value.length - 1)
+}
 function removeVideo(i: number) { videos.value.splice(i, 1) }
 
 
@@ -98,12 +128,18 @@ async function submit() {
   if (!canSubmit.value) return
   submitting.value = true
   try {
+    // 多图时：把用户选的封面移到第一位（与小红书一致）
+    let finalImages = images.value
+    if (images.value.length > 1 && coverIndex.value > 0) {
+      finalImages = [images.value[coverIndex.value], ...images.value.filter((_, i) => i !== coverIndex.value)]
+    }
     const payload = {
       title: title.value.trim(),
       content: content.value.trim(),
-      images: images.value,
+      images: finalImages,
       videos: videos.value,
       tags: tags.value,
+      coverGradient: selectedGradient.value,
     }
     if (isEditing.value && props.post) {
       const updated = await updatePost(props.post.id, payload)
@@ -116,8 +152,9 @@ async function submit() {
       emit('created')
       close()
     }
-  } catch (err: any) {
-    message.error(err?.data?.statusMessage || '操作失败，请重试')
+  } catch (err: unknown) {
+    const msg = (err as { data?: { statusMessage?: string } })?.data?.statusMessage
+    message.error(msg || '操作失败，请重试')
   } finally {
     submitting.value = false
   }
@@ -145,9 +182,13 @@ async function submit() {
       <div class="images-section">
         <div class="images-grid">
           <!-- Images -->
-          <div v-for="(img, i) in images" :key="'img-'+i" class="img-item">
+          <div v-for="(img, i) in images" :key="'img-'+i" class="img-item" :class="{ 'is-cover': i === coverIndex }">
             <img :src="img" alt="" />
             <button class="img-del" @click="removeImage(i)" aria-label="删除"><DeleteOutlined /></button>
+            <button v-if="images.length > 1" class="cover-badge" :class="{ active: i === coverIndex }" @click="coverIndex = i" :title="i === coverIndex ? '当前封面' : '设为封面'">
+              <StarFilled v-if="i === coverIndex" />
+              <StarOutlined v-else />
+            </button>
           </div>
           <!-- Videos -->
           <div v-for="(vid, i) in videos" :key="'vid-'+i" class="img-item video-item">
@@ -164,10 +205,32 @@ async function submit() {
             </template>
           </button>
         </div>
+
+        <!-- 封面预览 + 配色选择（无上传图片时显示自动生成的封面） -->
+        <div v-if="images.length === 0 && title.trim()" class="cover-preview-section">
+          <div class="cover-preview-label">
+            <PictureOutlined /> 自动封面预览（根据标题内容生成）
+          </div>
+          <div class="cover-preview-box">
+            <img :src="coverPreviewUrl" alt="封面预览" class="cover-preview-img" :key="coverPreviewUrl" />
+          </div>
+          <div class="gradient-picker">
+            <span class="gp-label">配色：</span>
+            <button
+              v-for="(g, i) in gradientPalettes"
+              :key="i"
+              class="gp-swatch"
+              :class="{ active: selectedGradient === i }"
+              :style="{ background: `linear-gradient(135deg, ${g.from}, ${g.to})` }"
+              :title="g.name"
+              @click="selectedGradient = i"
+            />
+          </div>
+        </div>
+
         <p class="hint">最多 9 个文件（图片 ≤ 8MB，视频 ≤ 100MB）· 支持 JPG/PNG/GIF/MP4/WebM</p>
         <input ref="fileInput" type="file" accept="image/*,video/*" multiple hidden @change="onFiles" />
       </div>
-
       <!-- 标题 -->
       <div class="field">
         <input
@@ -332,4 +395,35 @@ async function submit() {
 }
 .publish-btn:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); }
 .publish-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* 封面选择徽标 */
+.img-item { position: relative; }
+.img-item.is-cover { box-shadow: 0 0 0 3px var(--accent), 0 0 0 5px rgba(99,102,241,0.2); border-radius: var(--radius-md); }
+.cover-badge {
+  position: absolute; top: 4px; right: 28px; width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.5); border: none; border-radius: 50%; color: #fff;
+  cursor: pointer; font-size: 12px; transition: all var(--dur-fast);
+}
+.cover-badge.active { background: var(--accent); color: #fff; }
+.cover-badge:hover { background: var(--accent-hover); }
+
+/* 自动封面预览 */
+.cover-preview-section { margin-top: 12px; }
+.cover-preview-label { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.cover-preview-box {
+  width: 100%; max-width: 240px; border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: var(--shadow-md); margin: 0 auto;
+}
+.cover-preview-img { width: 100%; display: block; }
+
+/* 配色选择器 */
+.gradient-picker { display: flex; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.gp-label { font-size: var(--text-xs); color: var(--text-secondary); }
+.gp-swatch {
+  width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent;
+  cursor: pointer; transition: all var(--dur-fast);
+}
+.gp-swatch.active { border-color: var(--text-primary); transform: scale(1.15); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.gp-swatch:hover { transform: scale(1.1); }
 </style>

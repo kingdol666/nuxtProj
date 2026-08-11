@@ -7,6 +7,14 @@
 import { updatePosts } from '~~/server/utils/db'
 import { requireUser } from '~~/server/utils/auth'
 import { getConfig } from '~~/server/utils/appConfig'
+import { generateCoverImage } from '~~/server/utils/poster'
+import { promises as fs } from 'node:fs'
+import { join } from 'node:path'
+import { randomBytes } from 'node:crypto'
+
+function uploadsDir(): string {
+  return join(process.env.NUXT_DATA_DIR || join(process.cwd(), 'data'), 'uploads')
+}
 
 export default defineEventHandler(async (event) => {
   const user = await requireUser(event)
@@ -19,6 +27,7 @@ export default defineEventHandler(async (event) => {
     images?: string[]
     videos?: string[]
     tags?: string[]
+    coverGradient?: number
   }>(event)
 
   // 字段校验（与创建逻辑一致；仅在请求体提供该字段时校验）
@@ -58,10 +67,38 @@ export default defineEventHandler(async (event) => {
     const post = items[idx]
     if (body.title !== undefined) post.title = body.title!
     if (body.content !== undefined) post.content = body.content!
-    if (body.images !== undefined) post.images = body.images!
-    if (body.videos !== undefined) post.videos = body.videos!
     if (body.tags !== undefined) post.tags = body.tags!
+    if (body.videos !== undefined) post.videos = body.videos!
+    // 图片处理：编辑后若图片清空且无视频，自动生成封面（与创建一致）
+    if (body.images !== undefined) {
+      const willHaveImage = body.images.length > 0
+      const willHaveVideo = body.videos !== undefined ? body.videos.length > 0 : (post.videos?.length ?? 0) > 0
+      if (willHaveImage) {
+        post.images = body.images!
+      } else if (!willHaveVideo) {
+        // 自动生成封面 — 在事务外无法 async，先占位，下方补写
+        post.images = ['__auto_cover__']
+      } else {
+        post.images = body.images!
+      }
+    }
     post.updatedAt = Date.now()
     return post
   })
+
+  // 若事务中标记了需要自动生成封面，在此异步生成并回写
+  const updated = await updatePosts(async (items) => {
+    const p = items.find((x) => x.id === id)
+    if (!p || !p.images.includes('__auto_cover__')) return p
+    const gradientIndex = typeof body.coverGradient === 'number' ? body.coverGradient : -1
+    const coverPng = await generateCoverImage({ title: p.title, content: p.content, tags: p.tags, gradientIndex })
+    const filename = `${Date.now().toString(36)}-${randomBytes(4).toString('hex')}-cover.png`
+    const dir = uploadsDir()
+    await fs.mkdir(dir, { recursive: true })
+    await fs.writeFile(join(dir, filename), coverPng)
+    p.images = [`/api/uploads/${filename}`]
+    return p
+  })
+
+  return updated
 })

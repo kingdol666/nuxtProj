@@ -57,7 +57,7 @@ function mixHex(c1: string, c2: string, t: number): string {
 }
 
 // ─── 渐变配色板（每个话题根据名字哈希选择不同色系）─────────────────────────
-const GRADIENTS = [
+export const GRADIENTS = [
   ['#667eea', '#764ba2'], // 紫罗兰
   ['#f093fb', '#f5576c'], // 粉色
   ['#4facfe', '#00f2fe'], // 青色
@@ -69,10 +69,16 @@ const GRADIENTS = [
   ['#ffecd2', '#fcb69f'], // 暖橙
   ['#a1c4fd', '#c2e9fb'], // 天蓝
 ]
+export const GRADIENT_NAMES = ['紫罗兰', '粉色', '青色', '绿色', '橙粉', '深蓝', '薄荷粉', '浅粉', '暖橙', '天蓝']
 function hashGradient(name: string): [string, string] {
   let h = 0
   for (const ch of name) h = (h * 31 + ch.charCodeAt(0)) >>> 0
   return GRADIENTS[h % GRADIENTS.length] as [string, string]
+}
+// 按索引取渐变（供用户在配色选择器中指定）
+export function getGradient(index: number): [string, string] {
+  const i = ((index % GRADIENTS.length) + GRADIENTS.length) % GRADIENTS.length
+  return GRADIENTS[i] as [string, string]
 }
 
 // ─── 圆角矩形路径 ─────────────────────────────────────────────────────────
@@ -292,6 +298,88 @@ export async function generatePostPoster(opts: {
   ctx.font = `${'600'} 20px "Noto Sans SC", "Microsoft YaHei", "SimHei", sans-serif`
   ctx.textAlign = 'right'
   ctx.fillText('Nuxt Community', W - 30, H - 28)
+
+  return canvas.toBuffer('image/png')
+}
+
+// ═══ 笔记封面图生成（无上传图片时自动生成）═══════════════════════════════
+// 尺寸 750 × 1000（与小红书笔记封面比例一致），渐变背景 + 标题/标签
+export async function generateCoverImage(opts: {
+  title: string
+  content: string
+  tags?: string[]
+  gradientIndex?: number  // 用户选择的配色索引（-1 = 按标题哈希）
+}): Promise<Buffer> {
+  registerFonts()
+  const W = 750, H = 1000
+  const canvas = createCanvas(W, H)
+  const ctx = canvas.getContext('2d')
+
+  const [c1, c2] = opts.gradientIndex !== undefined && opts.gradientIndex >= 0
+    ? getGradient(opts.gradientIndex)
+    : hashGradient(opts.title)
+
+  // ── 全屏渐变背景 ──
+  const grad = ctx.createLinearGradient(0, 0, W, H)
+  grad.addColorStop(0, c1)
+  grad.addColorStop(1, c2)
+  ctx.fillStyle = grad
+  ctx.fillRect(0, 0, W, H)
+
+  // ── 装饰光斑 ──
+  ctx.globalAlpha = 0.1
+  ctx.fillStyle = '#ffffff'
+  ctx.beginPath(); ctx.arc(W - 100, 120, 180, 0, Math.PI * 2); ctx.fill()
+  ctx.beginPath(); ctx.arc(80, H - 100, 220, 0, Math.PI * 2); ctx.fill()
+  ctx.globalAlpha = 1
+
+  // ── 标签胶囊（顶部）──
+  if (opts.tags?.length) {
+    ctx.textAlign = 'left'
+    ctx.font = `${'600'} 26px "Noto Sans SC", "Microsoft YaHei", "SimHei", sans-serif`
+    let tagX = 60, tagY = 80
+    for (const tag of opts.tags.slice(0, 3)) {
+      const label = `#${tag}`
+      const tw = ctx.measureText(label).width
+      ctx.fillStyle = 'rgba(255,255,255,0.25)'
+      roundRect(ctx, tagX, tagY, tw + 30, 44, 22)
+      ctx.fill()
+      ctx.fillStyle = '#ffffff'
+      ctx.fillText(label, tagX + 15, tagY + 30)
+      tagX += tw + 44
+    }
+  }
+
+  // ── 标题（居中大字，自动换行）──
+  ctx.fillStyle = '#ffffff'
+  ctx.font = `${'700'} 56px "Noto Sans SC", "Microsoft YaHei", "SimHei", sans-serif`
+  ctx.textAlign = 'center'
+  const titleLines = wrapText(ctx, opts.title, W - 120)
+  const titleStartY = (H - titleLines.length * 68) / 2 + 56
+  let ty = titleStartY
+  for (const line of titleLines.slice(0, 4)) {
+    ctx.fillText(line, W / 2, ty)
+    ty += 68
+  }
+
+  // ── 内容摘要（标题下方，半透明）──
+  if (opts.content) {
+    ctx.fillStyle = 'rgba(255,255,255,0.75)'
+    ctx.font = `${'400'} 28px "Noto Sans SC", "Microsoft YaHei", "SimHei", sans-serif`
+    const excerpt = opts.content.replace(/\n/g, ' ').slice(0, 60)
+    const contentLines = wrapText(ctx, excerpt + (opts.content.length > 60 ? '…' : ''), W - 140)
+    let cy = ty + 40
+    for (const line of contentLines.slice(0, 3)) {
+      ctx.fillText(line, W / 2, cy)
+      cy += 38
+    }
+  }
+
+  // ── 底部品牌 ──
+  ctx.fillStyle = 'rgba(255,255,255,0.5)'
+  ctx.font = `${'600'} 22px "Noto Sans SC", "Microsoft YaHei", "SimHei", sans-serif`
+  ctx.textAlign = 'center'
+  ctx.fillText('Nuxt Community', W / 2, H - 50)
 
   return canvas.toBuffer('image/png')
 }
