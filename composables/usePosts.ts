@@ -28,6 +28,7 @@ export interface CreatePostPayload {
   videos?: string[]
   tags?: string[]
   coverGradient?: number
+  useCoverGen?: boolean
 }
 
 export const usePosts = () => {

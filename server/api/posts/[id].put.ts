@@ -28,6 +28,7 @@ export default defineEventHandler(async (event) => {
     videos?: string[]
     tags?: string[]
     coverGradient?: number
+    useCoverGen?: boolean
   }>(event)
 
   // 字段校验（与创建逻辑一致；仅在请求体提供该字段时校验）
@@ -58,7 +59,8 @@ export default defineEventHandler(async (event) => {
     body.tags = body.tags.filter((t) => typeof t === 'string' && t.length <= cfg.posts.tagMaxLen).slice(0, cfg.posts.maxTags)
   }
 
-  return await updatePosts((items) => {
+  // ── 第一步：同步更新字段（图片暂时占位）──
+  const needGenCover = await updatePosts(async (items) => {
     const idx = items.findIndex((p) => p.id === id)
     if (idx === -1) throw createError({ statusCode: 404, statusMessage: '帖子不存在' })
     if (items[idx].userId !== user.id && user.role !== 'admin') {
@@ -69,47 +71,62 @@ export default defineEventHandler(async (event) => {
     if (body.content !== undefined) post.content = body.content!
     if (body.tags !== undefined) post.tags = body.tags!
     if (body.videos !== undefined) post.videos = body.videos!
-    // 图片处理：编辑后若图片清空且无视频，自动生成封面（与创建一致）
-    if (body.images !== undefined) {
-      const willHaveImage = body.images.length > 0
-      const willHaveVideo = body.videos !== undefined ? body.videos.length > 0 : (post.videos?.length ?? 0) > 0
-      if (willHaveImage) {
-        post.images = body.images!
-      } else if (!willHaveVideo) {
-        // 自动生成封面 — 在事务外无法 async，先占位，下方补写
-        post.images = ['__auto_cover__']
-      } else {
-        post.images = body.images!
-      }
+    // 判断是否需要生成主题封面
+    const providedImages = Array.isArray(body.images) ? body.images : post.images
+    const hasVideo = body.videos !== undefined ? body.videos.length > 0 : (post.videos?.length ?? 0) > 0
+    const mustGen = providedImages.length === 0 && !hasVideo
+    const wantGen = body.useCoverGen === true || mustGen
+    if (wantGen) {
+      // 占位：记录旧图片 URL 以便删除旧封面文件（分号分隔编码在占位符里）
+      const oldImgs = post.images.filter((u) => u !== '__auto_cover__')
+      post.images = [`__auto_cover__${oldImgs.length ? '::' + oldImgs.join('|') : ''}`]
+    } else if (body.images !== undefined) {
+      post.images = body.images!
     }
     post.updatedAt = Date.now()
-    return post
+    return wantGen
   })
 
-  // 若事务中标记了需要自动生成封面，在此生成并回写 + 记录元数据
-  const updated = await updatePosts(async (items) => {
-    const p = items.find((x) => x.id === id)
-    if (!p || !p.images.includes('__auto_cover__')) return p
-    const gradientIndex = typeof body.coverGradient === 'number' ? body.coverGradient : -1
-    const coverPng = await generateCoverImage({ title: p.title, content: p.content, tags: p.tags, gradientIndex })
-    const filename = `${Date.now().toString(36)}-${randomBytes(4).toString('hex')}-cover.png`
-    const dir = uploadsDir()
-    await fs.mkdir(dir, { recursive: true })
-    await fs.writeFile(join(dir, filename), coverPng)
-    const coverUrl = `/api/uploads/${filename}`
-    p.images = [coverUrl]
-    // 记录元数据到 images.json
-    await updateImages((all) => {
-      const meta: ImageMeta = {
-        id: genId(), filename, originalName: `${p.title}-cover.png`, mimeType: 'image/png',
-        kind: 'image', size: coverPng.length, width: 750, height: 1000, duration: 0,
-        userId: user.id, purpose: 'post', url: coverUrl, createdAt: Date.now(),
+  // ── 第二步：若需要生成封面，删除旧封面文件 + 生成新封面 + 记录元数据 ──
+  if (needGenCover) {
+    const updated = await updatePosts(async (items) => {
+      const p = items.find((x) => x.id === id)
+      if (!p) return p
+      // 找到占位符条目
+      const phIdx = p.images.findIndex((u) => u.startsWith('__auto_cover__'))
+      if (phIdx === -1) return p
+      const placeholder = p.images[phIdx]
+      // 解析旧图片 URL（占位符格式: __auto_cover__::url1|url2）
+      const oldUrls = placeholder.includes('::') ? placeholder.split('::')[1].split('|') : []
+      // 删除旧封面文件（仅自动生成的 cover）
+      for (const oldUrl of oldUrls) {
+        const oldFile = oldUrl.split('/').pop()
+        if (oldFile && oldFile.includes('cover')) {
+          await fs.unlink(join(uploadsDir(), oldFile)).catch(() => {})
+        }
       }
-      all.push(meta)
-      return meta
+      // 生成新封面
+      const gradientIndex = typeof body.coverGradient === 'number' ? body.coverGradient : -1
+      const coverPng = await generateCoverImage({ title: p.title, content: p.content, tags: p.tags, gradientIndex })
+      const filename = `${Date.now().toString(36)}-${randomBytes(4).toString('hex')}-cover.png`
+      const dir = uploadsDir()
+      await fs.mkdir(dir, { recursive: true })
+      await fs.writeFile(join(dir, filename), coverPng)
+      p.images = [`/api/uploads/${filename}`]
+      // 记录元数据
+      await updateImages((all) => {
+        const meta: ImageMeta = {
+          id: genId(), filename, originalName: `${p.title}-cover.png`, mimeType: 'image/png',
+          kind: 'image', size: coverPng.length, width: 750, height: 1000, duration: 0,
+          userId: user.id, purpose: 'post', url: p.images[0], createdAt: Date.now(),
+        }
+        all.push(meta)
+        return meta
+      })
+      return p
     })
-    return p
-  })
+    return updated
+  }
 
-  return updated
+  return await updatePosts((items) => items.find((p) => p.id === id)!)
 })

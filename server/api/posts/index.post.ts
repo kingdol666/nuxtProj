@@ -24,8 +24,8 @@ export default defineEventHandler(async (event) => {
     videos?: string[]
     tags?: string[]
     coverGradient?: number
+    useCoverGen?: boolean
   }>(event)
-
   const title = body?.title?.trim()
   const content = body?.content?.trim()
   if (!title) throw createError({ statusCode: 400, statusMessage: '标题不能为空' })
@@ -38,8 +38,11 @@ export default defineEventHandler(async (event) => {
   const videos = Array.isArray(body?.videos) ? body.videos.filter((u) => typeof u === 'string' && u.length < 500).slice(0, cfg.uploads.maxVideos) : []
   const tags = Array.isArray(body?.tags) ? body.tags.filter((t) => typeof t === 'string' && t.length <= cfg.posts.tagMaxLen).slice(0, cfg.posts.maxTags) : []
 
-  // ── 无图片时自动生成封面大图（小红书逻辑）──
-  if (images.length === 0) {
+  // ── 封面生成逻辑（与小红书一致）──
+  // 规则：无图片时强制生成；有图片时仅当 useCoverGen=true 才生成主题封面（替换用户图片）
+  const mustGenCover = images.length === 0
+  const wantGenCover = body?.useCoverGen === true || mustGenCover
+  if (wantGenCover) {
     const gradientIndex = typeof body?.coverGradient === 'number' ? body.coverGradient : -1
     const coverPng = await generateCoverImage({ title, content, tags, gradientIndex })
     const filename = `${Date.now().toString(36)}-${randomBytes(4).toString('hex')}-cover.png`
