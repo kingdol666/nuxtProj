@@ -15,10 +15,13 @@ declare module 'vue' {
     ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent']
     ALayoutSider: typeof import('ant-design-vue/es')['LayoutSider']
     AModal: typeof import('ant-design-vue/es')['Modal']
+    ArrowLeftOutlined: typeof import('@ant-design/icons-vue')['ArrowLeftOutlined']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
+    FireOutlined: typeof import('@ant-design/icons-vue')['FireOutlined']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SearchOutlined: typeof import('@ant-design/icons-vue')['SearchOutlined']
+    TeamOutlined: typeof import('@ant-design/icons-vue')['TeamOutlined']
     WarningFilled: typeof import('@ant-design/icons-vue')['WarningFilled']
   }
 }

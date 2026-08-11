@@ -14,6 +14,7 @@ const { user, isLoggedIn, openAuthModal } = useAuth()
 const activeTag = ref<string>('')
 const searchKeyword = ref('')
 const searchInput = ref('')
+const trendingTopics = ref<{ name: string; postCount: number }[]>([])
 
 // Modals
 const selectedPost = ref<Post | null>(null)
@@ -120,7 +121,11 @@ function startCreate() {
 }
 
 onMounted(async () => {
-  await Promise.all([refresh(), fetchCollections().catch(() => {})])
+  await Promise.all([
+    refresh(),
+    fetchCollections().catch(() => {}),
+    $fetch<{ name: string; postCount: number }[]>('/api/topics').then((t) => { trendingTopics.value = t }).catch(() => {}),
+  ])
 })
 
 useHead({ title: '社区 · 发现' })
@@ -192,6 +197,25 @@ useHead({ title: '社区 · 发现' })
         <div v-for="i in 6" :key="i" class="skeleton-card" />
       </div>
     </main>
+
+    <!-- 热门话题 -->
+    <section v-if="trendingTopics.length" class="topics-section">
+      <h2 class="topics-title"><FireOutlined /> 热门话题</h2>
+      <div class="topics-scroll">
+        <NuxtLink
+          v-for="t in trendingTopics.slice(0, 10)"
+          :key="t.name"
+          :to="`/topic/${encodeURIComponent(t.name)}`"
+          class="topic-card glass-soft"
+        >
+          <img :src="`/api/poster/topic?name=${encodeURIComponent(t.name)}`" :alt="t.name" class="topic-thumb" loading="lazy" />
+          <div class="topic-info">
+            <span class="topic-name">#{{ t.name }}</span>
+            <span class="topic-count">{{ t.postCount }} 篇笔记</span>
+          </div>
+        </NuxtLink>
+      </div>
+    </section>
 
     <!-- 发帖按钮（移动端浮动） -->
     <button class="fab" @click="startCreate" aria-label="发布笔记">
@@ -305,4 +329,13 @@ useHead({ title: '社区 · 发现' })
 }
 .fab:hover { transform: scale(1.08) rotate(90deg); }
 @media (max-width: 768px) { .fab { display: flex; } .create-btn:not(.lg) { display: none; } }
+.topics-section { margin-top: 32px; }
+.topics-title { font-size: var(--text-lg); font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.topics-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 8px; }
+.topic-card { flex-shrink: 0; width: 180px; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-color); transition: transform var(--dur-fast); }
+.topic-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.topic-thumb { width: 100%; height: 110px; object-fit: cover; display: block; }
+.topic-info { padding: 10px 12px; }
+.topic-name { display: block; font-size: var(--text-sm); font-weight: 600; color: var(--accent); }
+.topic-count { display: block; font-size: var(--text-xs); color: var(--text-muted); margin-top: 2px; }
 </style>

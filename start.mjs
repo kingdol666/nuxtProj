@@ -8,7 +8,7 @@
 // 无需重新 build。
 //
 // 鲁棒：config.yml 缺失或格式错误时回退到内置默认（host 0.0.0.0 / port 3000）。
-import { readFileSync } from 'node:fs'
+import { readFileSync, existsSync, copyFileSync, mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 
 const cfgPath = process.env.NUXT_CONFIG_FILE || join(process.cwd(), 'config.yml')
@@ -35,5 +35,13 @@ try {
 
 process.env.NITRO_PORT = String(port)
 process.env.NITRO_HOST = host
+
+// @napi-rs/canvas 的 ICU 数据文件（Skia 文本渲染所需）在 build 时不会被打入 .output，
+// 这里在启动前从源 node_modules 复制到 .output 对应位置，否则 Skia 崩溃。
+const icuSrc = join(process.cwd(), 'node_modules', '@napi-rs', 'canvas-win32-x64-msvc', 'icudtl.dat')
+const icuDst = join(process.cwd(), '.output', 'server', 'node_modules', '@napi-rs', 'canvas-win32-x64-msvc', 'icudtl.dat')
+if (existsSync(icuSrc) && !existsSync(icuDst)) {
+  try { mkdirSync(join(icuDst, '..'), { recursive: true }); copyFileSync(icuSrc, icuDst) } catch { /* 忽略 */ }
+}
 
 await import('./.output/server/index.mjs')

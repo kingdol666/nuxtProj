@@ -64,7 +64,7 @@ const excerpt = computed(() => props.post.content.replace(/\n/g, ' ').slice(0, 6
       <h3 class="title">{{ titleLine }}</h3>
       <p v-if="excerpt" class="excerpt">{{ excerpt }}{{ post.content.length > 60 ? '…' : '' }}</p>
       <div v-if="post.tags.length" class="tags">
-        <span v-for="t in post.tags.slice(0, 3)" :key="t" class="tag">#{{ t }}</span>
+        <NuxtLink v-for="t in post.tags.slice(0, 3)" :key="t" :to="`/topic/${encodeURIComponent(t)}`" class="tag" @click.stop>#{{ t }}</NuxtLink>
       </div>
       <div class="footer">
         <NuxtLink :to="`/user/${post.userId}`" class="author" @click.stop>
