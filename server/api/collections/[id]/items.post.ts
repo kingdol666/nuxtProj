@@ -1,4 +1,4 @@
-import { updateCollections, updatePosts } from '~~/server/utils/db'
+import { updateCollections, updatePosts, getCollections } from '~~/server/utils/db'
 import { requireUser } from '~~/server/utils/auth'
 
 // Add or remove a post from a collection (toggle).
@@ -31,19 +31,20 @@ export default defineEventHandler(async (event) => {
     return { collected, postIds: [...collection.postIds] }
   })
 
-  // Update the post's collectedBy set: still collected if any of the user's
-  // collections contains it; otherwise remove.
-  await updatePosts((posts) => {
+  // Update the post's collectedBy set: only remove the user if they no longer
+  // hold this post in ANY of their collections (handles multi-collection case).
+  await updatePosts(async (posts) => {
     const post = posts.find((p) => p.id === postId)
     if (!post) return null
-
-    // Re-read all collections to know if the user still holds this post elsewhere
-    // We do this here to stay consistent within the same write batch lifecycle;
-    // getCollections would re-read the just-committed file.
-    // Instead, derive from collectedBy directly: if collected, ensure present; else absent.
     const ci = post.collectedBy.indexOf(user.id)
-    if (result.collected && ci === -1) post.collectedBy.push(user.id)
-    else if (!result.collected && ci !== -1) post.collectedBy.splice(ci, 1)
+    if (result.collected && ci === -1) {
+      post.collectedBy.push(user.id)
+    } else if (!result.collected && ci !== -1) {
+      // Re-check: does the user still have this post in another collection?
+      const allCols = await getCollections()
+      const stillCollected = allCols.some((c) => c.userId === user.id && c.postIds.includes(postId))
+      if (!stillCollected) post.collectedBy.splice(ci, 1)
+    }
     return null
   })
 
