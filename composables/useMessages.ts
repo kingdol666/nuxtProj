@@ -2,6 +2,7 @@
 //
 // 私信状态：会话列表、单条会话、发送、标记已读、未读数。
 import { useState } from '#imports'
+import { useRealtime } from './useRealtime'
 
 export interface Message {
   id: string
@@ -40,12 +41,14 @@ export const useMessages = () => {
     const res = await $fetch<{ conversations: ConversationSummary[] }>('/api/messages')
     conversations.value = res.conversations
     unreadCount.value = res.conversations.reduce((s, c) => s + c.unread, 0)
+    useRealtime().setUnread(unreadCount.value)
   }
-
   async function fetchUnread(): Promise<void> {
     try {
       const res = await $fetch<{ count: number }>('/api/messages/unread')
       unreadCount.value = res.count
+      // 同步给 useRealtime（NotificationBell 用的是 realtime 的 unreadCount）
+      useRealtime().setUnread(res.count)
     } catch {
       /* keep existing */
     }
@@ -65,6 +68,9 @@ export const useMessages = () => {
       conversations.value = conversations.value.map((c) =>
         c.peerId === peerId ? { ...c, unread: 0 } : c,
       )
+      // 同步未读总数到 realtime（NotificationBell）
+      unreadCount.value = Math.max(0, unreadCount.value - unreadFromPeer)
+      useRealtime().setUnread(unreadCount.value)
     }
   }
 
@@ -89,8 +95,11 @@ export const useMessages = () => {
     if (activePeer.value && (message.fromUserId === activePeer.value.id || message.toUserId === activePeer.value.id)) {
       activeThread.value = [...activeThread.value, message]
     }
-    // Refresh conversation list ordering
+    // Refresh conversation list ordering + sync real unread count from API
     fetchConversations().catch(() => {})
+    // Re-fetch the authoritative unread count so the notification badge stays accurate
+    // (prevents double-counting: WS dispatch increments ws-unread, but API is the source of truth)
+    fetchUnread()
   }
 
   function clearActive(): void {

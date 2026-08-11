@@ -70,7 +70,9 @@ export const useRealtime = () => {
     }
     if (e.type === 'message') {
       lastMessage.value = e.message
-      unreadCount.value += 1
+      // 不在此处盲目 +1：WS 消息可能来自离线队列消费（已被 API 计入），
+      // 盲目递增会导致与 API 真实未读数不一致（重复计数）。
+      // 未读数由消费方（ChatPanel → fetchUnread → setUnread）按 API 真值同步。
     } else if (e.type === 'follow') {
       const notice: FollowNotice = {
         fromUserId: e.fromUserId,
