@@ -45,14 +45,21 @@ const gradientPalettes = [
   { from: '#a1c4fd', to: '#c2e9fb', name: '天蓝' },
 ]
 const selectedGradient = ref(0)
-// 封面预览图 URL（无图片时根据标题/配色实时生成）
-const coverPreviewUrl = computed(() => {
-  if (images.value.length > 0) return images.value[coverIndex.value] || ''
-  const titleEnc = encodeURIComponent(title.value.trim() || '未填写标题')
-  const contentEnc = encodeURIComponent(content.value.trim().slice(0, 100))
-  const tagsEnc = encodeURIComponent(tags.value.join(','))
-  return `/api/poster/cover?title=${titleEnc}&content=${contentEnc}&tags=${tagsEnc}&gradient=${selectedGradient.value}&t=${Date.now()}`
-})
+
+// 封面预览：防抖更新，避免每次按键都请求服务端生成图片
+const coverPreviewUrl = ref('')
+let coverPreviewTimer: ReturnType<typeof setTimeout> | null = null
+function updateCoverPreview() {
+  if (images.value.length > 0) { coverPreviewUrl.value = images.value[coverIndex.value] || ''; return }
+  if (coverPreviewTimer) clearTimeout(coverPreviewTimer)
+  coverPreviewTimer = setTimeout(() => {
+    const titleEnc = encodeURIComponent(title.value.trim() || '未填写标题')
+    const contentEnc = encodeURIComponent(content.value.trim().slice(0, 100))
+    const tagsEnc = encodeURIComponent(tags.value.join(','))
+    coverPreviewUrl.value = `/api/poster/cover?title=${titleEnc}&content=${contentEnc}&tags=${tagsEnc}&gradient=${selectedGradient.value}&t=${Date.now()}`
+  }, 400)
+}
+watch([title, content, tags, selectedGradient, images, coverIndex], updateCoverPreview, { immediate: true, deep: true })
 const fileInput = ref<HTMLInputElement | null>(null)
 
 // 进入弹窗时：编辑模式回填，否则清空

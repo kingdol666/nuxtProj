@@ -27,6 +27,7 @@ export interface CreatePostPayload {
   images?: string[]
   videos?: string[]
   tags?: string[]
+  coverGradient?: number
 }
 
 export const usePosts = () => {
