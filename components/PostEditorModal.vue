@@ -23,16 +23,14 @@ const { isLoggedIn, openAuthModal } = useAuth()
 
 const title = ref('')
 const content = ref('')
+// 已上传的图片/视频 URL（编辑模式回填的已有资源）
 const images = ref<string[]>([])
 const videos = ref<string[]>([])
+// 新选择但尚未上传的文件（点击「发布」时才统一上传）
+// 用 object URL 做本地预览，避免每次选择都请求服务端
+interface PendingFile { file: File; preview: string; kind: 'image' | 'video' }
+const pendingFiles = ref<PendingFile[]>([])
 const tags = ref<string[]>([])
-const tagInput = ref('')
-const uploading = ref(false)
-const submitting = ref(false)
-// 是否生成主题大图作为封面（radio 开关；无图片时强制开启）
-const useCoverGen = ref(true)
-// 封面索引（多图时用户选择哪张做封面；默认第一张）
-const coverIndex = ref(0)
 // 未上传图片时的自动封面配色（10 套渐变）
 const gradientPalettes = [
   { from: '#667eea', to: '#764ba2', name: '紫罗兰' },
@@ -47,8 +45,12 @@ const gradientPalettes = [
   { from: '#a1c4fd', to: '#c2e9fb', name: '天蓝' },
 ]
 const selectedGradient = ref(0)
-// 是否显示主题大图预览：无图片时强制（必须生成封面），或有图片但用户选了「生成主题图」
-const showCoverGenPreview = computed(() => title.value.trim() && (images.value.length === 0 || useCoverGen.value))
+// 是否生成主题大图作为封面（radio 开关；无图片时强制开启）
+const useCoverGen = ref(true)
+// 封面索引（多图时用户选择哪张做封面；默认第一张）
+const coverIndex = ref(0)
+// 是否显示主题大图预览：无图片（含待上传）时强制，或有图片但用户选了「生成主题图」
+const showCoverGenPreview = computed(() => title.value.trim() && (images.value.length + pendingFiles.value.length === 0 || useCoverGen.value))
 
 // 封面预览：防抖更新，避免每次按键都请求服务端生成图片
 const coverPreviewUrl = ref('')
@@ -82,16 +84,20 @@ watch(() => props.open, (v) => {
     images.value = p ? [...(p.images || [])] : []
     videos.value = p ? [...(p.videos || [])] : []
     tags.value = p ? [...(p.tags || [])] : []
+    // 清理上一轮的 pendingFiles（释放 object URL）
+    for (const pf of pendingFiles.value) URL.revokeObjectURL(pf.preview)
+    pendingFiles.value = []
     tagInput.value = ''
     coverIndex.value = 0
     selectedGradient.value = 0
-    // 新建时默认开启主题图；编辑时：有图片默认关闭，无图片强制开启
-    useCoverGen.value = isEditing.value ? (images.value.length === 0) : true
+    // 新建时默认不开启主题图（用户上传了图片就用图片）；编辑时同理
+    // 无图片时 useCoverGen 的值无关紧要（后端强制生成）
+    useCoverGen.value = false
   }
 })
 
 const canSubmit = computed(() => title.value.trim() && content.value.trim() && !submitting.value)
-const totalMedia = computed(() => images.value.length + videos.value.length)
+const totalMedia = computed(() => images.value.length + videos.value.length + pendingFiles.value.length)
 const VIDEO_EXTS = new Set(['.mp4', '.webm', '.mov', '.ogg', '.ogv'])
 
 function close() { emit('update:open', false) }
@@ -101,35 +107,34 @@ function pickFiles() {
   fileInput.value?.click()
 }
 
-async function onFiles(e: Event) {
+// 选择文件 → 仅做本地预览（object URL），不立即上传
+// 上传延迟到点击「发布」时统一执行
+function onFiles(e: Event) {
   const input = e.target as HTMLInputElement
   if (!input.files?.length) return
-  uploading.value = true
-  try {
-    for (const file of Array.from(input.files)) {
-      if (totalMedia.value >= 9) { message.warning('最多上传 9 个文件'); break }
-      const ext = '.' + (file.name.split('.').pop() || '').toLowerCase()
-      const isVideo = VIDEO_EXTS.has(ext)
-      if (isVideo && videos.value.length >= 4) { message.warning('最多上传 4 个视频'); continue }
-      const fd = new FormData()
-      fd.append('file', file)
-      try {
-        const res = await $fetch<{ url: string; kind: string }>('/api/upload?purpose=post', { method: 'POST', body: fd })
-        if (res.kind === 'video' || isVideo) videos.value.push(res.url)
-        else images.value.push(res.url)
-      } catch {
-        message.error(`文件「${file.name}」上传失败`)
-      }
+  for (const file of Array.from(input.files)) {
+    if (totalMedia.value >= 9) { message.warning('最多上传 9 个文件'); break }
+    const ext = '.' + (file.name.split('.').pop() || '').toLowerCase()
+    const kind: 'image' | 'video' = VIDEO_EXTS.has(ext) ? 'video' : 'image'
+    if (kind === 'video') {
+      const videoCount = videos.value.length + pendingFiles.value.filter((p) => p.kind === 'video').length
+      if (videoCount >= 4) { message.warning('最多上传 4 个视频'); continue }
     }
-  } finally {
-    uploading.value = false
-    input.value = ''
+    pendingFiles.value.push({ file, preview: URL.createObjectURL(file), kind })
   }
+  input.value = ''
 }
 
+// 删除已上传的图片（URL）
 function removeImage(i: number) {
   images.value.splice(i, 1)
   if (coverIndex.value >= images.value.length) coverIndex.value = Math.max(0, images.value.length - 1)
+}
+// 删除待上传的文件（object URL）
+function removePending(i: number) {
+  const pf = pendingFiles.value[i]
+  if (pf) URL.revokeObjectURL(pf.preview)
+  pendingFiles.value.splice(i, 1)
 }
 function removeVideo(i: number) { videos.value.splice(i, 1) }
 
@@ -147,7 +152,27 @@ async function submit() {
   if (!canSubmit.value) return
   submitting.value = true
   try {
-    // 判断是否需要生成主题大图封面
+    // ── 上传所有待上传文件（点击「发布」时才真正请求 /api/upload）──
+    if (pendingFiles.value.length > 0) {
+      uploading.value = true
+      for (const pf of pendingFiles.value) {
+        const fd = new FormData()
+        fd.append('file', pf.file)
+        try {
+          const res = await $fetch<{ url: string; kind: string }>('/api/upload?purpose=post', { method: 'POST', body: fd })
+          if (pf.kind === 'video') videos.value.push(res.url)
+          else images.value.push(res.url)
+        } catch {
+          message.error(`文件「${pf.file.name}」上传失败`)
+        }
+      }
+      // 清理 object URL + pending 列表
+      for (const pf of pendingFiles.value) URL.revokeObjectURL(pf.preview)
+      pendingFiles.value = []
+      uploading.value = false
+    }
+
+    // ── 判断是否需要生成主题大图封面 ──
     // 规则：无图片时强制生成；有图片时看 useCoverGen 开关
     const mustGenCover = images.value.length === 0
     const wantGenCover = useCoverGen.value || mustGenCover
@@ -157,7 +182,7 @@ async function submit() {
     if (!wantGenCover && images.value.length > 1 && coverIndex.value > 0) {
       finalImages = [images.value[coverIndex.value], ...images.value.filter((_, i) => i !== coverIndex.value)]
     }
-    // 若开启主题图生成：清空已上传图片（让后端生成），但保留视频
+    // 若开启主题图生成：清空图片（让后端生成），但保留视频
     if (wantGenCover) finalImages = []
 
     const payload = {
@@ -224,7 +249,14 @@ async function submit() {
             <span class="vid-badge"><VideoCameraOutlined /> 视频</span>
             <button class="img-del" @click="removeVideo(i)" aria-label="删除"><DeleteOutlined /></button>
           </div>
-          <!-- Upload button -->
+          <!-- 待上传的新文件（本地预览，发布时才上传） -->
+          <div v-for="(pf, i) in pendingFiles" :key="'pend-'+i" class="img-item" :class="{ 'video-item': pf.kind === 'video' }">
+            <img v-if="pf.kind === 'image'" :src="pf.preview" alt="" />
+            <video v-else :src="pf.preview" preload="metadata" />
+            <span v-if="pf.kind === 'video'" class="vid-badge"><VideoCameraOutlined /> 视频</span>
+            <button class="img-del" @click="removePending(i)" aria-label="删除"><DeleteOutlined /></button>
+            <span class="pending-badge">待上传</span>
+          </div>
           <button v-if="totalMedia < 9" class="img-add" @click="pickFiles" :disabled="uploading">
             <div v-if="uploading" class="spinner" />
             <template v-else>
@@ -306,7 +338,7 @@ async function submit() {
       <!-- 底部操作 -->
       <footer class="editor-foot">
         <span class="foot-hint">
-          <PictureOutlined /> {{ images.length }} 张图片 · {{ tags.length }} 个标签
+          <PictureOutlined /> {{ images.length + pendingFiles.length }} 张图片 · {{ tags.length }} 个标签
         </span>
         <button class="publish-btn" :disabled="!canSubmit" @click="submit">
           <SendOutlined /> {{ isEditing ? '保存' : '发布' }}
@@ -469,4 +501,9 @@ async function submit() {
 .cover-gen-toggle .cgt-label { font-weight: 500; }
 .cover-gen-toggle:hover .cgt-label { color: var(--accent); }
 .cover-forced-hint { font-size: var(--text-xs); color: var(--text-muted); margin-left: 4px; }
+.pending-badge {
+  position: absolute; bottom: 4px; left: 4px; padding: 2px 6px;
+  font-size: 10px; color: #fff; background: rgba(99,102,241,0.8);
+  border-radius: 4px; pointer-events: none;
+}
 </style>
