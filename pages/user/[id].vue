@@ -122,6 +122,21 @@ function openDetail(post: Post) {
   detailOpen.value = true
 }
 
+async function onToggleLike(post: Post) {
+  if (!isLoggedIn.value) return
+  if (post.userId === currentUser.value?.id) { message.warning('不能给自己的帖子点赞'); return }
+  try {
+    const res = await $fetch<{ liked: boolean }>(`/api/posts/${post.id}/like`, { method: 'POST' })
+    const uid = currentUser.value?.id
+    if (uid) {
+      if (res.liked) { if (!post.likedBy.includes(uid)) post.likedBy.push(uid) }
+      else { post.likedBy = post.likedBy.filter((u) => u !== uid) }
+    }
+  } catch {
+    message.error('操作失败')
+  }
+}
+
 function startChat() {
   if (!isLoggedIn.value) return
   chatOpen.value = true
@@ -230,7 +245,7 @@ useHead({ title: '用户主页' })
             :post="post"
             :current-user-id="currentUser?.id"
             @click="openDetail(post)"
-            @toggle-like="(p: Post) => { if (p.likedBy.includes(currentUser?.id || '')) {} }"
+            @toggle-like="onToggleLike(post)"
           />
         </div>
         <div v-else class="empty-posts glass-soft">
@@ -271,7 +286,7 @@ useHead({ title: '用户主页' })
     </a-modal>
 
     <!-- 详情弹窗 -->
-    <PostDetailModal v-model:open="detailOpen" :post="selectedPost" @toggle-like="() => {}" />
+    <PostDetailModal v-model:open="detailOpen" :post="selectedPost" @toggle-like="onToggleLike" />
 
     <!-- 私信面板 -->
     <ChatPanel v-model:open="chatOpen" :initial-peer-id="profile?.id" />

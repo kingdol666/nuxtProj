@@ -15,7 +15,7 @@ import { useAuth } from '~/composables/useAuth'
 
 const { collections, loading, fetchCollections, createCollection, removeCollection } = useCollections()
 const { fetchPosts } = usePosts()
-const { isLoggedIn, openAuthModal } = useAuth()
+const { user, isLoggedIn, openAuthModal } = useAuth()
 
 // 创建收藏夹
 const createOpen = ref(false)
@@ -77,6 +77,21 @@ async function viewCollection(c: Collection) {
 function backToList() { activeCollection.value = null; collectedPosts.value = [] }
 
 function openDetail(post: Post) { selectedPost.value = post; detailOpen.value = true }
+
+async function onToggleLike(post: Post) {
+  if (!isLoggedIn.value) { openAuthModal(); return }
+  if (post.userId === user.value?.id) { message.warning('不能给自己的帖子点赞'); return }
+  try {
+    const res = await $fetch<{ liked: boolean }>(`/api/posts/${post.id}/like`, { method: 'POST' })
+    const uid = user.value?.id
+    if (uid) {
+      if (res.liked) { if (!post.likedBy.includes(uid)) post.likedBy.push(uid) }
+      else { post.likedBy = post.likedBy.filter((u) => u !== uid) }
+    }
+  } catch {
+    message.error('操作失败')
+  }
+}
 
 function startCreate() {
   if (!isLoggedIn.value) { openAuthModal(); return }
@@ -157,14 +172,15 @@ useHead({ title: '我的收藏' })
           </div>
         </header>
         <p v-if="activeCollection.description" class="coll-desc">{{ activeCollection.description }}</p>
-
         <div v-if="postsLoading" class="loading-text">加载中…</div>
         <div v-else-if="collectedPosts.length" class="masonry">
           <PostCard
             v-for="post in collectedPosts"
             :key="post.id"
             :post="post"
+            :current-user-id="user?.id"
             @click="openDetail(post)"
+            @toggle-like="onToggleLike(post)"
           />
         </div>
         <div v-else class="empty-state glass-soft">
@@ -205,7 +221,7 @@ useHead({ title: '我的收藏' })
     </a-modal>
 
     <!-- 详情弹窗 -->
-    <PostDetailModal v-model:open="detailOpen" :post="selectedPost" @toggle-like="() => {}" />
+    <PostDetailModal v-model:open="detailOpen" :post="selectedPost" @toggle-like="onToggleLike" />
   </div>
 </template>
 
