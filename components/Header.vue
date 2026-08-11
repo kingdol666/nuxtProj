@@ -11,7 +11,14 @@ import {
   AppstoreOutlined,
   DashboardOutlined,
   DownOutlined,
+  MessageOutlined,
+  StarOutlined,
+  SettingOutlined,
 } from '@ant-design/icons-vue'
+import NotificationBell from '~/components/NotificationBell.vue'
+
+const emit = defineEmits<{ (e: 'open-chat', peerId?: string): void }>()
+function openChat(peerId?: string) { emit('open-chat', peerId) }
 
 const { themeMode, toggleTheme } = useTheme()
 const route = useRoute()
@@ -24,6 +31,8 @@ const navItems = computed<NavItem[]>(() => {
   const items: NavItem[] = [
     { key: 'home', label: '首页', to: '/', icon: HomeOutlined },
     { key: 'application', label: '应用推荐', to: '/application', icon: AppstoreOutlined },
+    { key: 'community', label: '社区', to: '/community', icon: MessageOutlined },
+    { key: 'collections', label: '收藏', to: '/collections', icon: StarOutlined },
   ]
   if (isAdmin.value) items.push({ key: 'admin', label: '后台管理', to: '/admin', icon: DashboardOutlined })
   return items
@@ -32,6 +41,8 @@ const navItems = computed<NavItem[]>(() => {
 const activeKey = computed(() => {
   const p = route.path
   if (p.startsWith('/application')) return 'application'
+  if (p.startsWith('/community')) return 'community'
+  if (p.startsWith('/collections')) return 'collections'
   if (p.startsWith('/admin')) return 'admin'
   return 'home'
 })
@@ -52,9 +63,12 @@ const AVATAR_GRADIENTS = [
   'linear-gradient(135deg,#10b981,#06b6d4)',
   'linear-gradient(135deg,#3b82f6,#6366f1)',
 ]
-const avatarStyle = computed(() => ({
-  background: AVATAR_GRADIENTS[user.value?.avatarColor ?? 0],
-}))
+const avatarStyle = computed(() => {
+  if (user.value?.avatarUrl) {
+    return { backgroundImage: `url(${user.value.avatarUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+  }
+  return { background: AVATAR_GRADIENTS[user.value?.avatarColor ?? 0] }
+})
 
 // 点击外部关闭下拉
 function onDocClick(e: MouseEvent) {
@@ -101,27 +115,44 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
           <BulbOutlined v-else />
         </button>
 
+        <NotificationBell v-if="isLoggedIn" :on-open-chat="openChat" />
+        <button
+          v-if="isLoggedIn"
+          class="icon-action"
+          title="私信"
+          aria-label="私信"
+          @click="openChat()"
+        >
+          <MessageOutlined />
+        </button>
+
         <!-- 登录/用户区 -->
         <button v-if="!isLoggedIn" class="btn-login" @click="openAuthModal">
           <UserOutlined /> 登录
         </button>
         <div v-else id="user-menu-root" class="user-menu-wrap">
           <button class="user-chip" :class="{ open: userMenuOpen }" @click="toggleUserMenu">
-            <span class="user-avatar" :style="avatarStyle"><UserOutlined /></span>
+            <span class="user-avatar" :style="avatarStyle"><UserOutlined v-if="!user?.avatarUrl" /></span>
             <span class="user-name">{{ username }}</span>
             <DownOutlined class="user-caret" />
           </button>
           <Transition name="popdown">
             <div v-if="userMenuOpen" class="user-dropdown glass-strong">
               <div class="dropdown-head">
-                <span class="user-avatar lg" :style="avatarStyle"><UserOutlined /></span>
+                <span class="user-avatar lg" :style="avatarStyle"><UserOutlined v-if="!user?.avatarUrl" /></span>
                 <div class="dropdown-head-text">
                   <div class="dropdown-name">{{ username }}</div>
                   <div class="dropdown-sub">已登录</div>
                 </div>
               </div>
-              <div class="dropdown-divider" />
-              <button class="dropdown-item danger" @click="handleLogout">
+            <div class="dropdown-divider" />
+            <nuxt-link v-if="user" :to="`/user/${user.id}`" class="dropdown-item" @click="closeUserMenu">
+              <UserOutlined /><span>我的主页</span>
+            </nuxt-link>
+            <nuxt-link to="/settings" class="dropdown-item" @click="closeUserMenu">
+              <SettingOutlined /><span>设置</span>
+            </nuxt-link>
+            <button class="dropdown-item danger" @click="handleLogout">
                 <LogoutOutlined /><span>退出登录</span>
               </button>
             </div>
@@ -246,6 +277,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
   border-radius: 50%;
   font-size: 14px; color: #fff;
   background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 50%, #8b5cf6));
+  overflow: hidden; flex-shrink: 0;
   &.lg { width: 36px; height: 36px; font-size: 17px; }
 }
 .user-name { white-space: nowrap; }

@@ -1,7 +1,7 @@
 import { promises as fs } from 'node:fs'
 import { join, dirname } from 'node:path'
 
-type DataKind = 'categories' | 'content' | 'tags' | 'users' | 'comments' | 'ratings'
+type DataKind = 'categories' | 'content' | 'tags' | 'users' | 'comments' | 'ratings' | 'posts' | 'collections' | 'follows' | 'messages' | 'images'
 
 // Each resource kind maps to a backing file. (`categories` lives in
 // menu.json for historical reasons — the admin "分组" UI == the nav menu.)
@@ -12,6 +12,11 @@ const FILENAME: Record<DataKind, string> = {
   users: 'users.json',
   comments: 'comments.json',
   ratings: 'ratings.json',
+  posts: 'posts.json',
+  collections: 'collections.json',
+  follows: 'follows.json',
+  messages: 'messages.json',
+  images: 'images.json',
 }
 
 // ─── Data directory resolution ───────────────────────────────────────
@@ -199,7 +204,9 @@ export interface User {
   username: string
   passwordHash: string
   role: 'admin' | 'user'  // 角色：admin 可管理后台，user 为普通用户
-  avatarColor: number  // 0-5, indexes into a palette
+  avatarColor: number  // 0-5, indexes into a palette (fallback when no custom avatar)
+  avatarUrl: string    // custom uploaded avatar (empty = use color-based letter avatar)
+  backgroundUrl: string // profile background image (empty = gradient fallback)
   bio: string
   createdAt: number
 }
@@ -215,7 +222,8 @@ export function updateUsers<R>(fn: (items: User[]) => R | Promise<R>): Promise<R
 // ─── Comments (评论) ─────────────────────────────────────────────────
 export interface Comment {
   id: string
-  contentId: string       // which app/content this belongs to
+  contentId: string       // which app/content/post this belongs to
+  targetType?: 'content' | 'post'  // disambiguates contentId; default 'content'
   userId: string
   username: string
   avatarColor: number
@@ -248,4 +256,120 @@ export async function getRatings(): Promise<Rating[]> {
 
 export function updateRatings<R>(fn: (items: Rating[]) => R | Promise<R>): Promise<R> {
   return updateData<Rating, R>('ratings', fn)
+}
+
+// ─── Posts (社区帖子 - 小红书风格) ─────────────────────────────────
+export interface Post {
+  id: string
+  userId: string
+  username: string
+  avatarColor: number
+  title: string
+  content: string
+  images: string[]        // uploaded image paths (relative to /api/uploads/)
+  videos: string[]        // uploaded video paths (relative to /api/uploads/)
+  tags: string[]          // topic tags e.g. ['旅行', '摄影']
+  likedBy: string[]       // userIds who liked (denormalized for count)
+  collectedBy: string[]   // userIds who saved to any collection
+  commentCount: number    // denormalized for quick display
+  createdAt: number
+  updatedAt: number
+}
+
+export async function getPosts(): Promise<Post[]> {
+  const data = await readJson<Post[]>(fileFor('posts'))
+  await ensureIds(data, 'posts')
+  return data
+}
+
+export function updatePosts<R>(fn: (items: Post[]) => R | Promise<R>): Promise<R> {
+  return updateData<Post, R>('posts', fn)
+}
+
+// ─── Collections (收藏夹) ───────────────────────────────────────────
+export interface Collection {
+  id: string
+  userId: string
+  name: string
+  description: string
+  postIds: string[]
+  createdAt: number
+}
+
+export async function getCollections(): Promise<Collection[]> {
+  const data = await readJson<Collection[]>(fileFor('collections'))
+  await ensureIds(data, 'collections')
+  return data
+}
+
+export function updateCollections<R>(fn: (items: Collection[]) => R | Promise<R>): Promise<R> {
+  return updateData<Collection, R>('collections', fn)
+}
+
+// ─── Follows (关注关系) ──────────────────────────────────────────────
+export interface Follow {
+  id: string
+  followerId: string  // who follows
+  followeeId: string  // who is followed
+  createdAt: number
+}
+
+export async function getFollows(): Promise<Follow[]> {
+  const data = await readJson<Follow[]>(fileFor('follows'))
+  await ensureIds(data, 'follows')
+  return data
+}
+
+export function updateFollows<R>(fn: (items: Follow[]) => R | Promise<R>): Promise<R> {
+  return updateData<Follow, R>('follows', fn)
+}
+
+// ─── Messages (私信) ─────────────────────────────────────────────────
+export interface Message {
+  id: string
+  fromUserId: string
+  toUserId: string
+  text: string
+  read: boolean         // recipient opened the conversation
+  delivered: boolean    // pushed to a live WS connection
+  createdAt: number
+}
+
+export async function getMessages(): Promise<Message[]> {
+  const data = await readJson<Message[]>(fileFor('messages'))
+  await ensureIds(data, 'messages')
+  return data
+}
+
+export function updateMessages<R>(fn: (items: Message[]) => R | Promise<R>): Promise<R> {
+  return updateData<Message, R>('messages', fn)
+}
+
+// ─── Images (图片元信息) ─────────────────────────────────────────────
+// 结构化元信息：文件存储在 data/uploads/，元信息记录在此 JSON 中。
+// purpose: 'post' | 'avatar' | 'background' — 标记图片用途，便于管理与清理。
+export interface ImageMeta {
+  id: string
+  filename: string         // 磁盘文件名（含扩展名）
+  originalName: string     // 用户上传时的原始文件名
+  mimeType: string         // image/jpeg, video/mp4, ...
+  kind: 'image' | 'video'  // 媒体类型
+  size: number             // 字节数
+  width: number            // 像素宽（0 = 未知）
+  height: number           // 像素高（0 = 未知）
+  duration: number         // 视频时长秒（0 = 非视频或未知）
+  userId: string           // 上传者
+  purpose: 'post' | 'avatar' | 'background' | 'other'
+  url: string              // 公开访问路径 /api/uploads/<filename>
+  createdAt: number
+}
+
+export async function getImages(): Promise<ImageMeta[]> {
+  const data = await readJson<ImageMeta[]>(fileFor('images'))
+  await ensureIds(data, 'images')
+  return data
+}
+
+export function updateImages<R>(fn: (items: ImageMeta[]) => R | Promise<R>): Promise<R> {
+  return updateData<ImageMeta, R>('images', fn)
 }

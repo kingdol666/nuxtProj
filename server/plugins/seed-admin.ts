@@ -21,8 +21,9 @@ export default defineNitroPlugin(async () => {
       passwordHash: await hashPassword(ADMIN_PASSWORD),
       role: 'admin',
       avatarColor: 0,
+      avatarUrl: '',
+      backgroundUrl: '',
       bio: '系统管理员',
-      createdAt: Date.now(),
     }
     users.push(admin)
     return { seeded: true }

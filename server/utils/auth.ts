@@ -54,7 +54,7 @@ function signToken(userId: string): string {
   return `${b64}.${sig}`
 }
 
-function verifyToken(token: string | undefined): { uid: string } | null {
+export function verifyToken(token: string | undefined): { uid: string } | null {
   if (!token || !token.includes('.')) return null
   const [b64, sig] = token.split('.')
   const expected = createHmac('sha256', getSecret()).update(b64).digest('base64url')
@@ -105,7 +105,8 @@ export async function getUserFromEvent(event: H3Event): Promise<Omit<User, 'pass
   const user = users.find((u) => u.id === decoded.uid)
   if (!user) return null
   const { passwordHash: _ph, ...safe } = user
-  return safe
+  // Backfill new optional fields for legacy users
+  return { avatarUrl: '', backgroundUrl: '', ...safe }
 }
 
 // Require auth — throws 401 if not authenticated.

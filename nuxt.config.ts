@@ -10,6 +10,12 @@ export default defineNuxtConfig({
     dataDir: process.env.NUXT_DATA_DIR || '',
     authSecret: process.env.NUXT_AUTH_SECRET || 'nuxt-app-dev-secret-change-in-prod',
   },
+  // WebSocket 实时通信（关注/私信/通知）—— Nitro crossws 适配器
+  nitro: {
+    experimental: {
+      websocket: true,
+    },
+  },
 
   // 全局设计系统 CSS(字体 / 配色 token)
   css: ['~/assets/css/main.css'],

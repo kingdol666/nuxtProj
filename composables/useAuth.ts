@@ -9,6 +9,8 @@ export interface CurrentUser {
   username: string
   role: 'admin' | 'user'
   avatarColor: number
+  avatarUrl: string
+  backgroundUrl: string
   bio: string
   createdAt: number
 }
@@ -51,10 +53,19 @@ export const useAuth = () => {
     user.value = null
   }
 
+  async function updateProfile(data: { bio?: string; avatarUrl?: string; backgroundUrl?: string }) {
+    const updated = await $fetch<CurrentUser>('/api/users/profile', {
+      method: 'PUT',
+      body: data,
+    })
+    user.value = updated
+    return updated
+  }
+
   // 触发登录弹窗（任何组件都可调用）
   const authModalOpen = useState<boolean>('auth-modal-open', () => false)
   function openAuthModal() { authModalOpen.value = true }
   function closeAuthModal() { authModalOpen.value = false }
 
-  return { user, isLoggedIn, isAdmin, fetchMe, register, login, logout, authModalOpen, openAuthModal, closeAuthModal }
+  return { user, isLoggedIn, isAdmin, fetchMe, register, login, logout, updateProfile, authModalOpen, openAuthModal, closeAuthModal }
 }

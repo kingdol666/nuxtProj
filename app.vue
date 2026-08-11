@@ -1,25 +1,34 @@
 // app.vue
 
 <script setup>
-import { computed, reactive, onMounted } from 'vue';
+import { computed, reactive, onMounted, watch, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Header from '~/components/Header.vue';
+import ChatPanel from '~/components/ChatPanel.vue';
 import Sider from '~/components/Sider.vue';
 import AuthModal from '~/components/AuthModal.vue';
 import { theme } from 'ant-design-vue';
 // 1. 导入我们创建的 Composable
 import { useTheme } from '~/composables/useTheme';
 import { useAuth } from '~/composables/useAuth';
-
+import { useRealtime } from '~/composables/useRealtime';
 // 2. 获取主题状态
 const { themeMode } = useTheme();
 const route = useRoute();
 const showParticles = computed(() => route.path === '/application');
 
 // 客户端启动时恢复登录态
-const { fetchMe } = useAuth()
-onMounted(() => { fetchMe() })
-
+const { fetchMe, user, isLoggedIn } = useAuth()
+const { connect: wsConnect, disconnect: wsDisconnect } = useRealtime()
+// 私信面板全局开关（Header 铃铛 / 各处私信按钮均可触发）
+const chatOpen = ref(false)
+const chatInitialPeerId = ref(undefined)
+function openChat(peerId) { chatInitialPeerId.value = peerId; chatOpen.value = true }
+onMounted(async () => { await fetchMe(); if (isLoggedIn.value) wsConnect() })
+watch(isLoggedIn, (v) => {
+  if (v) wsConnect()
+  else wsDisconnect()
+}, { immediate: false })
 const particlesOptions = reactive({
   background: {
     color: {
@@ -148,7 +157,7 @@ const antdTheme = computed(() => {
   <a-config-provider :theme="antdTheme">
     <NuxtParticles v-if="showParticles" id="tsparticles" :options="particlesOptions" />
     <a-layout style="min-height: 100vh;">
-      <Header />
+      <Header @open-chat="openChat" />
       <a-layout>
         <Sider />
         <a-layout-content class="main-content-area">
@@ -159,6 +168,7 @@ const antdTheme = computed(() => {
       </a-layout>
     </a-layout>
     <AuthModal />
+    <ChatPanel v-model:open="chatOpen" :initial-peer-id="chatInitialPeerId" />
   </a-config-provider>
 </template>
 

@@ -1,9 +1,9 @@
-import { updateComments, genId } from '~~/server/utils/db'
+import { updateComments, updatePosts, genId } from '~~/server/utils/db'
 import { requireUser } from '~~/server/utils/auth'
 
 export default defineEventHandler(async (event) => {
   const user = await requireUser(event)
-  const body = await readBody<{ contentId?: string; text?: string; parentId?: string | null }>(event)
+  const body = await readBody<{ contentId?: string; text?: string; parentId?: string | null; targetType?: 'content' | 'post' }>(event)
   const contentId = body?.contentId?.trim()
   const text = body?.text?.trim()
 
@@ -20,10 +20,19 @@ export default defineEventHandler(async (event) => {
       avatarColor: user.avatarColor,
       text,
       parentId: body.parentId || null,
+      targetType: body.targetType === 'post' ? 'post' : 'content',
       likedBy: [] as string[],
       createdAt: Date.now(),
     }
     items.push(comment)
+    // Increment commentCount on the target post
+    if (comment.targetType === 'post') {
+      updatePosts((posts) => {
+        const p = posts.find((pp) => pp.id === contentId)
+        if (p) p.commentCount += 1
+        return null
+      })
+    }
     return comment
   })
 })

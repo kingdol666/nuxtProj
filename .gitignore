@@ -18,4 +18,6 @@ npm-debug.log*
 
 # OS
 .DS_Store
-Thumbs.db
+
+# Uploaded images (persisted on disk, not in git)
+data/uploads/

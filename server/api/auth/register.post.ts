@@ -25,8 +25,9 @@ export default defineEventHandler(async (event) => {
       passwordHash: await hashPassword(password),
       role: 'user' as const,  // 注册用户默认为普通用户
       avatarColor: users.length % AVATAR_PALETTE_COUNT,
+      avatarUrl: '',
+      backgroundUrl: '',
       bio: '',
-      createdAt: Date.now(),
     }
     users.push(user)
     setAuthCookie(event, user.id)

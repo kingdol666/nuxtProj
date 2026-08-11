@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": "msm0qxdunx2nv",
+    "contentId": "msl6dz43bmbni",
+    "userId": "admin-root",
+    "value": 4,
+    "createdAt": 1786293027714
+  },
+  {
+    "id": "msm0r2gs90i6a",
+    "contentId": "msl6dz43gcsc4",
+    "userId": "admin-root",
+    "value": 5,
+    "createdAt": 1786293034300
+  }
+]

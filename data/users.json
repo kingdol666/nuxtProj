@@ -5,7 +5,18 @@
     "passwordHash": "4b9522e9980f2189fae93413e7b11a08:1fe27e5afaab7accf71399b9075842d0f49403bc7227afec2a04ed267134717284b45d8a98a982b72a28509a43744c9331deb32efd768f75eeced8c44fffece0",
     "role": "admin",
     "avatarColor": 0,
-    "bio": "系统管理员",
-    "createdAt": 1786291478482
+    "bio": "ϵͳ����Ա �� ȫջ������",
+    "createdAt": 1786291478482,
+    "avatarUrl": "",
+    "backgroundUrl": ""
+  },
+  {
+    "id": "mso0kzyxtb5ve",
+    "username": "alice",
+    "passwordHash": "1c377927289de162104cd241c3e3770e:f7d05b44d4a1b12df8e9f3afff7e31a18a7057b1291e40a190c95600f8bdfa5ab64bca64543b842b9b23fd7b08945e9e1f9a34ef0b9aaf55da42fb4e230531ec",
+    "role": "user",
+    "avatarColor": 1,
+    "bio": "",
+    "createdAt": 1786413683599
   }
 ]

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "seed-post-001",
+    "userId": "admin-root",
+    "username": "admin",
+    "avatarColor": 0,
+    "title": "分享几个我每天必用的高效工具",
+    "content": "作为开发者，效率就是生命。今天分享几个我每天离不开的生产力工具：\n\n1. Raycast — Mac 上 Alfred 的现代替代品，支持扩展和脚本\n2. Warp — 基于 GPU 加速的终端，自带 AI 命令建议\n3. Obsidian — 本地优先的双链笔记，配合 Git 同步简直完美\n\n你们平时都用什么工具？欢迎在评论区交流～",
+    "images": [],
+    "tags": [
+      "效率工具",
+      "开发",
+      "推荐"
+    ],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1785897000000,
+    "updatedAt": 1785897000000,
+    "videos": []
+  },
+  {
+    "id": "seed-post-002",
+    "userId": "admin-root",
+    "username": "admin",
+    "avatarColor": 0,
+    "title": "周末去了一趟山里，空气太治愈了",
+    "content": "逃离城市喧嚣，周末跑到郊外的山里徒步。满眼的绿色、清脆的鸟鸣、还有山顶的云海，整个人都被治愈了。\n\n强烈建议大家偶尔放下手机，走进大自然。返璞归真才是最好的放松方式。",
+    "images": [],
+    "tags": [
+      "旅行",
+      "徒步",
+      "自然"
+    ],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1785983400000,
+    "updatedAt": 1785983400000,
+    "videos": []
+  },
+  {
+    "id": "seed-post-003",
+    "userId": "admin-root",
+    "username": "admin",
+    "avatarColor": 0,
+    "title": "学会这道菜，朋友来家里再也不会尴尬",
+    "content": "红烧肉的正确打开方式：\n\n1. 五花肉切方块，冷水下锅焯水去腥\n2. 锅里不放油，下肉块煸炒出多余油脂\n3. 加冰糖炒糖色，让每块肉都裹上诱人的焦糖色\n4. 倒入生抽、老抽、料酒，加开水没过肉块\n5. 小火慢炖 40 分钟，大火收汁\n\n色泽红亮、肥而不腻，学会了朋友来家聚餐绝对是压轴菜！",
+    "images": [],
+    "tags": [
+      "美食",
+      "家常菜",
+      "红烧肉"
+    ],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1786069800000,
+    "updatedAt": 1786069800000,
+    "videos": []
+  },
+  {
+    "id": "seed-post-004",
+    "userId": "admin-root",
+    "username": "admin",
+    "avatarColor": 0,
+    "title": "把工位收拾了一下，效率直接翻倍",
+    "content": "今天花了两个小时整理工位：\n\n- 理顺了所有线缆，桌面瞬间清爽\n- 显示器加了个悬臂支架，多出好大一块空间\n- 键盘鼠标换成 2.4G 无线，告别线缆地狱\n- 加了一盆绿植和一盏暖光台灯\n\n现在每天坐在工位前心情都好了很多。环境真的会影响状态。",
+    "images": [],
+    "tags": [
+      "生活",
+      "桌面整理",
+      "好物"
+    ],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1786156200000,
+    "updatedAt": 1786156200000,
+    "videos": []
+  },
+  {
+    "id": "seed-post-005",
+    "userId": "admin-root",
+    "username": "admin",
+    "avatarColor": 0,
+    "title": "读完了《原则》，分享一下我的笔记",
+    "content": "达利欧的《原则》核心可以浓缩成一句话：像机器一样思考决策。\n\n印象最深的几个观点：\n1. 痛苦 + 反思 = 进步\n2. 极度开放和极度透明能加速学习\n3. 把决策过程算法化，避免情绪干扰\n4. 理解人与人之间的思维差异\n\n推荐每个想提升决策质量的人都读一读。",
+    "images": [],
+    "tags": [
+      "读书",
+      "成长",
+      "笔记"
+    ],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1786242600000,
+    "updatedAt": 1786242600000,
+    "videos": []
+  },
+  {
+    "id": "seed-post-006",
+    "userId": "admin-root",
+    "username": "admin",
+    "avatarColor": 0,
+    "title": "这套穿搭公式让我一周不重样",
+    "content": "分享一个百搭公式：基础色 + 一件亮色单品。\n\n- 周一：白T + 卡其裤 + 红色帆布鞋\n- 周二：米色针织 + 黑色阔腿裤\n- 周三：条纹衫 + 牛仔裤\n- 周四：灰卫衣 + 工装裤\n- 周五：衬衫叠穿 + 西裤\n\n关键是颜色不超过三种，干净利落就赢一半。",
+    "images": [],
+    "tags": [
+      "穿搭",
+      "日常",
+      "简约"
+    ],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1786329000000,
+    "updatedAt": 1786329000000,
+    "videos": []
+  }
+]
