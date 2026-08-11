@@ -10,13 +10,13 @@ import {
   DeleteOutlined,
   SendOutlined,
 } from '@ant-design/icons-vue'
-import { usePosts } from '~/composables/usePosts'
+import { usePosts, type Post } from '~/composables/usePosts'
 import { useAuth } from '~/composables/useAuth'
 
-const props = defineProps<{ open: boolean }>()
-const emit = defineEmits<{ (e: 'update:open', v: boolean): void; (e: 'created'): void }>()
+const props = defineProps<{ open: boolean; post?: Post | null }>()
+const emit = defineEmits<{ (e: 'update:open', v: boolean): void; (e: 'created'): void; (e: 'updated', post: Post): void }>()
 
-const { createPost } = usePosts()
+const { createPost, updatePost } = usePosts()
 const { isLoggedIn, openAuthModal } = useAuth()
 
 const title = ref('')
@@ -30,14 +30,16 @@ const submitting = ref(false)
 
 const fileInput = ref<HTMLInputElement | null>(null)
 
-// Reset on open
+// 进入弹窗时：编辑模式回填，否则清空
+const isEditing = computed(() => !!props.post?.id)
 watch(() => props.open, (v) => {
   if (v) {
-    title.value = ''
-    content.value = ''
-    images.value = []
-    videos.value = []
-    tags.value = []
+    const p = props.post
+    title.value = p?.title ?? ''
+    content.value = p?.content ?? ''
+    images.value = p ? [...(p.images || [])] : []
+    videos.value = p ? [...(p.videos || [])] : []
+    tags.value = p ? [...(p.tags || [])] : []
     tagInput.value = ''
   }
 })
@@ -91,25 +93,31 @@ function addTag() {
   tags.value.push(t)
   tagInput.value = ''
 }
-function removeTag(i: number) { tags.value.splice(i, 1) }
-
 async function submit() {
   if (!isLoggedIn.value) { openAuthModal(); return }
   if (!canSubmit.value) return
   submitting.value = true
   try {
-    await createPost({
+    const payload = {
       title: title.value.trim(),
       content: content.value.trim(),
       images: images.value,
       videos: videos.value,
       tags: tags.value,
-    })
-    message.success('发布成功！')
-    emit('created')
-    close()
+    }
+    if (isEditing.value && props.post) {
+      const updated = await updatePost(props.post.id, payload)
+      message.success('已更新')
+      emit('updated', updated)
+      close()
+    } else {
+      await createPost(payload)
+      message.success('发布成功！')
+      emit('created')
+      close()
+    }
   } catch (err: any) {
-    message.error(err?.data?.statusMessage || '发布失败，请重试')
+    message.error(err?.data?.statusMessage || '操作失败，请重试')
   } finally {
     submitting.value = false
   }
@@ -129,7 +137,7 @@ async function submit() {
   >
     <div class="editor">
       <header class="editor-head">
-        <h2>发布笔记</h2>
+        <h2>{{ isEditing ? '编辑笔记' : '发布笔记' }}</h2>
         <button class="close-btn" @click="close" aria-label="关闭"><CloseOutlined /></button>
       </header>
 
@@ -207,7 +215,7 @@ async function submit() {
           <PictureOutlined /> {{ images.length }} 张图片 · {{ tags.length }} 个标签
         </span>
         <button class="publish-btn" :disabled="!canSubmit" @click="submit">
-          <SendOutlined /> 发布
+          <SendOutlined /> {{ isEditing ? '保存' : '发布' }}
         </button>
       </footer>
     </div>

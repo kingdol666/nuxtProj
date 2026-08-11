@@ -12,6 +12,7 @@ import {
   RightOutlined,
   SendOutlined,
   DeleteOutlined,
+  EditOutlined,
   FolderAddOutlined,
   CloseOutlined,
   PlayCircleFilled,
@@ -40,6 +41,7 @@ const emit = defineEmits<{
   (e: 'update:open', v: boolean): void
   (e: 'toggle-like', post: Post): void
   (e: 'updated'): void
+  (e: 'edit', post: Post): void
 }>()
 
 const { user, isLoggedIn, openAuthModal } = useAuth()
@@ -214,14 +216,23 @@ async function createAndCollect() {
     collectLoading.value = false
   }
 }
-
 // ─── Like ───
 const liked = computed(() => !!(props.post && user.value && props.post.likedBy.includes(user.value.id)))
 const likeCount = computed(() => props.post?.likedBy.length ?? 0)
 const collected = computed(() => !!(props.post && user.value && isPostSaved(props.post.id)) || !!(props.post && user.value && props.post.collectedBy.includes(user.value.id)))
+const isOwnPost = computed(() => !!(props.post && user.value && props.post.userId === user.value.id))
+
+function startEdit() {
+  if (!props.post) return
+  emit('edit', props.post)
+}
 
 function onLike() {
   if (!isLoggedIn.value) { openAuthModal(); return }
+  if (isOwnPost.value) {
+    message.warning('不能给自己的帖子点赞')
+    return
+  }
   if (props.post) emit('toggle-like', props.post)
 }
 
@@ -326,7 +337,13 @@ watch(() => [props.post?.id, props.open], ([pid, open]) => {
 
           <!-- 操作栏 -->
           <div class="action-bar">
-            <button class="action-btn" :class="{ active: liked }" @click="onLike">
+            <button
+              class="action-btn"
+              :class="{ active: liked, disabled: isOwnPost }"
+              :disabled="isOwnPost"
+              :title="isOwnPost ? '不能给自己的帖子点赞' : (liked ? '取消点赞' : '点赞')"
+              @click="onLike"
+            >
               <HeartFilled v-if="liked" />
               <HeartOutlined v-else />
               <span>{{ likeCount }}</span>
@@ -336,13 +353,15 @@ watch(() => [props.post?.id, props.open], ([pid, open]) => {
               <StarOutlined v-else />
               <span>收藏</span>
             </button>
+            <button v-if="isOwnPost" class="action-btn" @click="startEdit" title="编辑帖子">
+              <EditOutlined />
+              <span>编辑</span>
+            </button>
           </div>
-
           <!-- 分隔 -->
           <div class="comments-header">
             共 <strong>{{ commentCount }}</strong> 条评论
           </div>
-
           <!-- 评论输入 -->
           <div class="comment-form">
             <input
@@ -571,6 +590,10 @@ watch(() => [props.post?.id, props.open], ([pid, open]) => {
 }
 .action-btn:hover { border-color: var(--accent); color: var(--accent); }
 .action-btn.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.action-btn.disabled,
+.action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.action-btn.disabled:hover,
+.action-btn:disabled:hover { border-color: var(--border-color); color: var(--text-secondary); }
 
 .comments-header { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: 10px; }
 .comments-header strong { color: var(--text-primary); }

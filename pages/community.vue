@@ -7,7 +7,7 @@ import { usePosts, type Post } from '~/composables/usePosts'
 import { useCollections } from '~/composables/useCollections'
 import { useAuth } from '~/composables/useAuth'
 
-const { posts, loading, fetchPosts, toggleLike, removePost, allTags } = usePosts()
+const { posts, loading, fetchPosts, toggleLike, updatePost, removePost, allTags } = usePosts()
 const { fetchCollections } = useCollections()
 const { user, isLoggedIn, openAuthModal } = useAuth()
 
@@ -19,6 +19,7 @@ const searchInput = ref('')
 const selectedPost = ref<Post | null>(null)
 const detailOpen = ref(false)
 const editorOpen = ref(false)
+const editingPost = ref<Post | null>(null)
 
 // Sorted by hot (likes) or latest
 const sortMode = ref<'latest' | 'hot' | 'following'>('latest')
@@ -70,23 +71,36 @@ function openDetail(post: Post) {
   selectedPost.value = post
   detailOpen.value = true
 }
-
 async function onToggleLike(post: Post) {
   if (!isLoggedIn.value) { openAuthModal(); return }
+  // 不能给自己的帖子点赞
+  if (post.userId === user.value?.id) {
+    message.warning('不能给自己的帖子点赞')
+    return
+  }
   try {
     const res = await toggleLike(post.id)
-    if (selectedPost.value?.id === post.id) {
-      // detail modal watches the same object reference
-    }
-    // Update the card's post object in place
-    if (res.liked) {
-      if (!post.likedBy.includes(user.value!.id)) post.likedBy.push(user.value!.id)
-    } else {
-      post.likedBy = post.likedBy.filter((u) => u !== user.value!.id)
+    // toggleLike 已同步本地 likedBy；详情弹窗引用同一对象，无需额外处理
+    if (!res.liked) {
+      // pass-through: 取消点赞
     }
   } catch {
     message.error('操作失败')
   }
+}
+
+function startEdit(post: Post) {
+  if (!isLoggedIn.value) { openAuthModal(); return }
+  editingPost.value = post
+  editorOpen.value = true
+}
+
+async function onPostUpdated(updated: Post) {
+  // 编辑成功后同步本地列表与详情
+  if (selectedPost.value?.id === updated.id) {
+    selectedPost.value = { ...selectedPost.value, ...updated }
+  }
+  message.success('已更新')
 }
 
 async function onDeletePost(post: Post) {
@@ -101,6 +115,7 @@ async function onDeletePost(post: Post) {
 
 function startCreate() {
   if (!isLoggedIn.value) { openAuthModal(); return }
+  editingPost.value = null
   editorOpen.value = true
 }
 
@@ -188,12 +203,15 @@ useHead({ title: '社区 · 发现' })
       v-model:open="detailOpen"
       :post="selectedPost"
       @toggle-like="onToggleLike"
+      @edit="startEdit"
     />
 
-    <!-- 发帖弹窗 -->
+    <!-- 发帖/编辑弹窗 -->
     <PostEditorModal
       v-model:open="editorOpen"
+      :post="editingPost"
       @created="refresh"
+      @updated="onPostUpdated"
     />
   </div>
 </template>

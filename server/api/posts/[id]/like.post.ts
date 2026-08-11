@@ -1,4 +1,4 @@
-import { updatePosts, updateCollections } from '~~/server/utils/db'
+import { updatePosts } from '~~/server/utils/db'
 import { requireUser } from '~~/server/utils/auth'
 
 export default defineEventHandler(async (event) => {
@@ -9,7 +9,10 @@ export default defineEventHandler(async (event) => {
   const result = await updatePosts((items) => {
     const post = items.find((p) => p.id === id)
     if (!post) throw createError({ statusCode: 404, statusMessage: '帖子不存在' })
-
+    // 不能给自己的帖子点赞
+    if (post.userId === user.id) {
+      throw createError({ statusCode: 403, statusMessage: '不能给自己的帖子点赞' })
+    }
     const idx = post.likedBy.indexOf(user.id)
     if (idx === -1) {
       post.likedBy.push(user.id)

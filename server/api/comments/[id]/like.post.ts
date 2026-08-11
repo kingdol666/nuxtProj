@@ -9,7 +9,10 @@ export default defineEventHandler(async (event) => {
   return await updateComments((items) => {
     const comment = items.find((c) => c.id === id)
     if (!comment) throw createError({ statusCode: 404, statusMessage: '评论不存在' })
-
+    // 不能给自己的评论点赞
+    if (comment.userId === user.id) {
+      throw createError({ statusCode: 403, statusMessage: '不能给自己的评论点赞' })
+    }
     const idx = comment.likedBy.indexOf(user.id)
     if (idx === -1) {
       comment.likedBy.push(user.id)

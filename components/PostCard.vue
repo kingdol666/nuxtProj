@@ -12,6 +12,7 @@ const props = defineProps<{
 const emit = defineEmits<{ (e: 'click', post: Post): void; (e: 'toggle-like', post: Post): void }>()
 
 const liked = computed(() => props.currentUserId ? props.post.likedBy.includes(props.currentUserId) : false)
+const isOwn = computed(() => !!(props.currentUserId && props.post.userId === props.currentUserId))
 const likeCount = computed(() => props.post.likedBy.length)
 const cover = computed(() => props.post.images[0] || '')
 const hasVideo = computed(() => (props.post.videos?.length ?? 0) > 0)
@@ -34,6 +35,8 @@ const placeholderGrad = computed(() => {
 function onClick() { emit('click', props.post) }
 function onLike(e: Event) {
   e.stopPropagation()
+  // 不能给自己的帖子点赞
+  if (props.currentUserId && props.post.userId === props.currentUserId) return
   emit('toggle-like', props.post)
 }
 
@@ -69,7 +72,7 @@ const excerpt = computed(() => props.post.content.replace(/\n/g, ' ').slice(0, 6
           <span class="name">{{ post.username }}</span>
         </NuxtLink>
         <div class="stats">
-          <button class="stat" :class="{ liked }" @click="onLike" :title="liked ? '取消点赞' : '点赞'">
+          <button class="stat" :class="{ liked, disabled: isOwn }" :disabled="isOwn" :title="isOwn ? '不能给自己的帖子点赞' : (liked ? '取消点赞' : '点赞')" @click="onLike">
             <HeartOutlined />
             <span v-if="likeCount">{{ likeCount }}</span>
           </button>
@@ -242,6 +245,10 @@ const excerpt = computed(() => props.post.content.replace(/\n/g, ' ').slice(0, 6
 }
 .stat:hover { color: var(--danger); }
 .stat.liked { color: var(--danger); }
+.stat.disabled,
+.stat:disabled { opacity: 0.4; cursor: not-allowed; }
+.stat.disabled:hover,
+.stat:disabled:hover { color: var(--text-secondary); }
 .stat.muted { cursor: default; }
 .stat.muted:hover { color: var(--text-secondary); }
 </style>

@@ -73,15 +73,30 @@ export const usePosts = () => {
   }
 
   async function toggleLike(id: string) {
+    const { user } = useAuth()
     const res = await $fetch<{ liked: boolean; likeCount: number }>(`/api/posts/${id}/like`, { method: 'POST' })
     const p = posts.value.find((x) => x.id === id)
-    if (p) {
-      // Reconcile likedBy length; we don't have current userId here so trust count
-      p.likedBy = res.liked
-        ? [...p.likedBy, '__me__']
-        : p.likedBy.slice(0, Math.max(0, p.likedBy.length - 1))
+    const uid = user.value?.id
+    if (p && uid) {
+      if (res.liked) {
+        if (!p.likedBy.includes(uid)) p.likedBy.push(uid)
+      } else {
+        p.likedBy = p.likedBy.filter((u) => u !== uid)
+      }
     }
     return res
+  }
+
+  async function updatePost(id: string, payload: Partial<CreatePostPayload>) {
+    const updated = await $fetch<Post>(`/api/posts/${id}`, { method: 'PUT', body: payload })
+    const idx = posts.value.findIndex((x) => x.id === id)
+    if (idx !== -1) posts.value[idx] = { ...posts.value[idx], ...updated }
+    return updated
+  }
+
+  function canLike(post: Post, userId: string | undefined): boolean {
+    // 不能给自己的帖子点赞
+    return !!userId && post.userId !== userId
   }
 
   function isLikedBy(post: Post, userId: string | undefined) {
@@ -108,7 +123,9 @@ export const usePosts = () => {
     fetchPost,
     createPost,
     removePost,
+    updatePost,
     toggleLike,
+    canLike,
     isLikedBy,
     isCollectedBy,
     allTags,
