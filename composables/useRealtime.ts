@@ -3,8 +3,7 @@
 // WebSocket 客户端：单例连接，自动认证 + 心跳 + 断线重连。
 // 提供全局事件流（消息/关注/在线状态），供 NotificationBell / ChatPanel 订阅。
 import { useState } from '#imports'
-import type { Message } from './useMessages'
-
+import { useSiteConfig, type PublicAppConfig } from './useSiteConfig'
 export type FollowNotice = {
   fromUserId: string
   fromUsername: string
@@ -17,8 +16,8 @@ export type RealtimeEvent =
   | { type: 'follow'; fromUserId: string; fromUsername: string; fromAvatarColor: number; createdAt: number }
   | { type: 'auth_ok'; userId: string }
   | { type: 'auth_error'; message: string }
+  | { type: 'config'; config: PublicAppConfig }
   | { type: 'pong' }
-
 type EventSubscriber = (e: RealtimeEvent) => void
 type TimerHandle = ReturnType<typeof setInterval>
 
@@ -29,7 +28,10 @@ export const useRealtime = () => {
   const unreadCount = useState<number>('ws-unread', () => 0)
   const followNotices = useState<FollowNotice[]>('ws-follow-notices', () => [])
   const lastMessage = useState<Message | null>('ws-last-message', () => null)
-
+  // 配置驱动的心跳/重连间隔（来自 config.yml，支持热重载）
+  const { config: appConfig } = useSiteConfig()
+  const heartbeatMs = () => appConfig.value.realtime.heartbeatIntervalMs
+  const reconnectMs = () => appConfig.value.realtime.reconnectDelayMs
   let ws: WebSocket | null = null
   let heartbeatTimer: TimerHandle | null = null
   let reconnectTimer: TimerHandle | null = null
@@ -56,6 +58,8 @@ export const useRealtime = () => {
       e = { type: 'auth_ok', userId: String(data.userId ?? '') }
     } else if (type === 'auth_error') {
       e = { type: 'auth_error', message: String(data.message ?? '') }
+    } else if (type === 'config' && data.config && typeof data.config === 'object') {
+      e = { type: 'config', config: data.config as PublicAppConfig }
     } else if (type === 'pong') {
       e = { type: 'pong' }
     }
@@ -95,14 +99,13 @@ export const useRealtime = () => {
     const proto = location.protocol === 'https:' ? 'wss' : 'ws'
     const url = `${proto}://${location.host}/_ws`
     ws = new WebSocket(url)
-
     ws.onopen = () => {
       connected.value = true
       // Cookie is sent automatically on WS handshake; server auths in open()
       clearInterval(heartbeatTimer ?? undefined)
       heartbeatTimer = setInterval(() => {
         if (ws?.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type: 'ping' }))
-      }, 25000)
+      }, heartbeatMs())
     }
 
     ws.onmessage = (ev) => {
@@ -117,7 +120,7 @@ export const useRealtime = () => {
       heartbeatTimer = null
       if (!manualClose) {
         clearTimeout(reconnectTimer ?? undefined)
-        reconnectTimer = setTimeout(() => connect(), 3000)
+        reconnectTimer = setTimeout(() => connect(), reconnectMs())
       }
     }
 

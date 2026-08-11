@@ -1,14 +1,15 @@
-// server/api/upload.post.ts
-//
 // 媒体上传（图片 + 视频）：将文件持久化存储到 data/uploads/，
 // 同时在 images.json 中记录结构化元信息。
 // 查询参数 ?purpose=post|avatar|background 标记用途。
+// 上传限额（图片/视频体积、数量）由 config.yml 热驱动。
 import { promises as fs } from 'node:fs'
 import { join, extname } from 'node:path'
 import { randomBytes } from 'node:crypto'
 import { requireUser } from '~~/server/utils/auth'
 import { updateImages, genId, type ImageMeta } from '~~/server/utils/db'
 import { readImageDimensions } from '~~/server/utils/imageMeta'
+import { getConfig } from '~~/server/utils/appConfig'
+
 
 const IMAGE_EXT: Record<string, string> = {
   '.jpg': 'image/jpeg',
@@ -25,8 +26,6 @@ const VIDEO_EXT: Record<string, string> = {
   '.ogg': 'video/ogg',
   '.ogv': 'video/ogg',
 }
-const IMAGE_MAX = 8 * 1024 * 1024    // 8 MB
-const VIDEO_MAX = 100 * 1024 * 1024  // 100 MB
 const VALID_PURPOSES = new Set(['post', 'avatar', 'background', 'other'])
 
 function uploadsDir(): string {
@@ -63,11 +62,14 @@ export default defineEventHandler(async (event) => {
   }
 
   const kind: 'image' | 'video' = videoMime ? 'video' : 'image'
-  const maxSize = kind === 'video' ? VIDEO_MAX : IMAGE_MAX
+  const cfg = getConfig().limits.uploads
+  const maxSize = (kind === 'video' ? cfg.maxVideoSizeMB : cfg.maxImageSizeMB) * MB
   if (file.data.length > maxSize) {
     throw createError({
       statusCode: 413,
-      statusMessage: kind === 'video' ? '视频过大（最大 100MB）' : '图片过大（最大 8MB）',
+      statusMessage: kind === 'video'
+        ? `视频过大（最大 ${cfg.maxVideoSizeMB}MB）`
+        : `图片过大（最大 ${cfg.maxImageSizeMB}MB）`,
     })
   }
 

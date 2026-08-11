@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
-import { useTheme } from '~/composables/useTheme'
+import { useSiteConfig } from '~/composables/useSiteConfig'
 import {
   BulbOutlined,
   BulbFilled,
@@ -24,6 +24,9 @@ const { themeMode, toggleTheme } = useTheme()
 const route = useRoute()
 const { user, isLoggedIn, isAdmin, logout, openAuthModal } = useAuth()
 const username = computed(() => user.value?.username || '')
+const { config: appConfig } = useSiteConfig()
+const brandName = computed(() => appConfig.value.branding.brandName)
+const brandLogo = computed(() => appConfig.value.branding.brandLogo)
 
 interface NavItem { key: string; label: string; to: string; icon: any }
 // 后台管理仅对 admin 角色可见
@@ -85,8 +88,8 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
       <!-- 左：品牌 + 导航 -->
       <div class="header-left">
         <nuxt-link to="/" class="brand">
-          <img src="/logo.ico" alt="logo" class="brand-logo" />
-          <span class="brand-text">Nuxt Admin</span>
+          <img :src="brandLogo" alt="logo" class="brand-logo" />
+          <span class="brand-text">{{ brandName }}</span>
         </nuxt-link>
 
         <nav class="nav-pills">

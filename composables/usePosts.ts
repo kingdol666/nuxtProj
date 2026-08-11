@@ -26,6 +26,7 @@ export interface CreatePostPayload {
   content: string
   images?: string[]
   videos?: string[]
+  tags?: string[]
 }
 
 export const usePosts = () => {

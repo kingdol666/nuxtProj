@@ -67,6 +67,9 @@ function prevMedia() {
 function nextMedia() {
   if (mediaList.value.length) activeImg.value = (activeImg.value + 1) % mediaList.value.length
 }
+function close() {
+  emit('update:open', false)
+}
 // ─── Comments ───
 const comments = ref<CommentItem[]>([])
 const commentText = ref('')

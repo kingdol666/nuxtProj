@@ -24,6 +24,7 @@ export default defineNitroPlugin(async () => {
       avatarUrl: '',
       backgroundUrl: '',
       bio: '系统管理员',
+      createdAt: Date.now(),
     }
     users.push(admin)
     return { seeded: true }

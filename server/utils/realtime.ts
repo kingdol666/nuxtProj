@@ -50,6 +50,22 @@ export function sendToUser(userId: string, data: unknown): boolean {
   return delivered
 }
 
+// 广播一条数据给所有在线用户的所有活跃连接（用于全局通知，如配置热重载）。
+export function broadcastToAll(data: unknown): void {
+  if (online.size === 0) return
+  const json = typeof data === 'string' ? data : JSON.stringify(data)
+  for (const [userId, conns] of online) {
+    for (const peer of conns) {
+      try {
+        peer.send(json)
+      } catch {
+        conns.delete(peer)
+      }
+    }
+    if (conns.size === 0) online.delete(userId)
+  }
+}
+
 // 用户上线时消费所有未投递的私信（离线队列）。
 // 标记 delivered=true 并逐条推送。
 export async function drainPendingMessages(userId: string): Promise<Message[]> {

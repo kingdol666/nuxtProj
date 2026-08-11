@@ -77,7 +77,7 @@ export default defineEventHandler(async (event) => {
         await fd.read(buf, 0, chunkSize, start)
         setResponseStatus(event, 206)
         setHeader(event, 'Content-Type', MIME[ext])
-        setHeader(event, 'Content-Length', String(chunkSize))
+        setHeader(event, 'Content-Length', chunkSize)
         setHeader(event, 'Content-Range', `bytes ${start}-${clampedEnd}/${fileSize}`)
         setHeader(event, 'Accept-Ranges', 'bytes')
         setHeader(event, 'Cache-Control', 'public, max-age=31536000, immutable')

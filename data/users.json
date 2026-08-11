@@ -9,14 +9,5 @@
     "createdAt": 1786291478482,
     "avatarUrl": "",
     "backgroundUrl": ""
-  },
-  {
-    "id": "mso0kzyxtb5ve",
-    "username": "alice",
-    "passwordHash": "1c377927289de162104cd241c3e3770e:f7d05b44d4a1b12df8e9f3afff7e31a18a7057b1291e40a190c95600f8bdfa5ab64bca64543b842b9b23fd7b08945e9e1f9a34ef0b9aaf55da42fb4e230531ec",
-    "role": "user",
-    "avatarColor": 1,
-    "bio": "",
-    "createdAt": 1786413683599
   }
 ]

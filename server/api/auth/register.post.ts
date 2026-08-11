@@ -1,5 +1,6 @@
 import { updateUsers, genId } from '~~/server/utils/db'
 import { hashPassword, setAuthCookie } from '~~/server/utils/auth'
+import { getConfig } from '~~/server/utils/appConfig'
 
 const AVATAR_PALETTE_COUNT = 6
 
@@ -13,6 +14,9 @@ export default defineEventHandler(async (event) => {
   }
   if (!password || password.length < 6) {
     throw createError({ statusCode: 400, statusMessage: '密码至少 6 个字符' })
+  }
+  if (!getConfig().features.enableSignup) {
+    throw createError({ statusCode: 403, statusMessage: '管理员已关闭注册' })
   }
 
   return await updateUsers(async (users) => {
@@ -28,6 +32,7 @@ export default defineEventHandler(async (event) => {
       avatarUrl: '',
       backgroundUrl: '',
       bio: '',
+      createdAt: Date.now(),
     }
     users.push(user)
     setAuthCookie(event, user.id)

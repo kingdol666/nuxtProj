@@ -1,14 +1,44 @@
 // nuxt.config.ts
+//
+// 配置优先：构建期从 config.yml 读取 server.host/devPort/prodPort 与
+// data.dataDir/authSecret，注入 devServer / nitro / runtimeConfig。
+// 运行期热重载由 server/utils/appConfig.ts 负责（端口/主机等启动键除外）。
+// config.yml 缺失或格式错误时回退内置默认，绝不阻断构建。
 import Components from 'unplugin-vue-components/vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { parse as parseYaml } from 'yaml'
 
+function readUserConfig(): Record<string, any> {
+  try {
+    const raw = readFileSync(join(process.cwd(), 'config.yml'), 'utf8')
+    return raw.trim() ? parseYaml(raw) : {}
+  } catch {
+    return {}
+  }
+}
+const _cfg = readUserConfig()
+const _srv = _cfg?.server ?? {}
+const _data = _cfg?.data ?? {}
+const cfgHost = typeof _srv.host === 'string' && _srv.host ? _srv.host : '0.0.0.0'
+const cfgDevPort = Number(_srv.devPort) || 3000
+const cfgProdPort = Number(_srv.prodPort) || 3000
+const cfgDataDir = typeof _data.dataDir === 'string' ? _data.dataDir : ''
+const cfgAuthSecret = typeof _data.authSecret === 'string' && _data.authSecret ? _data.authSecret : 'nuxt-app-dev-secret-change-in-prod'
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
+  // 开发服务器端口/主机：config.yml → 环境变量覆盖
+  devServer: {
+    host: process.env.NUXT_DEV_HOST || cfgHost,
+    port: Number(process.env.NUXT_DEV_PORT) || cfgDevPort,
+  },
   // 「首页 /」现在是一个独立的落地页（pages/index.vue），不再重定向。
   runtimeConfig: {
-    dataDir: process.env.NUXT_DATA_DIR || '',
-    authSecret: process.env.NUXT_AUTH_SECRET || 'nuxt-app-dev-secret-change-in-prod',
+    dataDir: process.env.NUXT_DATA_DIR || cfgDataDir,
+    authSecret: process.env.NUXT_AUTH_SECRET || cfgAuthSecret,
+    prodPort: cfgProdPort,
   },
   // WebSocket 实时通信（关注/私信/通知）—— Nitro crossws 适配器
   nitro: {
@@ -48,7 +78,7 @@ export default defineNuxtConfig({
         // 触发对「静态 import 了这些种子 JSON 的 Pinia store」的客户端 HMR，
         // 否则每次增删改都会热重载 admin.vue / application.vue（Dev 专属问题，
         // 生产构建无文件监听，不受影响）。
-        ignored: ['**/data/**'],
+        ignored: ['**/data/**', '**/config.yml', '**/config.yml.tmp'],
       },
     },
     ssr: {

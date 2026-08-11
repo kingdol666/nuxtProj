@@ -32,6 +32,8 @@ interface ProfileData {
   avatarUrl: string
   backgroundUrl: string
   bio: string
+  role: 'admin' | 'user'
+  createdAt: number
   isSelf: boolean
   stats: {
     postCount: number

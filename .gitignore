@@ -21,3 +21,9 @@ npm-debug.log*
 
 # Uploaded images (persisted on disk, not in git)
 data/uploads/
+
+# 用户配置（保留模板 config.example.yml；config.yml 由用户自定义，不纳入版本控制）
+config.yml
+config.yml.tmp
+# 测试用临时构建产物（npm run test:config 生成）
+scripts/.appConfig.mjs

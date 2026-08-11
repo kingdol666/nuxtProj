@@ -4,9 +4,11 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --host 0.0.0.0",
+    "start": "node start.mjs",
+    "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "test:config": "node scripts/_cfgtest.mjs",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
@@ -14,7 +16,8 @@
     "nuxt": "^3.17.5",
     "nuxt-particles": "^0.3.0",
     "vue": "^3.5.16",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.5.1",
+    "yaml": "^2.8.0"
   },
   "devDependencies": {
     "less": "^4.3.0",

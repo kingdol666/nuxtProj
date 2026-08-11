@@ -6,7 +6,7 @@ import { createHmac, randomBytes, scrypt as scryptCb, timingSafeEqual } from 'no
 import { promisify } from 'node:util'
 import { getCookie, deleteCookie, setCookie } from 'h3'
 import type { H3Event } from 'h3'
-import { getUsers, type User } from './db'
+import { getConfig } from './appConfig'
 
 const scrypt = promisify(scryptCb) as (
   password: string | Buffer,
@@ -15,7 +15,7 @@ const scrypt = promisify(scryptCb) as (
 ) => Promise<Buffer>
 
 const COOKIE_NAME = 'auth_token'
-const TOKEN_TTL = 30 * 24 * 60 * 60 * 1000 // 30 days
+const TOKEN_TTL_MS = () => getConfig().data.cookieMaxAgeDays * 24 * 60 * 60 * 1000
 
 // HMAC secret: from runtimeConfig or a stable derived default.
 // (dev only — production MUST set NUXT_AUTH_SECRET)
@@ -48,7 +48,7 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
 
 // ─── Token signing (HMAC-SHA256) ──────────────────────────────────────
 function signToken(userId: string): string {
-  const payload = JSON.stringify({ uid: userId, exp: Date.now() + TOKEN_TTL })
+  const payload = JSON.stringify({ uid: userId, exp: Date.now() + TOKEN_TTL_MS() })
   const b64 = Buffer.from(payload).toString('base64url')
   const sig = createHmac('sha256', getSecret()).update(b64).digest('base64url')
   return `${b64}.${sig}`
@@ -75,11 +75,12 @@ export function verifyToken(token: string | undefined): { uid: string } | null {
 
 // ─── Cookie helpers ───────────────────────────────────────────────────
 export function setAuthCookie(event: H3Event, userId: string) {
+  const ttl = TOKEN_TTL_MS()
   setCookie(event, COOKIE_NAME, signToken(userId), {
     httpOnly: true,
     sameSite: 'lax',
     path: '/',
-    maxAge: TOKEN_TTL / 1000,
+    maxAge: ttl / 1000,
   })
 }
 
@@ -106,7 +107,7 @@ export async function getUserFromEvent(event: H3Event): Promise<Omit<User, 'pass
   if (!user) return null
   const { passwordHash: _ph, ...safe } = user
   // Backfill new optional fields for legacy users
-  return { avatarUrl: '', backgroundUrl: '', ...safe }
+  return { ...safe, avatarUrl: safe.avatarUrl || '', backgroundUrl: safe.backgroundUrl || '' }
 }
 
 // Require auth — throws 401 if not authenticated.

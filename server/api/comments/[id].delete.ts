@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')
   if (!id) throw createError({ statusCode: 400, statusMessage: 'id is required' })
 
-  return await updateComments((items) => {
+  const { targetType, targetId, count: deleted } = await updateComments((items) => {
     const idx = items.findIndex((c) => c.id === id)
     if (idx === -1) throw createError({ statusCode: 404, statusMessage: '评论不存在' })
     if (items[idx].userId !== user.id && user.role !== 'admin') {
@@ -24,19 +24,23 @@ export default defineEventHandler(async (event) => {
         }
       }
     }
+    // Capture post linkage BEFORE mutating the array.
     const targetType = items[idx]?.targetType || 'content'
     const targetId = items[idx]?.contentId
+    const count = toRemove.size
     const next = items.filter((c) => !toRemove.has(c.id))
     items.length = 0
     items.push(...next)
-    // Decrement commentCount on the target post if applicable
-    if (targetType === 'post' && targetId) {
-      updatePosts((posts) => {
-        const p = posts.find((pp) => pp.id === targetId)
-        if (p) p.commentCount = Math.max(0, p.commentCount - toRemove.size)
-        return null
-      })
-    }
-    return { success: true, deleted: toRemove.size }
+    return { targetType, targetId, count }
   })
+
+  // Decrement commentCount on the target post outside the comment transaction.
+  if (targetType === 'post' && targetId) {
+    await updatePosts((posts) => {
+      const p = posts.find((pp) => pp.id === targetId)
+      if (p) p.commentCount = Math.max(0, p.commentCount - deleted)
+      return null
+    })
+  }
+  return { success: true, deleted }
 })
