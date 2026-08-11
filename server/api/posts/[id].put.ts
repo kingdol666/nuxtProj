@@ -4,7 +4,7 @@
 // 仅允许修改 title / content / images / videos / tags；其余字段（likedBy /
 // collectedBy / commentCount / createdAt / userId 等）保持不变。
 // 复用与创建相同的 config 限额校验。
-import { updatePosts } from '~~/server/utils/db'
+import { updatePosts, updateImages, genId, type ImageMeta } from '~~/server/utils/db'
 import { requireUser } from '~~/server/utils/auth'
 import { getConfig } from '~~/server/utils/appConfig'
 import { generateCoverImage } from '~~/server/utils/poster'
@@ -86,7 +86,7 @@ export default defineEventHandler(async (event) => {
     return post
   })
 
-  // 若事务中标记了需要自动生成封面，在此异步生成并回写
+  // 若事务中标记了需要自动生成封面，在此生成并回写 + 记录元数据
   const updated = await updatePosts(async (items) => {
     const p = items.find((x) => x.id === id)
     if (!p || !p.images.includes('__auto_cover__')) return p
@@ -96,7 +96,18 @@ export default defineEventHandler(async (event) => {
     const dir = uploadsDir()
     await fs.mkdir(dir, { recursive: true })
     await fs.writeFile(join(dir, filename), coverPng)
-    p.images = [`/api/uploads/${filename}`]
+    const coverUrl = `/api/uploads/${filename}`
+    p.images = [coverUrl]
+    // 记录元数据到 images.json
+    await updateImages((all) => {
+      const meta: ImageMeta = {
+        id: genId(), filename, originalName: `${p.title}-cover.png`, mimeType: 'image/png',
+        kind: 'image', size: coverPng.length, width: 750, height: 1000, duration: 0,
+        userId: user.id, purpose: 'post', url: coverUrl, createdAt: Date.now(),
+      }
+      all.push(meta)
+      return meta
+    })
     return p
   })
 

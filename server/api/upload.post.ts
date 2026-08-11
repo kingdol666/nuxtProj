@@ -63,6 +63,7 @@ export default defineEventHandler(async (event) => {
 
   const kind: 'image' | 'video' = videoMime ? 'video' : 'image'
   const cfg = getConfig().limits.uploads
+  const MB = 1024 * 1024
   const maxSize = (kind === 'video' ? cfg.maxVideoSizeMB : cfg.maxImageSizeMB) * MB
   if (file.data.length > maxSize) {
     throw createError({

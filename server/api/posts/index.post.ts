@@ -1,8 +1,9 @@
 // POST /api/posts — 创建帖子
 // 与小红书一致：每篇笔记都有封面图。
-//   - 上传了图片：用户可选的封面（coverImage 字段）或默认首张图
+//   - 上传了图片：用户可选的封面（首张图）
 //   - 未上传图片：根据标题/正文/标签自动生成封面大图（渐变配色可自定义）
-import { updatePosts, genId } from '~~/server/utils/db'
+//   - 自动封面写入 uploads 目录 + images.json 元数据，可持久查找
+import { updatePosts, updateImages, genId, type ImageMeta } from '~~/server/utils/db'
 import { requireUser } from '~~/server/utils/auth'
 import { getConfig } from '~~/server/utils/appConfig'
 import { generateCoverImage } from '~~/server/utils/poster'
@@ -22,7 +23,7 @@ export default defineEventHandler(async (event) => {
     images?: string[]
     videos?: string[]
     tags?: string[]
-    coverGradient?: number  // 用户选择的自动封面配色索引（-1 = 按标题哈希）
+    coverGradient?: number
   }>(event)
 
   const title = body?.title?.trim()
@@ -45,7 +46,18 @@ export default defineEventHandler(async (event) => {
     const dir = uploadsDir()
     await fs.mkdir(dir, { recursive: true })
     await fs.writeFile(join(dir, filename), coverPng)
-    images = [`/api/uploads/${filename}`]
+    const coverUrl = `/api/uploads/${filename}`
+    images = [coverUrl]
+    // 记录元数据到 images.json，使封面可通过元数据查找
+    await updateImages((items) => {
+      const meta: ImageMeta = {
+        id: genId(), filename, originalName: `${title}-cover.png`, mimeType: 'image/png',
+        kind: 'image', size: coverPng.length, width: 750, height: 1000, duration: 0,
+        userId: user.id, purpose: 'post', url: coverUrl, createdAt: Date.now(),
+      }
+      items.push(meta)
+      return meta
+    })
   }
 
   const now = Date.now()
