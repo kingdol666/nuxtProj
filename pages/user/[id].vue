@@ -20,6 +20,7 @@ import type { Post } from '~/composables/usePosts'
 import FollowButton from '~/components/FollowButton.vue'
 import PostCard from '~/components/PostCard.vue'
 import PostDetailModal from '~/components/PostDetailModal.vue'
+import PostEditorModal from '~/components/PostEditorModal.vue'
 
 const route = useRoute()
 const { user: currentUser, isLoggedIn } = useAuth()
@@ -73,6 +74,10 @@ const listLoading = ref(false)
 // Detail modal
 const selectedPost = ref<Post | null>(null)
 const detailOpen = ref(false)
+
+// Editor modal
+const editingPost = ref<Post | null>(null)
+const editorOpen = ref(false)
 
 // 私信：复用 app.vue 中唯一的全局 <ChatPanel>，避免重复挂载。
 const { openChat } = useChatPanel()
@@ -134,6 +139,21 @@ async function onToggleLike(post: Post) {
     }
   } catch {
     message.error('操作失败')
+  }
+}
+
+function startEdit(post: Post) {
+  if (!isLoggedIn.value) return
+  editingPost.value = post
+  editorOpen.value = true
+}
+
+async function onPostUpdated(updated: Post) {
+  // 同步本地帖子列表与详情弹窗（成功提示由 PostEditorModal 统一给出）
+  const idx = userPosts.value.findIndex((p) => p.id === updated.id)
+  if (idx !== -1) userPosts.value[idx] = { ...userPosts.value[idx], ...updated }
+  if (selectedPost.value?.id === updated.id) {
+    selectedPost.value = { ...selectedPost.value, ...updated }
   }
 }
 
@@ -286,7 +306,10 @@ useHead({ title: '用户主页' })
     </a-modal>
 
     <!-- 详情弹窗 -->
-    <PostDetailModal v-model:open="detailOpen" :post="selectedPost" @toggle-like="onToggleLike" />
+    <PostDetailModal v-model:open="detailOpen" :post="selectedPost" @toggle-like="onToggleLike" @edit="startEdit" />
+
+    <!-- 发帖/编辑弹窗 -->
+    <PostEditorModal v-model:open="editorOpen" :post="editingPost" @updated="onPostUpdated" />
   </div>
 </template>
 

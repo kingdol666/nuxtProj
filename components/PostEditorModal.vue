@@ -56,8 +56,15 @@ const gradientPalettes = [
 ]
 const selectedGradient = ref(0)
 
-// 有多少张图片（已上传 + 待上传的图片，不含视频）
-const imageCount = computed(() => images.value.length + pendingFiles.value.filter((p) => p.kind === 'image').length)
+// 统一图片列表：已上传 images + 待上传 pendingFiles 中的图片，用于封面索引
+// selectedCover 的数字索引基于此列表（generated 仍为字符串 'generated'）
+const allImages = computed(() => {
+  const uploaded = images.value.map((url) => ({ url, pending: false }))
+  const pending = pendingFiles.value.filter((p) => p.kind === 'image').map((p) => ({ url: p.preview, pending: true, file: p.file }))
+  return [...uploaded, ...pending]
+})
+
+const imageCount = computed(() => allImages.value.length)
 // 当图片被删光时，selectedCover 自动切回 generated
 watch(imageCount, (n) => {
   if (n === 0) selectedCover.value = 'generated'
@@ -140,11 +147,28 @@ function onFiles(e: Event) {
   input.value = ''
 }
 
+// 从统一图片列表中删除指定索引的图片（自动判断是已上传还是待上传）
+function removeImageItem(unifiedIndex: number) {
+  const uploadedCount = images.value.length
+  if (unifiedIndex < uploadedCount) {
+    // 已上传图片
+    images.value.splice(unifiedIndex, 1)
+  } else {
+    // 待上传图片
+    const pendingIdx = unifiedIndex - uploadedCount
+    const pendingImages = pendingFiles.value.filter((p) => p.kind === 'image')
+    const target = pendingImages[pendingIdx]
+    if (target) {
+      const realIdx = pendingFiles.value.indexOf(target)
+      URL.revokeObjectURL(target.preview)
+      pendingFiles.value.splice(realIdx, 1)
+    }
+  }
+  // 封面索引修正由 imageCount watcher 自动处理
+}
+
 function removeImage(i: number) {
   images.value.splice(i, 1)
-  if (typeof selectedCover.value === 'number' && selectedCover.value >= images.value.length) {
-    selectedCover.value = images.value.length > 0 ? 0 : 'generated'
-  }
 }
 function removePending(i: number) {
   const pf = pendingFiles.value[i]
@@ -259,10 +283,11 @@ async function submit() {
           <span class="section-counter">{{ totalMedia }} / 9</span>
         </div>
         <div class="images-grid">
-          <!-- 已上传图片 -->
-          <div v-for="(img, i) in images" :key="'img-'+i" class="img-item" :class="{ 'is-cover': selectedCover === i }" @click="selectedCover = i">
-            <img :src="img" alt="" />
-            <button class="img-del" @click.stop="removeImage(i)" aria-label="删除"><DeleteOutlined /></button>
+          <!-- 统一图片列表：已上传 + 待上传，均可选为封面 -->
+          <div v-for="(img, i) in allImages" :key="'img-'+i" class="img-item" :class="{ 'is-cover': selectedCover === i }" @click="selectedCover = i">
+            <img :src="img.url" alt="" />
+            <span v-if="img.pending" class="pending-badge">待上传</span>
+            <button class="img-del" @click.stop="removeImageItem(i)" aria-label="删除"><DeleteOutlined /></button>
             <button class="cover-badge" :class="{ active: selectedCover === i }" @click.stop="selectedCover = i" :title="selectedCover === i ? '当前封面' : '设为封面'">
               <StarFilled v-if="selectedCover === i" />
               <StarOutlined v-else />
@@ -275,12 +300,11 @@ async function submit() {
             <span class="vid-badge"><VideoCameraOutlined /> 视频</span>
             <button class="img-del" @click="removeVideo(i)" aria-label="删除"><DeleteOutlined /></button>
           </div>
-          <!-- 待上传文件（本地预览） -->
-          <div v-for="(pf, i) in pendingFiles" :key="'pend-'+i" class="img-item" :class="{ 'video-item': pf.kind === 'video' }">
-            <img v-if="pf.kind === 'image'" :src="pf.preview" alt="" />
-            <video v-else :src="pf.preview" preload="metadata" />
-            <span v-if="pf.kind === 'video'" class="vid-badge"><VideoCameraOutlined /> 视频</span>
-            <button class="img-del" @click="removePending(i)" aria-label="删除"><DeleteOutlined /></button>
+          <!-- 待上传视频 -->
+          <div v-for="(pf, i) in pendingFiles.filter(p => p.kind === 'video')" :key="'pend-vid-'+i" class="img-item video-item">
+            <video :src="pf.preview" preload="metadata" />
+            <span class="vid-badge"><VideoCameraOutlined /> 视频</span>
+            <button class="img-del" @click="removePending(pendingFiles.indexOf(pf))" aria-label="删除"><DeleteOutlined /></button>
             <span class="pending-badge">待上传</span>
           </div>
           <!-- 上传按钮 -->
