@@ -14,11 +14,14 @@ import {
   MessageOutlined,
   StarOutlined,
   SettingOutlined,
+  TeamOutlined,
 } from '@ant-design/icons-vue'
 import NotificationBell from '~/components/NotificationBell.vue'
-
 const emit = defineEmits<{ (e: 'open-chat', peerId?: string): void }>()
+
 function openChat(peerId?: string) { emit('open-chat', peerId) }
+
+const { open: groupOpen } = useGroupPanel()
 
 const { themeMode, toggleTheme } = useTheme()
 const route = useRoute()
@@ -127,6 +130,15 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
           @click="openChat()"
         >
           <MessageOutlined />
+        </button>
+        <button
+          v-if="isLoggedIn"
+          class="icon-action"
+          title="群聊"
+          aria-label="群聊"
+          @click="groupOpen = true"
+        >
+          <TeamOutlined />
         </button>
 
         <!-- 登录/用户区 -->

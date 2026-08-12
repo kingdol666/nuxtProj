@@ -9,19 +9,20 @@ import {
   ArrowLeftOutlined,
   MessageOutlined,
   UserOutlined,
+  PictureOutlined,
+  GiftOutlined,
 } from '@ant-design/icons-vue'
 import { avatarStyle } from '~/composables/useAvatar'
 import { useMessages } from '~/composables/useMessages'
 import { useRealtime } from '~/composables/useRealtime'
-import { useAuth } from '~/composables/useAuth'
-
+import { useChatMedia } from '~/composables/useChatMedia'
+import { useWuKongIM } from '~/composables/useWuKongIM'
 const props = defineProps<{
   open: boolean
   initialPeerId?: string
 }>()
 const emit = defineEmits<{ (e: 'update:open', v: boolean): void }>()
-
-const { conversations, activeThread, activePeer, sending, fetchConversations, openConversation, sendMessage, receiveIncoming } = useMessages()
+const { conversations, activeThread, activePeer, sending, fetchConversations, openConversation, sendMessage, sendMediaMessage, receiveIncoming } = useMessages()
 const { unreadCount, decUnread, onEvent } = useRealtime()
 const { isLoggedIn, user } = useAuth()
 const router = useRouter()
@@ -29,10 +30,13 @@ const router = useRouter()
 const inputText = ref('')
 const threadScroll = ref<HTMLElement | null>(null)
 const startedWithPeer = ref(false) // whether we jumped straight into a conversation
+const showGifPicker = ref(false)
+const fileInput = ref<HTMLInputElement | null>(null)
+const { uploading: mediaUploading } = useChatMedia()
 
 // Subscribe to incoming WS messages
 let unsub: (() => void) | null = null
-
+let wkUnsub: (() => void) | null = null
 async function ensureLoaded() {
   if (!isLoggedIn.value) return
   await fetchConversations()
@@ -84,6 +88,33 @@ async function send() {
   fetchConversations().catch(() => {})
 }
 
+function triggerImageUpload() {
+  fileInput.value?.click()
+}
+
+async function onFileSelected(e: Event) {
+  const target = e.target as HTMLInputElement
+  const file = target.files?.[0]
+  target.value = '' // reset so same file can be re-selected
+  if (!file || !activePeer.value) return
+  const { upload } = useChatMedia()
+  const media = await upload(file)
+  if (!media) return
+  await sendMediaMessage(activePeer.value.id, media.msgType, media.url, media.width, media.height)
+  await nextTick()
+  scrollToBottom()
+  fetchConversations().catch(() => {})
+}
+
+async function onGifSelected(gif: { url: string }) {
+  showGifPicker.value = false
+  if (!activePeer.value) return
+  await sendMediaMessage(activePeer.value.id, 3, gif.url)
+  await nextTick()
+  scrollToBottom()
+  fetchConversations().catch(() => {})
+}
+
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault()
@@ -103,13 +134,33 @@ watch(() => activeThread.value.length, async () => {
 })
 
 onMounted(() => {
+  // 降级路径：自有 WS 推送的私信
   unsub = onEvent((e) => {
     if (e.type === 'message') {
       receiveIncoming(e.message)
     }
   })
+  // 主路径：WuKongIM Person 频道私信
+  const { onPrivateMessage } = useWuKongIM()
+  wkUnsub = onPrivateMessage((msg) => {
+    const p = msg.payload
+    const isText = p.type === 1
+    receiveIncoming({
+      id: 'wk_' + msg.timestamp + '_' + msg.fromUid,
+      fromUserId: msg.fromUid,
+      toUserId: user.value?.id || '',
+      text: isText ? (p as { text: string }).text : '',
+      msgType: p.type,
+      mediaUrl: !isText ? (p as { url: string }).url : '',
+      mediaW: !isText ? (p as { w?: number }).w ?? 0 : 0,
+      mediaH: !isText ? (p as { h?: number }).h ?? 0 : 0,
+      read: false,
+      delivered: true,
+      createdAt: msg.timestamp,
+    })
+  })
 })
-onBeforeUnmount(() => { unsub?.() })
+onBeforeUnmount(() => { unsub?.(); wkUnsub?.() })
 
 function timeFmt(ts: number): string {
   const d = new Date(ts)
@@ -195,18 +246,39 @@ const noConversations = computed(() => !conversations.value.length && !startedWi
                 :class="{ mine: m.fromUserId === user?.id }"
               >
                 <div class="msg-bubble">
-                  <p class="msg-text">{{ m.text }}</p>
+                  <MessageContent
+                    :type="m.msgType || 1"
+                    :text="m.text"
+                    :url="m.mediaUrl"
+                    :w="m.mediaW"
+                    :h="m.mediaH"
+                  />
                   <span class="msg-time">{{ timeFmt(m.createdAt) }}</span>
                 </div>
-              </div>
+            </div>
             </div>
 
             <div class="thread-input">
+              <div class="input-toolbar">
+                <button class="tool-btn" :disabled="mediaUploading" @click="triggerImageUpload" title="发送图片" aria-label="发送图片">
+                  <PictureOutlined />
+                </button>
+                <button class="tool-btn" :disabled="mediaUploading" @click="showGifPicker = !showGifPicker" title="GIF 表情" aria-label="GIF">
+                  <GiftOutlined />
+                </button>
+                <input
+                  ref="fileInput"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,image/gif,image/bmp"
+                  style="display:none"
+                  @change="onFileSelected"
+                />
+              </div>
               <textarea
                 v-model="inputText"
                 class="msg-input"
                 rows="1"
-                placeholder="输入消息，Enter 发送…"
+                :placeholder="mediaUploading ? '上传中…' : '输入消息，Enter 发送…'"
                 maxlength="1000"
                 @keydown="onKeydown"
               />
@@ -214,6 +286,7 @@ const noConversations = computed(() => !conversations.value.length && !startedWi
                 <SendOutlined />
               </button>
             </div>
+            <GifPicker :open="showGifPicker" @select="onGifSelected" @close="showGifPicker = false" />
           </template>
         </div>
       </div>
@@ -345,6 +418,17 @@ const noConversations = computed(() => !conversations.value.length && !startedWi
 }
 .msg-send:hover:not(:disabled) { background: var(--accent-hover); }
 .msg-send:disabled { opacity: 0.4; cursor: not-allowed; }
+.input-toolbar {
+  display: flex; align-items: center; gap: 2px; flex-shrink: 0;
+}
+.tool-btn {
+  background: transparent; border: none; color: var(--text-secondary);
+  width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; transition: all var(--dur-fast);
+}
+.tool-btn:hover:not(:disabled) { background: var(--bg-subtle); color: var(--accent); }
+.tool-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 .chat-slide-enter-active, .chat-slide-leave-active { transition: opacity var(--dur), transform var(--dur); }
 .chat-slide-enter-from, .chat-slide-leave-to { opacity: 0; transform: translateY(20px) scale(0.97); }

@@ -70,16 +70,16 @@ const props = defineProps<{ contentId?: string }>();
 
 const { isLoggedIn, user, openAuthModal } = useAuth();
 const newComment = ref('');
-const comments = ref([]);
+const comments = ref<Array<{ id: string; text: string; username: string; userId: string; avatarColor: number; createdAt: number }>>([]);
 const loading = ref(false);
 const submitting = ref(false);
 
-function avatarBg(color) {
+function avatarBg(color: number) {
   const p = AVATAR_PALETTE[color % AVATAR_PALETTE.length];
   return `background: linear-gradient(135deg, ${p[0]}, ${p[1]})`;
 }
 
-function timeFmt(ts) {
+function timeFmt(ts: number) {
   if (!ts) return '';
   const diff = Date.now() - ts;
   const m = Math.floor(diff / 60000);
@@ -96,8 +96,8 @@ async function fetchComments() {
   if (!props.contentId) { comments.value = []; return; }
   loading.value = true;
   try {
-    const data = await $fetch('/api/comments', { params: { contentId: props.contentId } });
-    comments.value = Array.isArray(data) ? data : [];
+    const data = await $fetch<unknown[]>('/api/comments', { params: { contentId: props.contentId } });
+    comments.value = Array.isArray(data) ? data as typeof comments.value : [];
   } catch {
     comments.value = [];
   } finally {
@@ -111,22 +111,23 @@ async function submitComment() {
   if (!text || submitting.value) return;
   submitting.value = true;
   try {
-    const c = await $fetch('/api/comments', {
+    const c = await $fetch<typeof comments.value[number]>('/api/comments', {
       method: 'POST',
       body: { contentId: props.contentId, text, targetType: 'content' },
     });
     comments.value = [c, ...comments.value];
     newComment.value = '';
     message.success('评论成功');
-  } catch (e) {
-    const msg = e?.data?.statusMessage || e?.statusMessage || '评论失败';
+  } catch (e: unknown) {
+    const err = e as { data?: { statusMessage?: string }; statusMessage?: string };
+    const msg = err?.data?.statusMessage || err?.statusMessage || '评论失败';
     message.error(msg);
   } finally {
     submitting.value = false;
   }
 }
 
-function onEnter(e) {
+function onEnter(e: KeyboardEvent) {
   // Shift+Enter for newline, Enter to submit
   if (e.shiftKey) return;
   e.preventDefault();

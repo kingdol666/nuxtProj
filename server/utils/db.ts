@@ -1,7 +1,7 @@
 import { promises as fs } from 'node:fs'
 import { join, dirname } from 'node:path'
 
-type DataKind = 'categories' | 'content' | 'tags' | 'users' | 'comments' | 'ratings' | 'posts' | 'collections' | 'follows' | 'messages' | 'images'
+type DataKind = 'categories' | 'content' | 'tags' | 'users' | 'comments' | 'ratings' | 'posts' | 'collections' | 'follows' | 'messages' | 'images' | 'groups' | 'groupInvites'
 
 // Each resource kind maps to a backing file. (`categories` lives in
 // menu.json for historical reasons — the admin "分组" UI == the nav menu.)
@@ -17,6 +17,8 @@ const FILENAME: Record<DataKind, string> = {
   follows: 'follows.json',
   messages: 'messages.json',
   images: 'images.json',
+  groups: 'groups.json',
+  groupInvites: 'groupInvites.json',
 }
 
 // ─── Data directory resolution ───────────────────────────────────────
@@ -341,6 +343,11 @@ export interface Message {
   read: boolean         // recipient opened the conversation
   delivered: boolean    // pushed to a live WS connection
   createdAt: number
+  // 多消息类型：1=文本(默认)  2=图片  3=GIF/表情
+  msgType: 1 | 2 | 3
+  mediaUrl: string      // 图片/GIF 的访问路径（msgType≠1 时）
+  mediaW: number        // 宽（0 = 未知）
+  mediaH: number        // 高（0 = 未知）
 }
 
 export async function getMessages(): Promise<Message[]> {
@@ -378,4 +385,44 @@ export async function getImages(): Promise<ImageMeta[]> {
 
 export function updateImages<R>(fn: (items: ImageMeta[]) => R | Promise<R>): Promise<R> {
   return updateData<ImageMeta, R>('images', fn)
+}
+
+// ─── Groups (群组聊天) ───────────────────────────────────────────────
+// 群组元信息：成员、群主。实时消息走 WuKongIM 频道（grp_<id>），不在此落库。
+export interface Group {
+  id: string
+  name: string
+  avatarColor: number
+  ownerId: string
+  memberIds: string[]
+  createdAt: number
+}
+
+export async function getGroups(): Promise<Group[]> {
+  return readJson<Group[]>(fileFor('groups'))
+}
+
+export function updateGroups<R>(fn: (items: Group[]) => R | Promise<R>): Promise<R> {
+  return updateData<Group, R>('groups', fn)
+}
+
+// ─── Group Invites (群邀请 · 需同意) ──────────────────────────────────
+export type InviteStatus = 'pending' | 'accepted' | 'declined'
+export interface GroupInvite {
+  id: string
+  groupId: string
+  groupName: string
+  fromUserId: string
+  fromUsername: string
+  toUserId: string
+  status: InviteStatus
+  createdAt: number
+}
+
+export async function getGroupInvites(): Promise<GroupInvite[]> {
+  return readJson<GroupInvite[]>(fileFor('groupInvites'))
+}
+
+export function updateGroupInvites<R>(fn: (items: GroupInvite[]) => R | Promise<R>): Promise<R> {
+  return updateData<GroupInvite, R>('groupInvites', fn)
 }

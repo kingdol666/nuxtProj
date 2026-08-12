@@ -173,8 +173,13 @@ async function likeComment(c: CommentItem) {
   if (!isLoggedIn.value) { openAuthModal(); return }
   try {
     const res = await $fetch<{ liked: boolean; likeCount: number }>(`/api/comments/${c.id}/like`, { method: 'POST' })
-    if (res.liked) c.likedBy.push(user.value!.id)
-    else c.likedBy = c.likedBy.filter((u) => u !== user.value!.id)
+    // 操作 comments.value 中的原始对象（commentTree 是其浅拷贝展开，
+    // 直接改展开副本的引用不会回写，导致取消点赞不生效 / 状态不同步）。
+    const target = comments.value.find((x) => x.id === c.id)
+    if (!target) return
+    const idx = target.likedBy.indexOf(user.value!.id)
+    if (res.liked && idx === -1) target.likedBy.push(user.value!.id)
+    else if (!res.liked && idx !== -1) target.likedBy.splice(idx, 1)
   } catch {
     message.error('操作失败')
   }
@@ -473,7 +478,8 @@ watch(() => [props.post?.id, props.open], ([pid, open]) => {
                       <p class="c-text">{{ c.text }}</p>
                       <div class="c-actions">
                         <button class="c-action" :class="{ liked: c.likedBy.includes(user?.id || '') }" @click="likeComment(c)">
-                          <HeartOutlined /> <span v-if="c.likedBy.length">{{ c.likedBy.length }}</span>
+                          <HeartFilled v-if="c.likedBy.includes(user?.id || '')" />
+                          <HeartOutlined v-else /> <span v-if="c.likedBy.length">{{ c.likedBy.length }}</span>
                         </button>
                         <button class="c-action" @click="startReply(c)">回复</button>
                         <button v-if="isMine(c) || user?.role === 'admin'" class="c-action danger" @click="deleteComment(c)">
@@ -493,7 +499,8 @@ watch(() => [props.post?.id, props.open], ([pid, open]) => {
                             <p class="c-text">{{ r.text }}</p>
                             <div class="c-actions">
                               <button class="c-action" :class="{ liked: r.likedBy.includes(user?.id || '') }" @click="likeComment(r)">
-                                <HeartOutlined /> <span v-if="r.likedBy.length">{{ r.likedBy.length }}</span>
+                                <HeartFilled v-if="r.likedBy.includes(user?.id || '')" />
+                                <HeartOutlined v-else /> <span v-if="r.likedBy.length">{{ r.likedBy.length }}</span>
                               </button>
                               <button class="c-action" @click="startReply(c)">回复</button>
                               <button v-if="isMine(r) || user?.role === 'admin'" class="c-action danger" @click="deleteComment(r)">

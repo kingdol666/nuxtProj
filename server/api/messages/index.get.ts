@@ -54,11 +54,14 @@ export default defineEventHandler(async (event) => {
     .sort((a, b) => b.last.createdAt - a.last.createdAt)
     .map((s) => {
       const u = users.find((x) => x.id === s.peerId)
+      // 非文本消息显示占位文案（旧数据无 msgType → 默认文本）
+      const mt = s.last.msgType ?? 1
+      const preview = mt === 2 ? '[图片]' : mt === 3 ? '[GIF]' : s.last.text
       return {
         peerId: s.peerId,
         peerUsername: u?.username || '未知用户',
         peerAvatarColor: u?.avatarColor ?? 0,
-        lastText: s.last.fromUserId === user.id ? `我: ${s.last.text}` : s.last.text,
+        lastText: s.last.fromUserId === user.id ? `我: ${preview}` : preview,
         lastCreatedAt: s.last.createdAt,
         unread: s.unread,
       }

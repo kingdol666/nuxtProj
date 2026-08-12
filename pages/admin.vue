@@ -621,7 +621,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
           <p class="hero-sub">应用推荐 · 内容 / 分组 / 标签 可视化管理中枢</p>
         </div>
       </div>
-      <button class="btn btn-primary hero-refresh" :disabled="anyLoading" @click="refreshAll">
+      <button class="btn btn-primary hero-refresh" :disabled="anyLoading" @click="() => refreshAll()">
         <ReloadOutlined :spin="anyLoading" /> 刷新数据
       </button>
     </header>

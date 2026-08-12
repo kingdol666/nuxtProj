@@ -141,5 +141,71 @@
     "backgroundUrl": "",
     "bio": "",
     "createdAt": 1786507024104
+  },
+  {
+    "id": "msqbvo1akxgbg",
+    "username": "alice_1786553589298",
+    "passwordHash": "b72488341e8acee54bebbed858c7ccb7:a2324c77c39de07289cb342f7068a4a781679f275fd6ce75b3ac7b5745a9c59dcb9f1c7e2fb443c456620ddedca770f54b304b7b732cc6afc27dd76bd9c52e1e",
+    "role": "user",
+    "avatarColor": 4,
+    "avatarUrl": "",
+    "backgroundUrl": "",
+    "bio": "简介_1786553589298",
+    "createdAt": 1786553589434
+  },
+  {
+    "id": "msqbvo44itsq5",
+    "username": "bob_1786553589298",
+    "passwordHash": "e4585db1fe74ef648ad3b646a10e5d05:a8aa1c86d993bb8a63a92523d17dee0dc26adab481c765db25b2e862504293cd32493562921a9abe84af87c299d178656b1d8e795d10dc018b1c62662e273026",
+    "role": "user",
+    "avatarColor": 5,
+    "avatarUrl": "",
+    "backgroundUrl": "",
+    "bio": "",
+    "createdAt": 1786553589538
+  },
+  {
+    "id": "msqclp9ahh2yp",
+    "username": "imtestuser",
+    "passwordHash": "e2a315605cb5f605a01c7fbd0060aeae:c384d965bdc4894ccb20b2d3137dfd6cc91e5e100940acef80a2a17888883f0122e17427bf21a4e813e7464dd312db39df25e828255f5a19512ee6b319fc9eb0",
+    "role": "user",
+    "avatarColor": 3,
+    "avatarUrl": "",
+    "backgroundUrl": "",
+    "bio": "",
+    "createdAt": 1786554804084
+  },
+  {
+    "id": "msqclzydbfppf",
+    "username": "imtestbuddy",
+    "passwordHash": "048a62200bf9618dcc44c9b9a35177d3:8d76f50386e35ace41036ddebfbbaa6d3304395a8d8ab291e4d0e71314e99d8d7902cb5866446fa045177a346083b8a22da8db7b45a8fc79c70fe3ba2b06e3e3",
+    "role": "user",
+    "avatarColor": 4,
+    "avatarUrl": "",
+    "backgroundUrl": "",
+    "bio": "",
+    "createdAt": 1786554817930
+  },
+  {
+    "id": "msqcppwqcfjyb",
+    "username": "e2e_alice",
+    "passwordHash": "ecc26fade2a78709c489f9d4dd5b3732:ba05d5a7b1c57d569f00813d3f649ca5115f66177617e184aba371b7792ba9ea78d193f1a33e95725229f0bab452046f789ab3567f3b66df1c13a6c141908e53",
+    "role": "user",
+    "avatarColor": 5,
+    "avatarUrl": "",
+    "backgroundUrl": "",
+    "bio": "",
+    "createdAt": 1786554991535
+  },
+  {
+    "id": "msqcpq1f8l0c0",
+    "username": "e2e_bob",
+    "passwordHash": "364a96ed09dc78d2ce2939ff435ccc6a:3c5e2f3530f1509171b90b2a3c16953caa07e7c822ce1ac4df8bc621adb5e55451c9bd159036d45892d7bba47a760d45066c5ef49469e293397b415848c1ca3c",
+    "role": "user",
+    "avatarColor": 0,
+    "avatarUrl": "",
+    "backgroundUrl": "",
+    "bio": "",
+    "createdAt": 1786554991703
   }
 ]

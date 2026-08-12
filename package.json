@@ -15,6 +15,7 @@
     "@napi-rs/canvas": "^1.0.5",
     "@pinia/nuxt": "^1.0.1",
     "ant-design-vue": "^4.2.6",
+    "easyjssdk": "^2.0.1",
     "nuxt": "^3.17.5",
     "nuxt-particles": "^0.3.0",
     "pinia": "^4.0.2",

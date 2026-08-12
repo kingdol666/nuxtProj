@@ -32,7 +32,9 @@
     "text": "Test comment",
     "parentId": null,
     "targetType": "post",
-    "likedBy": [],
+    "likedBy": [
+      "admin-root"
+    ],
     "createdAt": 1786503183564
   },
   {
@@ -84,5 +86,101 @@
       "admin-root"
     ],
     "createdAt": 1786506965846
+  },
+  {
+    "id": "msqd6ndaendaq",
+    "contentId": "msl6dz43bmbni",
+    "userId": "msqcppwqcfjyb",
+    "username": "e2e_alice",
+    "avatarColor": 5,
+    "text": "这条评论很好看",
+    "parentId": null,
+    "targetType": "content",
+    "likedBy": [],
+    "createdAt": 1786555781326
+  },
+  {
+    "id": "msqd6ndulze47",
+    "contentId": "msl6dz43bmbni",
+    "userId": "msqcpq1f8l0c0",
+    "username": "e2e_bob",
+    "avatarColor": 0,
+    "text": "同意你的观点",
+    "parentId": "msqd6ndaendaq",
+    "targetType": "content",
+    "likedBy": [],
+    "createdAt": 1786555781346
+  },
+  {
+    "id": "msqd7mjyjrmzs",
+    "contentId": "msl6dz43bmbni",
+    "userId": "msqcppwqcfjyb",
+    "username": "e2e_alice",
+    "avatarColor": 5,
+    "text": "这条评论很好看",
+    "parentId": null,
+    "targetType": "content",
+    "likedBy": [],
+    "createdAt": 1786555826926
+  },
+  {
+    "id": "msqd7mkfihtux",
+    "contentId": "msl6dz43bmbni",
+    "userId": "msqcpq1f8l0c0",
+    "username": "e2e_bob",
+    "avatarColor": 0,
+    "text": "同意你的观点",
+    "parentId": "msqd7mjyjrmzs",
+    "targetType": "content",
+    "likedBy": [],
+    "createdAt": 1786555826943
+  },
+  {
+    "id": "msqd8n0hf1rgw",
+    "contentId": "msl6dz43bmbni",
+    "userId": "msqcppwqcfjyb",
+    "username": "e2e_alice",
+    "avatarColor": 5,
+    "text": "这条评论很好看",
+    "parentId": null,
+    "targetType": "content",
+    "likedBy": [],
+    "createdAt": 1786555874177
+  },
+  {
+    "id": "msqd8n0yjndk7",
+    "contentId": "msl6dz43bmbni",
+    "userId": "msqcpq1f8l0c0",
+    "username": "e2e_bob",
+    "avatarColor": 0,
+    "text": "同意你的观点",
+    "parentId": "msqd8n0hf1rgw",
+    "targetType": "content",
+    "likedBy": [],
+    "createdAt": 1786555874194
+  },
+  {
+    "id": "msqd92zlcs6zh",
+    "contentId": "msl6dz43bmbni",
+    "userId": "msqcppwqcfjyb",
+    "username": "e2e_alice",
+    "avatarColor": 5,
+    "text": "这条评论很好看",
+    "parentId": null,
+    "targetType": "content",
+    "likedBy": [],
+    "createdAt": 1786555894881
+  },
+  {
+    "id": "msqd9300o3x7d",
+    "contentId": "msl6dz43bmbni",
+    "userId": "msqcpq1f8l0c0",
+    "username": "e2e_bob",
+    "avatarColor": 0,
+    "text": "同意你的观点",
+    "parentId": "msqd92zlcs6zh",
+    "targetType": "content",
+    "likedBy": [],
+    "createdAt": 1786555894896
   }
 ]

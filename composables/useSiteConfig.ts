@@ -18,6 +18,7 @@ export interface PublicAppConfig {
   }
   realtime: { heartbeatIntervalMs: number; reconnectDelayMs: number }
   features: { enableSignup: boolean; enableGuestBrowse: boolean }
+  wukongim: { enabled: boolean; wsURL: string }
   branding: { siteTitle: string; brandName: string; brandLogo: string }
   data: { cookieMaxAgeDays: number }
 }
@@ -31,6 +32,7 @@ const DEFAULT_PUBLIC: PublicAppConfig = {
   },
   realtime: { heartbeatIntervalMs: 25000, reconnectDelayMs: 3000 },
   features: { enableSignup: true, enableGuestBrowse: true },
+  wukongim: { enabled: false, wsURL: 'ws://localhost:5200' },
   branding: { siteTitle: 'Nuxt Community', brandName: 'Nuxt Admin', brandLogo: '/logo.ico' },
   data: { cookieMaxAgeDays: 30 },
 }

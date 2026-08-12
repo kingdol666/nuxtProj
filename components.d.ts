@@ -9,6 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AConfigProvider: typeof import('ant-design-vue/es')['ConfigProvider']
+    AInput: typeof import('ant-design-vue/es')['Input']
     ALayout: typeof import('ant-design-vue/es')['Layout']
     ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent']
     ALayoutSider: typeof import('ant-design-vue/es')['LayoutSider']

@@ -18,6 +18,8 @@ export type RealtimeEvent =
   | { type: 'auth_error'; message: string }
   | { type: 'config'; config: PublicAppConfig }
   | { type: 'pong' }
+  | { type: 'groupInvite'; invite: Record<string, unknown>; createdAt: number }
+  | { type: 'groupInviteResult'; accepted: boolean; groupId: string; groupName: string }
 type EventSubscriber = (e: RealtimeEvent) => void
 type TimerHandle = ReturnType<typeof setInterval>
 
@@ -64,6 +66,10 @@ export const useRealtime = () => {
       e = { type: 'auth_error', message: String(data.message ?? '') }
     } else if (type === 'config' && data.config && typeof data.config === 'object') {
       e = { type: 'config', config: data.config as PublicAppConfig }
+    } else if (type === 'groupInvite') {
+      e = { type: 'groupInvite', invite: data.invite as Record<string, unknown>, createdAt: Number(data.createdAt ?? Date.now()) }
+    } else if (type === 'groupInviteResult') {
+      e = { type: 'groupInviteResult', accepted: !!data.accepted, groupId: String(data.groupId ?? ''), groupName: String(data.groupName ?? '') }
     } else if (type === 'pong') {
       e = { type: 'pong' }
     }

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "msqbvwte0naq8",
+    "groupId": "msqbvwr14mvhk",
+    "groupName": "测试群_1786553600293",
+    "fromUserId": "msqbvwiokooog",
+    "fromUsername": "grp_alice_1786553600293",
+    "toUserId": "msqbvwld0fj43",
+    "status": "accepted",
+    "createdAt": 1786553600738
+  },
+  {
+    "id": "msqd7mhyfofpu",
+    "groupId": "msqd7me75aq7a",
+    "groupName": "E2E群聊测试",
+    "fromUserId": "msqcppwqcfjyb",
+    "fromUsername": "e2e_alice",
+    "toUserId": "msqcpq1f8l0c0",
+    "status": "pending",
+    "createdAt": 1786555826854
+  },
+  {
+    "id": "msqd92w9jvfmu",
+    "groupId": "msqd92u22yal5",
+    "groupName": "E2E群聊测试",
+    "fromUserId": "msqcppwqcfjyb",
+    "fromUsername": "e2e_alice",
+    "toUserId": "msqcpq1f8l0c0",
+    "status": "accepted",
+    "createdAt": 1786555894761
+  }
+]

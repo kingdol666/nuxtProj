@@ -5,14 +5,14 @@ import { computed, reactive, onMounted, watch, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Header from '~/components/Header.vue';
 import ChatPanel from '~/components/ChatPanel.vue';
-import Sider from '~/components/Sider.vue';
+import GroupChatPanel from '~/components/GroupChatPanel.vue';
 import AuthModal from '~/components/AuthModal.vue';
 import { theme } from 'ant-design-vue';
 // 1. 导入我们创建的 Composable
 import { useTheme } from '~/composables/useTheme';
 import { useAuth } from '~/composables/useAuth';
 import { useRealtime } from '~/composables/useRealtime';
-// 2. 获取主题状态
+import { useWuKongIM } from '~/composables/useWuKongIM';
 const { themeMode } = useTheme();
 const route = useRoute();
 const showParticles = computed(() => route.path === '/application');
@@ -20,13 +20,27 @@ const showParticles = computed(() => route.path === '/application');
 // 客户端启动时恢复登录态
 const { fetchMe, user, isLoggedIn } = useAuth()
 const { connect: wsConnect, disconnect: wsDisconnect } = useRealtime()
+const { connect: wkConnect, disconnect: wkDisconnect } = useWuKongIM()
 // 私信面板全局开关（单例状态）—— Header / 任意页面均通过 useChatPanel 打开
 // 同一个全局 <ChatPanel>，避免重复挂载导致 WS 事件重复订阅。
 const { open: chatOpen, initialPeerId: chatInitialPeerId, openChat } = useChatPanel()
-onMounted(async () => { await fetchMe(); if (isLoggedIn.value) wsConnect() })
+// 群聊面板全局开关（单例）
+const { open: groupOpen } = useGroupPanel()
+onMounted(async () => {
+  await fetchMe()
+  if (isLoggedIn.value) {
+    wsConnect()
+    if (user.value) wkConnect(user.value.id)
+  }
+})
 watch(isLoggedIn, (v) => {
-  if (v) wsConnect()
-  else wsDisconnect()
+  if (v) {
+    wsConnect()
+    if (user.value) wkConnect(user.value.id)
+  } else {
+    wsDisconnect()
+    wkDisconnect()
+  }
 }, { immediate: false })
 const particlesOptions = reactive({
   background: {
@@ -166,8 +180,9 @@ const antdTheme = computed(() => {
         </a-layout-content>
       </a-layout>
     </a-layout>
-    <AuthModal />
     <ChatPanel v-model:open="chatOpen" :initial-peer-id="chatInitialPeerId" />
+    <GroupChatPanel v-model:open="groupOpen" />
+    <AuthModal />
   </a-config-provider>
 </template>
 

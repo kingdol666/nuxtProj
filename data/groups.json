@@ -1,0 +1,53 @@
+[
+  {
+    "id": "msqcuymjkvh8f",
+    "name": "E2E测试群msqcuyb0",
+    "avatarColor": 1,
+    "ownerId": "msqcppwqcfjyb",
+    "memberIds": [
+      "msqcppwqcfjyb"
+    ],
+    "createdAt": 1786555236043
+  },
+  {
+    "id": "msqd6n6wtxdhx",
+    "name": "E2E群聊测试",
+    "avatarColor": 5,
+    "ownerId": "msqcppwqcfjyb",
+    "memberIds": [
+      "msqcppwqcfjyb"
+    ],
+    "createdAt": 1786555781096
+  },
+  {
+    "id": "msqd7me75aq7a",
+    "name": "E2E群聊测试",
+    "avatarColor": 2,
+    "ownerId": "msqcppwqcfjyb",
+    "memberIds": [
+      "msqcppwqcfjyb"
+    ],
+    "createdAt": 1786555826719
+  },
+  {
+    "id": "msqd8muzc6l0g",
+    "name": "E2E群聊测试",
+    "avatarColor": 4,
+    "ownerId": "msqcppwqcfjyb",
+    "memberIds": [
+      "msqcppwqcfjyb"
+    ],
+    "createdAt": 1786555873979
+  },
+  {
+    "id": "msqd92u22yal5",
+    "name": "E2E群聊测试",
+    "avatarColor": 0,
+    "ownerId": "msqcppwqcfjyb",
+    "memberIds": [
+      "msqcppwqcfjyb",
+      "msqcpq1f8l0c0"
+    ],
+    "createdAt": 1786555894682
+  }
+]

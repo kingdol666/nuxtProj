@@ -28,3 +28,11 @@ config.yml
 config.yml.tmp
 # 测试用临时构建产物（npm run test:config 生成）
 scripts/.appConfig.mjs
+
+# 测试截图 / 临时 PNG
+*.png
+!public/**/*.png
+!public/**/*.ico
+
+# Docker 数据卷
+docker/wukongim/wukongim_data/

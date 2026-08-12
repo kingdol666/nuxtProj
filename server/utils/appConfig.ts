@@ -29,6 +29,7 @@ export interface AppConfig {
   }
   realtime: { heartbeatIntervalMs: number; reconnectDelayMs: number }
   features: { enableSignup: boolean; enableGuestBrowse: boolean }
+  wukongim: { enabled: boolean; wsURL: string; apiURL: string; managerToken: string }
   branding: { siteTitle: string; brandName: string; brandLogo: string }
 }
 
@@ -41,8 +42,9 @@ export const DEFAULT_CONFIG: AppConfig = {
     uploads: { maxMedia: 9, maxVideos: 4, maxImageSizeMB: 8, maxVideoSizeMB: 100 },
     comments: { textMax: 2000 },
   },
-  realtime: { heartbeatIntervalMs: 25000, reconnectDelayMs: 3000 },
   features: { enableSignup: true, enableGuestBrowse: true },
+  realtime: { heartbeatIntervalMs: 25000, reconnectDelayMs: 3000 },
+  wukongim: { enabled: false, wsURL: 'ws://localhost:5200', apiURL: 'http://localhost:5001', managerToken: '' },
   branding: { siteTitle: 'Nuxt Community', brandName: 'Nuxt Admin', brandLogo: '/logo.ico' },
 }
 
@@ -98,6 +100,7 @@ export function validate(input: unknown): AppConfig {
   const r = isObj(root.realtime) ? root.realtime : {}
   const f = isObj(root.features) ? root.features : {}
   const b = isObj(root.branding) ? root.branding : {}
+  const wk = isObj(root.wukongim) ? root.wukongim : {}
 
   return {
     server: {
@@ -136,6 +139,12 @@ export function validate(input: unknown): AppConfig {
       enableSignup: asBool(f.enableSignup, DEFAULT_CONFIG.features.enableSignup),
       enableGuestBrowse: asBool(f.enableGuestBrowse, DEFAULT_CONFIG.features.enableGuestBrowse),
     },
+    wukongim: {
+      enabled: asBool(wk.enabled, DEFAULT_CONFIG.wukongim.enabled),
+      wsURL: asStr(wk.wsURL, DEFAULT_CONFIG.wukongim.wsURL),
+      apiURL: asStr(wk.apiURL, DEFAULT_CONFIG.wukongim.apiURL),
+      managerToken: asStr(wk.managerToken, DEFAULT_CONFIG.wukongim.managerToken),
+    },
     branding: {
       siteTitle: asStr(b.siteTitle, DEFAULT_CONFIG.branding.siteTitle),
       brandName: asStr(b.brandName, DEFAULT_CONFIG.branding.brandName),
@@ -151,13 +160,13 @@ export function getConfig(): AppConfig {
   return current
 }
 
-// 公开子集：下发给客户端的安全配置（剔除密钥/端口等内部项）。
 export function publicConfig() {
   const c = current
   return {
     limits: c.limits,
     realtime: c.realtime,
     features: c.features,
+    wukongim: { enabled: c.wukongim.enabled, wsURL: c.wukongim.wsURL },
     branding: c.branding,
     data: { cookieMaxAgeDays: c.data.cookieMaxAgeDays },
   }
@@ -278,7 +287,7 @@ export function startConfigWatcher(): void {
     watcher = watch(configFile(), () => {
       // 不用时间窗去重：saveConfig 写盘触发的本次 reload，其 diff 会发现
       // 内存与磁盘一致而跳过广播；真正的外部编辑 diff 非空，照常生效。
-      clearTimeout(debounce)
+      if (debounce) clearTimeout(debounce)
       debounce = setTimeout(() => {
         debounce = null
         reload()

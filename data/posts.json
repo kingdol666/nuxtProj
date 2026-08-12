@@ -1,5 +1,99 @@
 [
   {
+    "id": "msqd933kv8023",
+    "userId": "msqcppwqcfjyb",
+    "username": "e2e_alice",
+    "avatarColor": 5,
+    "title": "E2E测试帖子",
+    "content": "测试内容",
+    "images": [
+      "/api/uploads/msqd933g-a503ac2e-cover.png"
+    ],
+    "videos": [],
+    "tags": [],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1786555895023,
+    "updatedAt": 1786555895023
+  },
+  {
+    "id": "msqd8n4fxnfbv",
+    "userId": "msqcppwqcfjyb",
+    "username": "e2e_alice",
+    "avatarColor": 5,
+    "title": "E2E测试帖子",
+    "content": "测试内容",
+    "images": [
+      "/api/uploads/msqd8n4b-d7e1e65a-cover.png"
+    ],
+    "videos": [],
+    "tags": [],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1786555874318,
+    "updatedAt": 1786555874318
+  },
+  {
+    "id": "msqd7mo8z69a4",
+    "userId": "msqcppwqcfjyb",
+    "username": "e2e_alice",
+    "avatarColor": 5,
+    "title": "E2E测试帖子",
+    "content": "测试内容",
+    "images": [
+      "/api/uploads/msqd7mo4-7bfac929-cover.png"
+    ],
+    "videos": [],
+    "tags": [],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1786555827080,
+    "updatedAt": 1786555827080
+  },
+  {
+    "id": "msqd6njnf0fbj",
+    "userId": "msqcppwqcfjyb",
+    "username": "e2e_alice",
+    "avatarColor": 5,
+    "title": "E2E测试帖子",
+    "content": "测试内容",
+    "images": [
+      "/api/uploads/msqd6nji-385286c6-cover.png"
+    ],
+    "videos": [],
+    "tags": [],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1786555781554,
+    "updatedAt": 1786555781554
+  },
+  {
+    "id": "msqbvoh9awpx9",
+    "userId": "msqbvo1akxgbg",
+    "username": "alice_1786553589298",
+    "avatarColor": 4,
+    "title": "改",
+    "content": "改后",
+    "images": [
+      "/api/uploads/msqbvoh3-a80309b1-cover.png"
+    ],
+    "videos": [],
+    "tags": [
+      "测试"
+    ],
+    "likedBy": [
+      "msqbvo44itsq5"
+    ],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1786553589933,
+    "updatedAt": 1786553590077
+  },
+  {
     "id": "mspk4cu94lnay",
     "userId": "admin-root",
     "username": "admin",

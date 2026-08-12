@@ -53,6 +53,14 @@ features:
   enableSignup: true       # [热] 允许新用户注册
   enableGuestBrowse: true  # [热] 允许游客浏览（false = 未登录跳转登录）
 
+# ── WuKongIM 即时通讯 ────────────────────────────────────────────────────
+# 启动 WuKongIM：cd docker/wukongim && docker compose up -d
+wukongim:
+  enabled: false                                     # [热] 是否启用 WuKongIM（群聊/实时通讯）
+  wsURL: "ws://localhost:5200"                       # [热] 浏览器 easyjssdk 连接地址
+  apiURL: "http://localhost:5001"                    # [热] 服务端调用 WuKongIM HTTP API 地址
+  managerToken: ""                                   # [热] WuKongIM 管理者 token（开启 token-auth 时必填）
+
 # ── 品牌外观 ──────────────────────────────────────────────────────────────
 branding:
   siteTitle: "Nuxt Community"   # [热] 浏览器标签页标题
