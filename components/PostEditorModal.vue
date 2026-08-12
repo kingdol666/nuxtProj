@@ -30,6 +30,9 @@ const videos = ref<string[]>([])
 // 用 object URL 做本地预览，避免每次选择都请求服务端
 interface PendingFile { file: File; preview: string; kind: 'image' | 'video' }
 const pendingFiles = ref<PendingFile[]>([])
+const tagInput = ref('')
+const uploading = ref(false)
+const submitting = ref(false)
 const tags = ref<string[]>([])
 // 未上传图片时的自动封面配色（10 套渐变）
 const gradientPalettes = [
@@ -96,7 +99,7 @@ watch(() => props.open, (v) => {
   }
 })
 
-const canSubmit = computed(() => title.value.trim() && content.value.trim() && !submitting.value)
+const canSubmit = computed(() => !!title.value.trim() && !!content.value.trim() && !submitting.value)
 const totalMedia = computed(() => images.value.length + videos.value.length + pendingFiles.value.length)
 const VIDEO_EXTS = new Set(['.mp4', '.webm', '.mov', '.ogg', '.ogv'])
 
