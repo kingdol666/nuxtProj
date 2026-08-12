@@ -1,6 +1,6 @@
 <script setup lang="ts">
-// PostEditorModal.vue — 发帖编辑器（标题 / 正文 / 多图上传 / 标签）
-import { ref, reactive, computed, watch } from 'vue'
+// PostEditorModal.vue — 发帖编辑器（标题 / 正文 / 多图上传 / 标签 / 封面选择）
+import { ref, computed, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import {
   PictureOutlined,
@@ -23,18 +23,23 @@ const { isLoggedIn, openAuthModal } = useAuth()
 
 const title = ref('')
 const content = ref('')
-// 已上传的图片/视频 URL（编辑模式回填的已有资源）
 const images = ref<string[]>([])
 const videos = ref<string[]>([])
-// 新选择但尚未上传的文件（点击「发布」时才统一上传）
-// 用 object URL 做本地预览，避免每次选择都请求服务端
-interface PendingFile { file: File; preview: string; kind: 'image' | 'video' }
-const pendingFiles = ref<PendingFile[]>([])
+const tags = ref<string[]>([])
 const tagInput = ref('')
 const uploading = ref(false)
 const submitting = ref(false)
-const tags = ref<string[]>([])
-// 未上传图片时的自动封面配色（10 套渐变）
+
+// 待上传文件（选择后仅本地预览，点击「发布」时才统一上传）
+interface PendingFile { file: File; preview: string; kind: 'image' | 'video' }
+const pendingFiles = ref<PendingFile[]>([])
+
+// ── 封面控制 ──
+// useCoverGen: 是否用主题文字大图作为封面（关闭=用上传图片）
+const useCoverGen = ref(false)
+// 多图时封面索引（哪张图做封面，排第一位）
+const coverIndex = ref(0)
+// 主题封面配色
 const gradientPalettes = [
   { from: '#667eea', to: '#764ba2', name: '紫罗兰' },
   { from: '#f093fb', to: '#f5576c', name: '粉色' },
@@ -48,55 +53,45 @@ const gradientPalettes = [
   { from: '#a1c4fd', to: '#c2e9fb', name: '天蓝' },
 ]
 const selectedGradient = ref(0)
-// 是否生成主题大图作为封面（radio 开关；无图片时强制开启）
-const useCoverGen = ref(true)
-// 封面索引（多图时用户选择哪张做封面；默认第一张）
-const coverIndex = ref(0)
-// 是否显示主题大图预览：无图片（含待上传）时强制，或有图片但用户选了「生成主题图」
-const showCoverGenPreview = computed(() => title.value.trim() && (images.value.length + pendingFiles.value.length === 0 || useCoverGen.value))
 
-// 封面预览：防抖更新，避免每次按键都请求服务端生成图片
+// 有多少张图片（已上传 + 待上传的图片，不含视频）
+const imageCount = computed(() => images.value.length + pendingFiles.value.filter((p) => p.kind === 'image').length)
+// 是否显示主题封面预览区
+const showCoverPreview = computed(() => useCoverGen.value || imageCount.value === 0)
+
+// ── 主题封面预览（防抖，避免每次按键请求服务端）──
 const coverPreviewUrl = ref('')
 let coverPreviewTimer: ReturnType<typeof setTimeout> | null = null
 function updateCoverPreview() {
-  // 有图片且未开启主题图生成 → 显示已选封面图
-  if (images.value.length > 0 && !useCoverGen.value) {
-    coverPreviewUrl.value = images.value[coverIndex.value] || ''
-    return
-  }
-  // 无图片或开启了主题图生成 → 生成主题封面预览
-  if (!title.value.trim()) { coverPreviewUrl.value = ''; return }
+  if (!showCoverPreview.value || !title.value.trim()) { coverPreviewUrl.value = ''; return }
   if (coverPreviewTimer) clearTimeout(coverPreviewTimer)
   coverPreviewTimer = setTimeout(() => {
-    const titleEnc = encodeURIComponent(title.value.trim() || '未填写标题')
-    const contentEnc = encodeURIComponent(content.value.trim().slice(0, 100))
-    const tagsEnc = encodeURIComponent(tags.value.join(','))
-    coverPreviewUrl.value = `/api/poster/cover?title=${titleEnc}&content=${contentEnc}&tags=${tagsEnc}&gradient=${selectedGradient.value}&t=${Date.now()}`
+    const t = encodeURIComponent(title.value.trim() || '未填写标题')
+    const c = encodeURIComponent(content.value.trim().slice(0, 100))
+    const tg = encodeURIComponent(tags.value.join(','))
+    coverPreviewUrl.value = `/api/poster/cover?title=${t}&content=${c}&tags=${tg}&gradient=${selectedGradient.value}&t=${Date.now()}`
   }, 400)
 }
-watch([title, content, tags, selectedGradient, images, coverIndex, useCoverGen], updateCoverPreview, { immediate: true, deep: true })
-const fileInput = ref<HTMLInputElement | null>(null)
+watch([title, content, tags, selectedGradient, showCoverPreview], updateCoverPreview, { immediate: true })
 
-// 进入弹窗时：编辑模式回填，否则清空
+const fileInput = ref<HTMLInputElement | null>(null)
 const isEditing = computed(() => !!props.post?.id)
+
+// 进入弹窗时重置
 watch(() => props.open, (v) => {
-  if (v) {
-    const p = props.post
-    title.value = p?.title ?? ''
-    content.value = p?.content ?? ''
-    images.value = p ? [...(p.images || [])] : []
-    videos.value = p ? [...(p.videos || [])] : []
-    tags.value = p ? [...(p.tags || [])] : []
-    // 清理上一轮的 pendingFiles（释放 object URL）
-    for (const pf of pendingFiles.value) URL.revokeObjectURL(pf.preview)
-    pendingFiles.value = []
-    tagInput.value = ''
-    coverIndex.value = 0
-    selectedGradient.value = 0
-    // 新建时默认不开启主题图（用户上传了图片就用图片）；编辑时同理
-    // 无图片时 useCoverGen 的值无关紧要（后端强制生成）
-    useCoverGen.value = false
-  }
+  if (!v) return
+  const p = props.post
+  title.value = p?.title ?? ''
+  content.value = p?.content ?? ''
+  images.value = p ? [...(p.images || [])] : []
+  videos.value = p ? [...(p.videos || [])] : []
+  tags.value = p ? [...(p.tags || [])] : []
+  tagInput.value = ''
+  for (const pf of pendingFiles.value) URL.revokeObjectURL(pf.preview)
+  pendingFiles.value = []
+  coverIndex.value = 0
+  selectedGradient.value = 0
+  useCoverGen.value = false
 })
 
 const canSubmit = computed(() => !!title.value.trim() && !!content.value.trim() && !submitting.value)
@@ -110,8 +105,7 @@ function pickFiles() {
   fileInput.value?.click()
 }
 
-// 选择文件 → 仅做本地预览（object URL），不立即上传
-// 上传延迟到点击「发布」时统一执行
+// 选择文件 → 仅本地预览，不立即上传
 function onFiles(e: Event) {
   const input = e.target as HTMLInputElement
   if (!input.files?.length) return
@@ -120,27 +114,24 @@ function onFiles(e: Event) {
     const ext = '.' + (file.name.split('.').pop() || '').toLowerCase()
     const kind: 'image' | 'video' = VIDEO_EXTS.has(ext) ? 'video' : 'image'
     if (kind === 'video') {
-      const videoCount = videos.value.length + pendingFiles.value.filter((p) => p.kind === 'video').length
-      if (videoCount >= 4) { message.warning('最多上传 4 个视频'); continue }
+      const vc = videos.value.length + pendingFiles.value.filter((p) => p.kind === 'video').length
+      if (vc >= 4) { message.warning('最多上传 4 个视频'); continue }
     }
     pendingFiles.value.push({ file, preview: URL.createObjectURL(file), kind })
   }
   input.value = ''
 }
 
-// 删除已上传的图片（URL）
 function removeImage(i: number) {
   images.value.splice(i, 1)
   if (coverIndex.value >= images.value.length) coverIndex.value = Math.max(0, images.value.length - 1)
 }
-// 删除待上传的文件（object URL）
 function removePending(i: number) {
   const pf = pendingFiles.value[i]
   if (pf) URL.revokeObjectURL(pf.preview)
   pendingFiles.value.splice(i, 1)
 }
 function removeVideo(i: number) { videos.value.splice(i, 1) }
-
 
 function addTag() {
   const t = tagInput.value.trim()
@@ -150,12 +141,15 @@ function addTag() {
   tags.value.push(t)
   tagInput.value = ''
 }
+function removeTag(i: number) { tags.value.splice(i, 1) }
+
+// ── 发布/更新 ──
 async function submit() {
   if (!isLoggedIn.value) { openAuthModal(); return }
   if (!canSubmit.value) return
   submitting.value = true
   try {
-    // ── 上传所有待上传文件（点击「发布」时才真正请求 /api/upload）──
+    // 1. 上传所有待传文件（点击「发布」时才真正请求 /api/upload）
     if (pendingFiles.value.length > 0) {
       uploading.value = true
       for (const pf of pendingFiles.value) {
@@ -169,24 +163,21 @@ async function submit() {
           message.error(`文件「${pf.file.name}」上传失败`)
         }
       }
-      // 清理 object URL + pending 列表
       for (const pf of pendingFiles.value) URL.revokeObjectURL(pf.preview)
       pendingFiles.value = []
       uploading.value = false
     }
 
-    // ── 判断是否需要生成主题大图封面 ──
-    // 规则：无图片时强制生成；有图片时看 useCoverGen 开关
-    const mustGenCover = images.value.length === 0
-    const wantGenCover = useCoverGen.value || mustGenCover
-
-    // 多图时：把用户选的封面移到第一位（与小红书一致）
+    // 2. 封面逻辑
+    // useCoverGen=true → 后端生成主题封面（不传图片）
+    // useCoverGen=false → 用上传的图片；无图时后端强制生成
+    const wantGen = useCoverGen.value
     let finalImages = images.value
-    if (!wantGenCover && images.value.length > 1 && coverIndex.value > 0) {
+    if (!wantGen && images.value.length > 1 && coverIndex.value > 0) {
+      // 用户选的封面排第一位
       finalImages = [images.value[coverIndex.value], ...images.value.filter((_, i) => i !== coverIndex.value)]
     }
-    // 若开启主题图生成：清空图片（让后端生成），但保留视频
-    if (wantGenCover) finalImages = []
+    if (wantGen) finalImages = []
 
     const payload = {
       title: title.value.trim(),
@@ -195,19 +186,18 @@ async function submit() {
       videos: videos.value,
       tags: tags.value,
       coverGradient: selectedGradient.value,
-      useCoverGen: wantGenCover,
+      useCoverGen: wantGen,
     }
     if (isEditing.value && props.post) {
       const updated = await updatePost(props.post.id, payload)
       message.success('已更新')
       emit('updated', updated)
-      close()
     } else {
       await createPost(payload)
       message.success('发布成功！')
       emit('created')
-      close()
     }
+    close()
   } catch (err: unknown) {
     const msg = (err as { data?: { statusMessage?: string } })?.data?.statusMessage
     message.error(msg || '操作失败，请重试')
@@ -237,22 +227,22 @@ async function submit() {
       <!-- 图片上传区 -->
       <div class="images-section">
         <div class="images-grid">
-          <!-- Images -->
-          <div v-for="(img, i) in images" :key="'img-'+i" class="img-item" :class="{ 'is-cover': i === coverIndex }">
+          <!-- 已上传图片 -->
+          <div v-for="(img, i) in images" :key="'img-'+i" class="img-item" :class="{ 'is-cover': !useCoverGen && i === coverIndex }">
             <img :src="img" alt="" />
             <button class="img-del" @click="removeImage(i)" aria-label="删除"><DeleteOutlined /></button>
-            <button v-if="images.length > 1" class="cover-badge" :class="{ active: i === coverIndex }" @click="coverIndex = i" :title="i === coverIndex ? '当前封面' : '设为封面'">
+            <button v-if="!useCoverGen && images.length > 1" class="cover-badge" :class="{ active: i === coverIndex }" @click="coverIndex = i" :title="i === coverIndex ? '当前封面' : '设为封面'">
               <StarFilled v-if="i === coverIndex" />
               <StarOutlined v-else />
             </button>
           </div>
-          <!-- Videos -->
+          <!-- 视频 -->
           <div v-for="(vid, i) in videos" :key="'vid-'+i" class="img-item video-item">
             <video :src="vid" preload="metadata" />
             <span class="vid-badge"><VideoCameraOutlined /> 视频</span>
             <button class="img-del" @click="removeVideo(i)" aria-label="删除"><DeleteOutlined /></button>
           </div>
-          <!-- 待上传的新文件（本地预览，发布时才上传） -->
+          <!-- 待上传文件（本地预览） -->
           <div v-for="(pf, i) in pendingFiles" :key="'pend-'+i" class="img-item" :class="{ 'video-item': pf.kind === 'video' }">
             <img v-if="pf.kind === 'image'" :src="pf.preview" alt="" />
             <video v-else :src="pf.preview" preload="metadata" />
@@ -260,7 +250,8 @@ async function submit() {
             <button class="img-del" @click="removePending(i)" aria-label="删除"><DeleteOutlined /></button>
             <span class="pending-badge">待上传</span>
           </div>
-          <button v-if="totalMedia < 9" class="img-add" @click="pickFiles" :disabled="uploading">
+          <!-- 上传按钮 -->
+          <button v-if="totalMedia < 9" class="img-add" @click="pickFiles" :disabled="uploading || submitting">
             <div v-if="uploading" class="spinner" />
             <template v-else>
               <PlusOutlined class="add-icon" />
@@ -269,10 +260,19 @@ async function submit() {
           </button>
         </div>
 
-        <!-- 封面预览 + 配色选择（生成主题大图时显示） -->
-        <div v-if="showCoverGenPreview" class="cover-preview-section">
+        <!-- 封面选择开关 -->
+        <div class="cover-options">
+          <label class="cover-gen-toggle" :title="useCoverGen ? '用标题内容自动生成渐变封面大图' : '使用上传的图片作为封面'">
+            <input type="checkbox" v-model="useCoverGen" :disabled="imageCount === 0" />
+            <span class="cgt-label">生成主题封面图</span>
+            <span v-if="imageCount === 0" class="cgt-hint">（无图片时自动生成）</span>
+          </label>
+        </div>
+
+        <!-- 主题封面预览 + 配色 -->
+        <div v-if="showCoverPreview && title.trim()" class="cover-preview-section">
           <div class="cover-preview-label">
-            <PictureOutlined /> 主题封面预览<span v-if="images.length === 0" class="cover-forced-hint">（无图片，自动生成封面）</span>
+            <PictureOutlined /> 主题封面预览
           </div>
           <div class="cover-preview-box">
             <img :src="coverPreviewUrl" alt="封面预览" class="cover-preview-img" :key="coverPreviewUrl" />
@@ -294,7 +294,9 @@ async function submit() {
         <p class="hint">最多 9 个文件（图片 ≤ 8MB，视频 ≤ 100MB）· 支持 JPG/PNG/GIF/MP4/WebM</p>
         <input ref="fileInput" type="file" accept="image/*,video/*" multiple hidden @change="onFiles" />
       </div>
-      <div class="field title-field">
+
+      <!-- 标题 -->
+      <div class="field">
         <input
           v-model="title"
           class="title-input"
@@ -302,10 +304,6 @@ async function submit() {
           maxlength="100"
           placeholder="填写标题更能吸引注意哦"
         />
-        <label v-if="images.length > 0" class="cover-gen-toggle" :title="useCoverGen ? '当前使用主题文字大图作为封面' : '勾选后用主题文字大图替换封面'">
-          <input type="checkbox" v-model="useCoverGen" />
-          <span class="cgt-label">生成主题封面图</span>
-        </label>
       </div>
 
       <!-- 正文 -->
@@ -341,7 +339,7 @@ async function submit() {
       <!-- 底部操作 -->
       <footer class="editor-foot">
         <span class="foot-hint">
-          <PictureOutlined /> {{ images.length + pendingFiles.length }} 张图片 · {{ tags.length }} 个标签
+          <PictureOutlined /> {{ imageCount }} 张图片 · {{ tags.length }} 个标签
         </span>
         <button class="publish-btn" :disabled="!canSubmit" @click="submit">
           <SendOutlined /> {{ isEditing ? '保存' : '发布' }}
@@ -353,160 +351,112 @@ async function submit() {
 
 <style scoped lang="less">
 .editor { display: flex; flex-direction: column; gap: 14px; }
-.editor-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding-bottom: 4px;
-}
-.editor-head h2 {
-  font-size: var(--text-lg); font-weight: 700; margin: 0; color: var(--text-primary);
-}
-.close-btn {
-  background: var(--bg-subtle); border: none; border-radius: 50%;
-  width: 32px; height: 32px; cursor: pointer; color: var(--text-secondary);
-  display: flex; align-items: center; justify-content: center;
-  transition: all var(--dur-fast);
-}
-.close-btn:hover { background: var(--danger); color: #fff; }
+.editor-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); }
+.editor-head h2 { font-size: var(--text-lg); font-weight: 700; margin: 0; }
 
+.images-section { display: flex; flex-direction: column; gap: 8px; }
 .images-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  min-height: 100px;
 }
 .img-item {
   position: relative; aspect-ratio: 1; border-radius: var(--radius-md); overflow: hidden;
-  background: var(--bg-subtle);
+  border: 1px solid var(--border-color); background: var(--bg-subtle);
 }
-.img-item img { width: 100%; height: 100%; object-fit: cover; }
-.img-item video { width: 100%; height: 100%; object-fit: cover; }
-.video-item { background: #000; }
-.vid-badge {
-  position: absolute; bottom: 4px; left: 4px; display: inline-flex; align-items: center; gap: 3px;
-  background: rgba(0,0,0,0.65); color: #fff; font-size: 10px; font-weight: 600;
-  padding: 2px 7px; border-radius: var(--radius-full); backdrop-filter: blur(4px);
-}
+.img-item.is-cover { box-shadow: 0 0 0 3px var(--accent), 0 0 0 5px rgba(99,102,241,0.2); }
+.img-item img, .img-item video { width: 100%; height: 100%; object-fit: cover; }
 .img-del {
-  position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6);
-  color: #fff; border: none; border-radius: 50%; width: 22px; height: 22px;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  font-size: 12px; transition: background var(--dur-fast);
+  position: absolute; top: 4px; right: 4px; width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.6); border: none; border-radius: 50%; color: #fff;
+  cursor: pointer; font-size: 12px;
 }
-.img-del:hover { background: var(--danger); }
+.cover-badge {
+  position: absolute; top: 4px; right: 30px; width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.5); border: none; border-radius: 50%; color: #fff;
+  cursor: pointer; font-size: 12px;
+}
+.cover-badge.active { background: var(--accent); }
+.cover-badge:hover { background: var(--accent-hover); }
+.vid-badge {
+  position: absolute; bottom: 4px; left: 4px; padding: 2px 6px;
+  font-size: 10px; color: #fff; background: rgba(0,0,0,0.6); border-radius: 4px;
+}
+.pending-badge {
+  position: absolute; bottom: 4px; left: 4px; padding: 2px 6px;
+  font-size: 10px; color: #fff; background: rgba(99,102,241,0.8); border-radius: 4px;
+}
 .img-add {
   aspect-ratio: 1; border: 2px dashed var(--border-strong); border-radius: var(--radius-md);
-  background: var(--accent-soft); cursor: pointer; color: var(--accent);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-  transition: all var(--dur-fast);
+  background: var(--bg-subtle); cursor: pointer; color: var(--text-muted); transition: all var(--dur-fast);
 }
-.img-add:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
-.img-add:disabled { cursor: wait; opacity: 0.6; }
-.add-icon { font-size: 22px; }
-.add-text { font-size: var(--text-xs); }
-.spinner {
-  width: 20px; height: 20px; border: 2px solid var(--border-strong);
-  border-top-color: var(--accent); border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+.img-add:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.img-add:disabled { opacity: 0.5; cursor: not-allowed; }
+.add-icon { font-size: 24px; }
+.add-text { font-size: 11px; }
+
+.cover-options { padding: 4px 0; }
+.cover-gen-toggle {
+  display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+  font-size: var(--text-sm); color: var(--text-secondary); user-select: none;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
+.cover-gen-toggle input { width: 15px; height: 15px; cursor: pointer; accent-color: var(--accent); }
+.cover-gen-toggle .cgt-label { font-weight: 500; }
+.cover-gen-toggle:hover .cgt-label { color: var(--accent); }
+.cover-gen-toggle input:disabled + .cgt-label { opacity: 0.5; }
+.cgt-hint { font-size: var(--text-xs); color: var(--text-muted); }
+
+.cover-preview-section { margin-top: 8px; }
+.cover-preview-label { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.cover-preview-box { width: 100%; max-width: 220px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); margin: 0 auto; }
+.cover-preview-img { width: 100%; display: block; }
+.gradient-picker { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.gp-label { font-size: var(--text-xs); color: var(--text-secondary); }
+.gp-swatch { width: 26px; height: 26px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: all var(--dur-fast); }
+.gp-swatch.active { border-color: var(--text-primary); transform: scale(1.15); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.gp-swatch:hover { transform: scale(1.1); }
+
 .hint { font-size: var(--text-xs); color: var(--text-muted); margin: 0; }
 
-.field { display: flex; flex-direction: column; }
+.field { display: flex; flex-direction: column; gap: 4px; }
 .title-input {
-  font-size: var(--text-lg); font-weight: 600; color: var(--text-primary);
-  background: transparent; border: none; border-bottom: 1px solid var(--border-color);
-  padding: 8px 0; outline: none; transition: border-color var(--dur-fast);
+  width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);
+  font-size: var(--text-md); background: var(--bg-surface); color: var(--text-primary);
+  outline: none; transition: border-color var(--dur-fast);
 }
-.title-input:focus { border-bottom-color: var(--accent); }
+.title-input:focus { border-color: var(--accent); }
 .content-input {
-  font-size: var(--text-base); color: var(--text-primary);
-  background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-md);
-  padding: 12px; outline: none; resize: vertical; min-height: 120px; line-height: var(--leading-normal);
-  font-family: var(--font-sans); transition: border-color var(--dur-fast);
+  width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);
+  font-size: var(--text-sm); background: var(--bg-surface); color: var(--text-primary);
+  outline: none; resize: vertical; min-height: 100px; font-family: var(--font-sans);
+  transition: border-color var(--dur-fast);
 }
 .content-input:focus { border-color: var(--accent); }
-.char-count {
-  align-self: flex-end; font-size: var(--text-xs); color: var(--text-muted); margin-top: 4px;
-}
+.char-count { font-size: var(--text-xs); color: var(--text-muted); text-align: right; }
 
 .tags-field { }
-.tags-row {
-  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
-  background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-md);
-  padding: 6px 8px; min-height: 40px;
-}
-.tag-chip {
-  display: inline-flex; align-items: center; gap: 4px;
-  background: var(--accent-soft); color: var(--accent);
-  font-size: var(--text-xs); padding: 3px 8px; border-radius: var(--radius-full);
-}
-.tag-x {
-  background: none; border: none; color: var(--accent); cursor: pointer;
-  font-size: 14px; line-height: 1; padding: 0; opacity: 0.7;
-}
-.tag-x:hover { opacity: 1; }
-.tag-input {
-  flex: 1; min-width: 100px; border: none; background: transparent; outline: none;
-  font-size: var(--text-sm); color: var(--text-primary);
-}
+.tags-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); min-height: 42px; }
+.tag-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; background: var(--accent-soft); color: var(--accent); border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 500; }
+.tag-x { border: none; background: none; color: var(--text-muted); cursor: pointer; font-size: 14px; line-height: 1; padding: 0; }
+.tag-x:hover { color: var(--danger); }
+.tag-input { border: none; outline: none; background: none; font-size: var(--text-sm); color: var(--text-primary); flex: 1; min-width: 100px; }
 
-.editor-foot {
-  display: flex; align-items: center; justify-content: space-between;
-  padding-top: 8px; border-top: 1px solid var(--border-color);
-}
-.foot-hint { font-size: var(--text-xs); color: var(--text-muted); }
+.editor-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid var(--border-color); }
+.foot-hint { font-size: var(--text-xs); color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
 .publish-btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--accent); color: #fff; border: none;
-  border-radius: var(--radius-full); padding: 8px 22px;
-  font-size: var(--text-base); font-weight: 600; cursor: pointer;
-  transition: all var(--dur-fast);
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 24px;
+  border: none; border-radius: var(--radius-full); background: var(--accent); color: #fff;
+  font-size: var(--text-sm); font-weight: 600; cursor: pointer; transition: all var(--dur-fast);
 }
 .publish-btn:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); }
 .publish-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* 封面选择徽标 */
-.img-item { position: relative; }
-.img-item.is-cover { box-shadow: 0 0 0 3px var(--accent), 0 0 0 5px rgba(99,102,241,0.2); border-radius: var(--radius-md); }
-.cover-badge {
-  position: absolute; top: 4px; right: 28px; width: 24px; height: 24px;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.5); border: none; border-radius: 50%; color: #fff;
-  cursor: pointer; font-size: 12px; transition: all var(--dur-fast);
+.spinner {
+  width: 20px; height: 20px; border: 2px solid rgba(99,102,241,0.2);
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: spin 0.6s linear infinite;
 }
-.cover-badge.active { background: var(--accent); color: #fff; }
-.cover-badge:hover { background: var(--accent-hover); }
-
-/* 自动封面预览 */
-.cover-preview-section { margin-top: 12px; }
-.cover-preview-label { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-.cover-preview-box {
-  width: 100%; max-width: 240px; border-radius: var(--radius-lg); overflow: hidden;
-  box-shadow: var(--shadow-md); margin: 0 auto;
-}
-.cover-preview-img { width: 100%; display: block; }
-
-/* 配色选择器 */
-.gradient-picker { display: flex; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-.gp-label { font-size: var(--text-xs); color: var(--text-secondary); }
-.gp-swatch {
-  width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent;
-  cursor: pointer; transition: all var(--dur-fast);
-}
-.gp-swatch.active { border-color: var(--text-primary); transform: scale(1.15); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-.gp-swatch:hover { transform: scale(1.1); }
-
-/* 主题封面图开关 */
-.title-field { position: relative; }
-.cover-gen-toggle {
-  display: flex; align-items: center; gap: 5px; margin-top: 6px;
-  font-size: var(--text-xs); color: var(--text-secondary); cursor: pointer;
-  user-select: none;
-}
-.cover-gen-toggle input { width: 14px; height: 14px; cursor: pointer; accent-color: var(--accent); }
-.cover-gen-toggle .cgt-label { font-weight: 500; }
-.cover-gen-toggle:hover .cgt-label { color: var(--accent); }
-.cover-forced-hint { font-size: var(--text-xs); color: var(--text-muted); margin-left: 4px; }
-.pending-badge {
-  position: absolute; bottom: 4px; left: 4px; padding: 2px 6px;
-  font-size: 10px; color: #fff; background: rgba(99,102,241,0.8);
-  border-radius: 4px; pointer-events: none;
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 </style>
