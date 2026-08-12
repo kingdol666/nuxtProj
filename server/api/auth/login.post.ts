@@ -1,5 +1,9 @@
 import { getUsers } from '~~/server/utils/db'
-import { verifyPassword, setAuthCookie } from '~~/server/utils/auth'
+import { verifyPassword, hashPassword, setAuthCookie } from '~~/server/utils/auth'
+
+// Constant-time-ish: always run one scrypt verification so a missing username
+// cannot be distinguished from a wrong password by response timing.
+const DUMMY_HASH_P = hashPassword('timing-equalizer')
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ username?: string; password?: string }>(event)
@@ -12,7 +16,12 @@ export default defineEventHandler(async (event) => {
 
   const users = await getUsers()
   const user = users.find((u) => u.username.toLowerCase() === username.toLowerCase())
-  if (!user || !(await verifyPassword(password, user.passwordHash))) {
+  if (!user) {
+    // Username not found — still pay the scrypt cost to equalize timing.
+    await verifyPassword(password, await DUMMY_HASH_P)
+    throw createError({ statusCode: 401, statusMessage: '用户名或密码错误' })
+  }
+  if (!(await verifyPassword(password, user.passwordHash))) {
     throw createError({ statusCode: 401, statusMessage: '用户名或密码错误' })
   }
 

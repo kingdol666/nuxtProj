@@ -243,6 +243,8 @@ export function reload(): AppConfig {
 // 但 reload 内部的 diff 会发现内存与磁盘一致 → emit 不再广播（去重靠 diff，
 // 而非时间窗），因此不会重复推送，也不会误吞紧随其后的外部编辑。
 export function saveConfig(input: unknown): AppConfig {
+  // Non-object body (number/string/array) must NOT reset the whole config.
+  if (!isObj(input)) return current
   const previous = current
   // PATCH 语义：把请求体深合并到当前配置之上再校验，未提供的字段保持不变。
   // 这样管理员只改一项不会清空其它设置；整体 PUT（全字段）行为不变。

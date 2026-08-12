@@ -74,8 +74,8 @@ const listLoading = ref(false)
 const selectedPost = ref<Post | null>(null)
 const detailOpen = ref(false)
 
-// Chat panel (for DM from profile)
-const chatOpen = ref(false)
+// 私信：复用 app.vue 中唯一的全局 <ChatPanel>，避免重复挂载。
+const { openChat } = useChatPanel()
 
 async function loadProfile() {
   loading.value = true
@@ -139,7 +139,7 @@ async function onToggleLike(post: Post) {
 
 function startChat() {
   if (!isLoggedIn.value) return
-  chatOpen.value = true
+  openChat(profile.value?.id)
 }
 
 function timeFmt(ts: number): string {
@@ -287,9 +287,6 @@ useHead({ title: '用户主页' })
 
     <!-- 详情弹窗 -->
     <PostDetailModal v-model:open="detailOpen" :post="selectedPost" @toggle-like="onToggleLike" />
-
-    <!-- 私信面板 -->
-    <ChatPanel v-model:open="chatOpen" :initial-peer-id="profile?.id" />
   </div>
 </template>
 

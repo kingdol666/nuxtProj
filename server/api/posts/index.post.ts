@@ -3,7 +3,7 @@
 //   - 上传了图片：用户可选的封面（首张图）
 //   - 未上传图片：根据标题/正文/标签自动生成封面大图（渐变配色可自定义）
 //   - 自动封面写入 uploads 目录 + images.json 元数据，可持久查找
-import { updatePosts, updateImages, genId, type ImageMeta } from '~~/server/utils/db'
+import { updatePosts, updateImages, genId, uploadsDir, type ImageMeta } from '~~/server/utils/db'
 import { requireUser } from '~~/server/utils/auth'
 import { getConfig } from '~~/server/utils/appConfig'
 import { generateCoverImage } from '~~/server/utils/poster'
@@ -11,9 +11,6 @@ import { promises as fs } from 'node:fs'
 import { join } from 'node:path'
 import { randomBytes } from 'node:crypto'
 
-function uploadsDir(): string {
-  return join(process.env.NUXT_DATA_DIR || join(process.cwd(), 'data'), 'uploads')
-}
 
 export default defineEventHandler(async (event) => {
   const user = await requireUser(event)

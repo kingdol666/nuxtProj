@@ -4,6 +4,7 @@ dist/
 # Nuxt build artifacts
 .nuxt/
 .output/
+.git_disabled/
 .data/
 nuxt.d.ts
 

@@ -24,7 +24,7 @@ function getSecret(): string {
     const s = useRuntimeConfig().authSecret
     if (s && typeof s === 'string') return s
   } catch { /* runtime config not ready */ }
-  return process.env.NUXT_AUTH_SECRET || 'nuxt-app-dev-secret-change-in-production'
+  return process.env.NUXT_AUTH_SECRET || 'nuxt-app-dev-secret-change-in-prod'
 }
 
 // ─── Password hashing (scrypt) ────────────────────────────────────────

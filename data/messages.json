@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "id": "msphvarpep1fl",
+    "fromUserId": "msphvak8bf97d",
+    "toUserId": "admin-root",
+    "text": "hello",
+    "read": false,
+    "delivered": false,
+    "createdAt": 1786503183684
+  },
+  {
+    "id": "msphy8nw643v4",
+    "fromUserId": "msphy8fpf9l9y",
+    "toUserId": "admin-root",
+    "text": "hello",
+    "read": false,
+    "delivered": false,
+    "createdAt": 1786503320924
+  }
+]

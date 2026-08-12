@@ -288,17 +288,19 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   stop()
   resizeObserver?.disconnect()
+  revealObserver?.disconnect()
   if (typeof window !== 'undefined') window.removeEventListener('resize', resize)
 })
 
 // 滚动揭示
 const revealRef = ref<HTMLElement | null>(null)
+let revealObserver: IntersectionObserver | null = null
 onMounted(() => {
   if (typeof IntersectionObserver === 'undefined' || !revealRef.value) return
-  const io = new IntersectionObserver((entries) => {
+  revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((e) => { if (e.isIntersecting) (e.target as HTMLElement).classList.add('revealed') })
   }, { threshold: 0.15 })
-  document.querySelectorAll<HTMLElement>('.reveal').forEach((el) => io.observe(el))
+  document.querySelectorAll<HTMLElement>('.reveal').forEach((el) => revealObserver!.observe(el))
 })
 </script>
 

@@ -24,7 +24,7 @@ const FILENAME: Record<DataKind, string> = {
 // For read-only / serverless deploys, point this at a writable persistent
 // volume. Writes to a read-only location degrade to a clear 507 instead of
 // crashing the process.
-function resolveDataDir(): string {
+export function resolveDataDir(): string {
   let configured = ''
   try {
     const dir = useRuntimeConfig().dataDir
@@ -37,6 +37,13 @@ function resolveDataDir(): string {
 
 function fileFor(kind: DataKind): string {
   return join(resolveDataDir(), FILENAME[kind])
+}
+
+// Shared uploads directory resolver — every endpoint that reads/writes media
+// files MUST use this so a custom data.dataDir (config.yml) is honoured
+// consistently (prevents cover/media 404s when dataDir is configured).
+export function uploadsDir(): string {
+  return join(resolveDataDir(), 'uploads')
 }
 
 // ─── Low-level JSON I/O (atomic + fault-tolerant) ────────────────────
@@ -121,15 +128,22 @@ async function updateData<T, R>(kind: DataKind, fn: (items: T[]) => R | Promise<
   })
 }
 
-// Backfill stable ids for legacy entries once (best-effort; ignore write
-// failures so reads on a read-only FS still work).
-async function ensureIds<T extends { id?: string }>(items: T[], kind: DataKind): Promise<void> {
-  if (items.length && items.some((i) => !i.id)) {
-    items.forEach((i) => {
-      if (!i.id) i.id = genId()
-    })
-    await writeJson(fileFor(kind), items).catch(() => {})
-  }
+// Backfill stable ids for legacy entries once. To avoid a lost-update race
+// with a concurrent locked mutation, the backfill re-reads under the write
+// lock (the common path — all ids present — stays lock-free). Returns the
+// array to use (re-read fresh if a backfill occurred).
+async function ensureIds<T extends { id?: string }>(items: T[], kind: DataKind): Promise<T[]> {
+  if (!items.length || !items.some((i) => !i.id)) return items
+  return withLock(kind, async () => {
+    const fresh = await readJson<T[]>(fileFor(kind))
+    if (fresh.length && fresh.some((i) => !i.id)) {
+      fresh.forEach((i) => {
+        if (!i.id) i.id = genId()
+      })
+      await writeJson(fileFor(kind), fresh).catch(() => {})
+    }
+    return fresh
+  })
 }
 
 // ─── Categories (分组) ───────────────────────────────────────────────
@@ -142,8 +156,7 @@ export interface Category {
 
 export async function getCategories(): Promise<Category[]> {
   const data = await readJson<Category[]>(fileFor('categories'))
-  await ensureIds(data, 'categories')
-  return data
+  return ensureIds(data, 'categories')
 }
 
 export function updateCategories<R>(fn: (items: Category[]) => R | Promise<R>): Promise<R> {
@@ -169,8 +182,7 @@ export interface ContentItem {
 
 export async function getContent(): Promise<ContentItem[]> {
   const data = await readJson<ContentItem[]>(fileFor('content'))
-  await ensureIds(data, 'content')
-  return data
+  return ensureIds(data, 'content')
 }
 
 export function updateContent<R>(fn: (items: ContentItem[]) => R | Promise<R>): Promise<R> {
@@ -190,8 +202,7 @@ export interface Tag {
 
 export async function getTags(): Promise<Tag[]> {
   const data = await readJson<Tag[]>(fileFor('tags'))
-  await ensureIds(data, 'tags')
-  return data
+  return ensureIds(data, 'tags')
 }
 
 export function updateTags<R>(fn: (items: Tag[]) => R | Promise<R>): Promise<R> {
@@ -278,8 +289,7 @@ export interface Post {
 
 export async function getPosts(): Promise<Post[]> {
   const data = await readJson<Post[]>(fileFor('posts'))
-  await ensureIds(data, 'posts')
-  return data
+  return ensureIds(data, 'posts')
 }
 
 export function updatePosts<R>(fn: (items: Post[]) => R | Promise<R>): Promise<R> {
@@ -298,8 +308,7 @@ export interface Collection {
 
 export async function getCollections(): Promise<Collection[]> {
   const data = await readJson<Collection[]>(fileFor('collections'))
-  await ensureIds(data, 'collections')
-  return data
+  return ensureIds(data, 'collections')
 }
 
 export function updateCollections<R>(fn: (items: Collection[]) => R | Promise<R>): Promise<R> {
@@ -316,8 +325,7 @@ export interface Follow {
 
 export async function getFollows(): Promise<Follow[]> {
   const data = await readJson<Follow[]>(fileFor('follows'))
-  await ensureIds(data, 'follows')
-  return data
+  return ensureIds(data, 'follows')
 }
 
 export function updateFollows<R>(fn: (items: Follow[]) => R | Promise<R>): Promise<R> {
@@ -337,8 +345,7 @@ export interface Message {
 
 export async function getMessages(): Promise<Message[]> {
   const data = await readJson<Message[]>(fileFor('messages'))
-  await ensureIds(data, 'messages')
-  return data
+  return ensureIds(data, 'messages')
 }
 
 export function updateMessages<R>(fn: (items: Message[]) => R | Promise<R>): Promise<R> {
@@ -366,8 +373,7 @@ export interface ImageMeta {
 
 export async function getImages(): Promise<ImageMeta[]> {
   const data = await readJson<ImageMeta[]>(fileFor('images'))
-  await ensureIds(data, 'images')
-  return data
+  return ensureIds(data, 'images')
 }
 
 export function updateImages<R>(fn: (items: ImageMeta[]) => R | Promise<R>): Promise<R> {

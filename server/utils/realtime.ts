@@ -72,14 +72,20 @@ export async function drainPendingMessages(userId: string): Promise<Message[]> {
   const pending = await getMessages()
   const mine = pending.filter((m) => m.toUserId === userId && !m.delivered)
   if (!mine.length) return []
-  const ids = new Set(mine.map((m) => m.id))
-  await updateMessages((all) => {
-    for (const m of all) {
-      if (ids.has(m.id)) m.delivered = true
-    }
-    return null
-  })
-  // 推送给当前连接
-  for (const m of mine) sendToUser(userId, { type: 'message', message: m })
-  return mine
+  // Push to current connections FIRST; only flag delivered when at least one
+  // peer accepted it. A mid-drain disconnect then leaves the message
+  // undelivered, so it is re-drained on the next connect (no silent loss).
+  const deliveredIds = new Set<string>()
+  for (const m of mine) {
+    if (sendToUser(userId, { type: 'message', message: m })) deliveredIds.add(m.id)
+  }
+  if (deliveredIds.size) {
+    await updateMessages((all) => {
+      for (const m of all) {
+        if (deliveredIds.has(m.id)) m.delivered = true
+      }
+      return null
+    })
+  }
+  return mine.filter((m) => deliveredIds.has(m.id))
 }

@@ -40,7 +40,7 @@ async function refresh() {
     await fetchFollowingFeed()
     return
   }
-  await fetchPosts({ tag: activeTag.value || undefined, keyword: searchKeyword.value || undefined, reset: true })
+  await fetchPosts({ tag: activeTag.value || undefined, keyword: searchKeyword.value || undefined })
 }
 
 async function fetchFollowingFeed() {
@@ -97,11 +97,10 @@ function startEdit(post: Post) {
 }
 
 async function onPostUpdated(updated: Post) {
-  // 编辑成功后同步本地列表与详情
+  // 编辑成功后同步本地列表与详情（成功提示由 PostEditorModal 统一给出）
   if (selectedPost.value?.id === updated.id) {
     selectedPost.value = { ...selectedPost.value, ...updated }
   }
-  message.success('已更新')
 }
 
 async function onDeletePost(post: Post) {

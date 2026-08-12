@@ -1,1 +1,48 @@
-[]
+[
+  {
+    "id": "mspgcfsvn85cr",
+    "userId": "mspgcf50guz5f",
+    "name": "我的收藏夹 22938",
+    "description": "",
+    "postIds": [],
+    "createdAt": 1786500624127
+  },
+  {
+    "id": "mspgiuhm1f5ty",
+    "userId": "mspgitg8mxzrh",
+    "name": "测试收藏夹",
+    "description": "",
+    "postIds": [
+      "mspghvm3w7siq"
+    ],
+    "createdAt": 1786500923098
+  },
+  {
+    "id": "msphud20boe3w",
+    "userId": "msphucqse2v76",
+    "name": "我的收藏夹 39528",
+    "description": "",
+    "postIds": [],
+    "createdAt": 1786503139992
+  },
+  {
+    "id": "msphvapsmcbnb",
+    "userId": "msphvak8bf97d",
+    "name": "Test 83389",
+    "description": "",
+    "postIds": [
+      "mspghvm3w7siq"
+    ],
+    "createdAt": 1786503183616
+  },
+  {
+    "id": "msphy8m32un6s",
+    "userId": "msphy8fpf9l9y",
+    "name": "Test 20599",
+    "description": "",
+    "postIds": [
+      "mspghvm3w7siq"
+    ],
+    "createdAt": 1786503320859
+  }
+]

@@ -10,9 +10,10 @@ function extractUserId(peer: { request?: { headers?: Headers } }): string | null
   const cookieHeader = peer.request?.headers?.get('cookie')
   if (!cookieHeader) return null
   // Parse auth_token=... from the cookie header
-  const match = cookieHeader.match(/auth_token=([^;]+)/)
-  if (!match) return null
-  const decoded = verifyToken(decodeURIComponent(match[1]))
+  const raw = match[1]
+  let token = raw
+  try { token = decodeURIComponent(raw) } catch { /* malformed %; verifyToken will reject */ }
+  const decoded = verifyToken(token)
   return decoded?.uid ?? null
 }
 

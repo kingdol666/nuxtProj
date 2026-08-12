@@ -1,5 +1,4 @@
-import { updateCollections, updatePosts } from '~~/server/utils/db'
-import { requireUser } from '~~/server/utils/auth'
+import { updateCollections, updatePosts, getCollections } from '~~/server/utils/db'
 
 export default defineEventHandler(async (event) => {
   const user = await requireUser(event)
@@ -17,8 +16,18 @@ export default defineEventHandler(async (event) => {
     return { postIds: removedPostIds }
   })
 
-  // Clean up collectedBy references on posts
+  // Clean up collectedBy — but only for posts the user no longer holds in ANY
+  // remaining collection (consistent with items.post.ts), preventing premature
+  // count drift when a post is saved to multiple collections.
+  const remaining = await getCollections()
+  const stillHeld = new Set<string>()
+  for (const c of remaining) {
+    if (c.userId === user.id) {
+      for (const pid of c.postIds) stillHeld.add(pid)
+    }
+  }
   for (const pid of postIds) {
+    if (stillHeld.has(pid)) continue
     await updatePosts((posts) => {
       const p = posts.find((pp) => pp.id === pid)
       if (p) {

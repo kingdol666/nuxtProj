@@ -1,5 +1,67 @@
 [
   {
+    "id": "msphy8jkal6j5",
+    "userId": "msphy8fpf9l9y",
+    "username": "e2e_20599",
+    "avatarColor": 5,
+    "title": "Test 20599",
+    "content": "Content",
+    "images": [
+      "/api/uploads/msphy8jg-3cb3c132-cover.png"
+    ],
+    "videos": [],
+    "tags": [],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 1,
+    "createdAt": 1786503320768,
+    "updatedAt": 1786503320768
+  },
+  {
+    "id": "msphvanp6zxy7",
+    "userId": "msphvak8bf97d",
+    "username": "e2e_83389",
+    "avatarColor": 4,
+    "title": "Test 83389",
+    "content": "Content",
+    "images": [
+      "/api/uploads/msphvanm-c2d6aeed-cover.png"
+    ],
+    "videos": [],
+    "tags": [],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 2,
+    "createdAt": 1786503183541,
+    "updatedAt": 1786503183541
+  },
+  {
+    "id": "mspghvm3w7siq",
+    "userId": "admin-root",
+    "username": "admin",
+    "avatarColor": 0,
+    "title": "E2E自动化测试帖子",
+    "content": "这是端到端自动化测试创建的帖子，验证发帖功能正常运作。",
+    "images": [
+      "/api/uploads/mspghuxb-68df887c-cover.png"
+    ],
+    "videos": [],
+    "tags": [],
+    "likedBy": [
+      "mspgitg8mxzrh",
+      "msphvak8bf97d",
+      "msphy8fpf9l9y"
+    ],
+    "collectedBy": [
+      "mspgitg8mxzrh",
+      "msphvak8bf97d",
+      "msphy8fpf9l9y"
+    ],
+    "commentCount": 1,
+    "createdAt": 1786500877897,
+    "updatedAt": 1786500877897
+  },
+  {
     "id": "seed-post-001",
     "userId": "admin-root",
     "username": "admin",
@@ -14,7 +76,7 @@
     ],
     "likedBy": [],
     "collectedBy": [],
-    "commentCount": 0,
+    "commentCount": 1,
     "createdAt": 1785897000000,
     "updatedAt": 1785897000000,
     "videos": []

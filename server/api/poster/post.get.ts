@@ -1,13 +1,10 @@
 // GET /api/poster/post?id=xxx
 // 生成帖子分享卡片 PNG（封面图 + 标题 + 摘要 + 作者 + 品牌）。
 import { generatePostPoster } from '~~/server/utils/poster'
-import { getPosts, getImages } from '~~/server/utils/db'
+import { getPosts, getImages, uploadsDir } from '~~/server/utils/db'
 import { readFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 
-function uploadsBase(): string {
-  return process.env.NUXT_DATA_DIR || join(process.cwd(), 'data')
-}
 
 export default defineEventHandler(async (event) => {
   const id = (getQuery(event).id as string || '').trim()
@@ -25,13 +22,13 @@ export default defineEventHandler(async (event) => {
     const filename = coverUrl.split('/').pop()
     if (filename) {
       try {
-        coverBuffer = await readFile(join(uploadsBase(), 'uploads', filename))
+        coverBuffer = await readFile(join(uploadsDir(), filename))
       } catch {
         // Try imageMeta lookup as fallback
         try {
           const images = await getImages()
           const meta = images.find((m) => m.url === coverUrl)
-          if (meta) coverBuffer = await readFile(join(uploadsBase(), 'uploads', meta.filename))
+          if (meta) coverBuffer = await readFile(join(uploadsDir(), meta.filename))
         } catch { /* no cover */ }
       }
     }

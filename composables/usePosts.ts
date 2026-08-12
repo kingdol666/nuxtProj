@@ -34,11 +34,13 @@ export interface CreatePostPayload {
 export const usePosts = () => {
   const posts = useState<Post[]>('posts-list', () => [])
   const loading = useState<boolean>('posts-loading', () => false)
+  const error = useState<boolean>('posts-error', () => false)
   const hasMore = useState<boolean>('posts-has-more', () => true)
   const PAGE_SIZE = 20
 
-  async function fetchPosts(opts?: { tag?: string; keyword?: string; userId?: string; reset?: boolean }) {
+  async function fetchPosts(opts?: { tag?: string; keyword?: string; userId?: string }) {
     loading.value = true
+    error.value = false
     try {
       const params: Record<string, string> = {}
       if (opts?.tag) params.tag = opts.tag
@@ -47,6 +49,10 @@ export const usePosts = () => {
       const data = await $fetch<Post[]>('/api/posts', { params })
       posts.value = data
       hasMore.value = data.length >= PAGE_SIZE
+    } catch {
+      // Network/server failure: keep the existing list (stale beats empty)
+      // and surface failure so the UI can show a retry affordance.
+      error.value = true
     } finally {
       loading.value = false
     }
@@ -119,6 +125,7 @@ export const usePosts = () => {
   return {
     posts,
     loading,
+    error,
     hasMore,
     PAGE_SIZE,
     fetchPosts,

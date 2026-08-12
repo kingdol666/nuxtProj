@@ -177,7 +177,7 @@
       </div>
     </main>
 
-    <Comments />
+    <Comments :content-id="detailItem?.id" />
 
     <!-- ============ 内容详情 Modal（小红书风格） ============ -->
     <ContentDetail v-model="detailOpen" :item="detailItem" />

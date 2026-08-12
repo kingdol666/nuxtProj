@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')
   if (!id) throw createError({ statusCode: 400, statusMessage: 'id is required' })
 
-  const { targetType, targetId, count: deleted } = await updateComments((items) => {
+  const { targetId, postDecrement, deleted } = await updateComments((items) => {
     const idx = items.findIndex((c) => c.id === id)
     if (idx === -1) throw createError({ statusCode: 404, statusMessage: '评论不存在' })
     if (items[idx].userId !== user.id && user.role !== 'admin') {
@@ -25,20 +25,23 @@ export default defineEventHandler(async (event) => {
       }
     }
     // Capture post linkage BEFORE mutating the array.
-    const targetType = items[idx]?.targetType || 'content'
     const targetId = items[idx]?.contentId
-    const count = toRemove.size
+    // Only removed comments that count toward THIS post's counter decrement it
+    // — a reply tree could otherwise span different targets and over-subtract.
+    const postDecrement = items.filter(
+      (c) => toRemove.has(c.id) && (c.targetType || 'content') === 'post' && c.contentId === targetId
+    ).length
     const next = items.filter((c) => !toRemove.has(c.id))
     items.length = 0
     items.push(...next)
-    return { targetType, targetId, count }
+    return { targetId, postDecrement, deleted: toRemove.size }
   })
 
   // Decrement commentCount on the target post outside the comment transaction.
-  if (targetType === 'post' && targetId) {
+  if (targetId && postDecrement > 0) {
     await updatePosts((posts) => {
       const p = posts.find((pp) => pp.id === targetId)
-      if (p) p.commentCount = Math.max(0, p.commentCount - deleted)
+      if (p) p.commentCount = Math.max(0, p.commentCount - postDecrement)
       return null
     })
   }

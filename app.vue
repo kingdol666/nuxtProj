@@ -20,10 +20,9 @@ const showParticles = computed(() => route.path === '/application');
 // 客户端启动时恢复登录态
 const { fetchMe, user, isLoggedIn } = useAuth()
 const { connect: wsConnect, disconnect: wsDisconnect } = useRealtime()
-// 私信面板全局开关（Header 铃铛 / 各处私信按钮均可触发）
-const chatOpen = ref(false)
-const chatInitialPeerId = ref(undefined)
-function openChat(peerId) { chatInitialPeerId.value = peerId; chatOpen.value = true }
+// 私信面板全局开关（单例状态）—— Header / 任意页面均通过 useChatPanel 打开
+// 同一个全局 <ChatPanel>，避免重复挂载导致 WS 事件重复订阅。
+const { open: chatOpen, initialPeerId: chatInitialPeerId, openChat } = useChatPanel()
 onMounted(async () => { await fetchMe(); if (isLoggedIn.value) wsConnect() })
 watch(isLoggedIn, (v) => {
   if (v) wsConnect()

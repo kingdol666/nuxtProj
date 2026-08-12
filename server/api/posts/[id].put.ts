@@ -4,7 +4,7 @@
 // 仅允许修改 title / content / images / videos / tags；其余字段（likedBy /
 // collectedBy / commentCount / createdAt / userId 等）保持不变。
 // 复用与创建相同的 config 限额校验。
-import { updatePosts, updateImages, genId, type ImageMeta } from '~~/server/utils/db'
+import { updatePosts, updateImages, genId, uploadsDir, type ImageMeta } from '~~/server/utils/db'
 import { requireUser } from '~~/server/utils/auth'
 import { getConfig } from '~~/server/utils/appConfig'
 import { generateCoverImage } from '~~/server/utils/poster'
@@ -12,9 +12,6 @@ import { promises as fs } from 'node:fs'
 import { join } from 'node:path'
 import { randomBytes } from 'node:crypto'
 
-function uploadsDir(): string {
-  return join(process.env.NUXT_DATA_DIR || join(process.cwd(), 'data'), 'uploads')
-}
 
 export default defineEventHandler(async (event) => {
   const user = await requireUser(event)

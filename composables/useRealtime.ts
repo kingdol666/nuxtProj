@@ -23,6 +23,14 @@ type TimerHandle = ReturnType<typeof setInterval>
 
 const subscribers = new Set<EventSubscriber>()
 
+// Module-level singletons: one WS connection + its timers shared across every
+// useRealtime() caller, so a second connect() reuses the live socket instead
+// of orphaning the first (and its heartbeat/reconnect timers).
+let ws: WebSocket | null = null
+let heartbeatTimer: TimerHandle | null = null
+let reconnectTimer: TimerHandle | null = null
+let manualClose = false
+
 export const useRealtime = () => {
   const connected = useState<boolean>('ws-connected', () => false)
   const unreadCount = useState<number>('ws-unread', () => 0)
@@ -32,10 +40,6 @@ export const useRealtime = () => {
   const { config: appConfig } = useSiteConfig()
   const heartbeatMs = () => appConfig.value.realtime.heartbeatIntervalMs
   const reconnectMs = () => appConfig.value.realtime.reconnectDelayMs
-  let ws: WebSocket | null = null
-  let heartbeatTimer: TimerHandle | null = null
-  let reconnectTimer: TimerHandle | null = null
-  let manualClose = false
 
   function dispatch(raw: unknown): void {
     if (typeof raw !== 'object' || raw === null) return

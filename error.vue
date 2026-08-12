@@ -31,17 +31,11 @@ interface NuxtError {
 
 const props = defineProps<{ error: NuxtError }>()
 
-const isDark = computed(() => {
-  try {
-    const raw = document.cookie
-      .split('; ')
-      .find((c) => c.startsWith('theme='))
-      ?.split('=')[1]
-    return raw === 'dark'
-  } catch {
-    return false
-  }
-})
+// SSR-safe theme: useCookie reads the request cookie on the server and
+// document.cookie on the client, so the error page renders the correct theme
+// on first paint without a hydration mismatch / flash.
+const themeCookie = useCookie<'light' | 'dark'>('theme')
+const isDark = computed(() => themeCookie.value === 'dark')
 
 const code = computed(() => props.error?.statusCode || 500)
 const is404 = computed(() => code.value === 404)

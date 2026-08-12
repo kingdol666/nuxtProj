@@ -10,5 +10,65 @@
     "parentId": null,
     "likedBy": [],
     "createdAt": 1786293006733
+  },
+  {
+    "id": "mspgittf7mx2q",
+    "contentId": "mspghvm3w7siq",
+    "userId": "mspgitg8mxzrh",
+    "username": "tester2_21532",
+    "avatarColor": 2,
+    "text": "用户2的评论",
+    "parentId": null,
+    "targetType": "post",
+    "likedBy": [],
+    "createdAt": 1786500922227
+  },
+  {
+    "id": "msphvaocjeou5",
+    "contentId": "msphvanp6zxy7",
+    "userId": "msphvak8bf97d",
+    "username": "e2e_83389",
+    "avatarColor": 4,
+    "text": "Test comment",
+    "parentId": null,
+    "targetType": "post",
+    "likedBy": [],
+    "createdAt": 1786503183564
+  },
+  {
+    "id": "msphy8kevkaee",
+    "contentId": "msphy8jkal6j5",
+    "userId": "msphy8fpf9l9y",
+    "username": "e2e_20599",
+    "avatarColor": 5,
+    "text": "Test comment",
+    "parentId": null,
+    "targetType": "post",
+    "likedBy": [],
+    "createdAt": 1786503320798
+  },
+  {
+    "id": "mspi1i1rrurvn",
+    "contentId": "msphvanp6zxy7",
+    "userId": "admin-root",
+    "username": "admin",
+    "avatarColor": 0,
+    "text": "123",
+    "parentId": "msphvaocjeou5",
+    "targetType": "post",
+    "likedBy": [],
+    "createdAt": 1786503473055
+  },
+  {
+    "id": "mspi6uj6p9iiy",
+    "contentId": "seed-post-001",
+    "userId": "admin-root",
+    "username": "admin",
+    "avatarColor": 0,
+    "text": "123",
+    "parentId": null,
+    "targetType": "post",
+    "likedBy": [],
+    "createdAt": 1786503722514
   }
 ]

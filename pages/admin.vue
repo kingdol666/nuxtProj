@@ -542,7 +542,7 @@ const contentCount = useCountUp(() => contentList.value.length)
 const categoryCount = useCountUp(() => categoryList.value.length)
 const tagCount = useCountUp(() => tagsList.value.length)
 
-async function refreshAll() {
+async function refreshAll(silent = false) {
   await Promise.all([
     loadContent(),
     loadCategories(),
@@ -550,7 +550,7 @@ async function refreshAll() {
     contentStore.fetchContent(),
     menuStore.fetchMenu(),
   ])
-  ok('数据已刷新')
+  if (!silent) ok('数据已刷新')
 }
 
 // 筛选条件变化时回到第一页；列表收缩时夹紧页码
@@ -587,7 +587,7 @@ onMounted(async () => {
   }
   authState.value = 'ok'
   window.addEventListener('keydown', onKeydown)
-  refreshAll()
+  refreshAll(true)
 })
 onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 </script>

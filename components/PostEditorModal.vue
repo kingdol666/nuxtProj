@@ -4,7 +4,7 @@
 //   selectedCover = 'generated'              → 主题大图做封面
 //   selectedCover = 数字索引（0,1,2...）      → 对应的上传图片做封面（排第一位）
 //   无图片时 selectedCover 强制为 'generated'
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onBeforeUnmount } from 'vue'
 import { message } from 'ant-design-vue'
 import {
   PictureOutlined,
@@ -102,6 +102,12 @@ watch(() => props.open, (v) => {
   selectedGradient.value = 0
   // 有图片默认用第一张做封面；无图片用主题大图
   selectedCover.value = (p && p.images?.length > 0) ? 0 : 'generated'
+})
+
+// 组件卸载时回收预览 blob URL 与防抖计时器，避免内存泄漏。
+onBeforeUnmount(() => {
+  if (coverPreviewTimer) clearTimeout(coverPreviewTimer)
+  for (const pf of pendingFiles.value) URL.revokeObjectURL(pf.preview)
 })
 
 const canSubmit = computed(() => !!title.value.trim() && !!content.value.trim() && !submitting.value)

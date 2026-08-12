@@ -1,1 +1,77 @@
-[]
+[
+  {
+    "id": "mspgcfk886kz0",
+    "filename": "mspgcfk3-ed11f821-cover.png",
+    "originalName": "E2E 测试帖子 22938-cover.png",
+    "mimeType": "image/png",
+    "kind": "image",
+    "size": 79982,
+    "width": 750,
+    "height": 1000,
+    "duration": 0,
+    "userId": "mspgcf50guz5f",
+    "purpose": "post",
+    "url": "/api/uploads/mspgcfk3-ed11f821-cover.png",
+    "createdAt": 1786500623816
+  },
+  {
+    "id": "mspghvly7zq7c",
+    "filename": "mspghuxb-68df887c-cover.png",
+    "originalName": "E2E自动化测试帖子-cover.png",
+    "mimeType": "image/png",
+    "kind": "image",
+    "size": 92126,
+    "width": 750,
+    "height": 1000,
+    "duration": 0,
+    "userId": "admin-root",
+    "purpose": "post",
+    "url": "/api/uploads/mspghuxb-68df887c-cover.png",
+    "createdAt": 1786500877895
+  },
+  {
+    "id": "msphuczpz2uxe",
+    "filename": "msphuczn-e42e1559-cover.png",
+    "originalName": "E2E 测试帖子 39528-cover.png",
+    "mimeType": "image/png",
+    "kind": "image",
+    "size": 111004,
+    "width": 750,
+    "height": 1000,
+    "duration": 0,
+    "userId": "msphucqse2v76",
+    "purpose": "post",
+    "url": "/api/uploads/msphuczn-e42e1559-cover.png",
+    "createdAt": 1786503139909
+  },
+  {
+    "id": "msphvannzztwa",
+    "filename": "msphvanm-c2d6aeed-cover.png",
+    "originalName": "Test 83389-cover.png",
+    "mimeType": "image/png",
+    "kind": "image",
+    "size": 78423,
+    "width": 750,
+    "height": 1000,
+    "duration": 0,
+    "userId": "msphvak8bf97d",
+    "purpose": "post",
+    "url": "/api/uploads/msphvanm-c2d6aeed-cover.png",
+    "createdAt": 1786503183540
+  },
+  {
+    "id": "msphy8jixapoh",
+    "filename": "msphy8jg-3cb3c132-cover.png",
+    "originalName": "Test 20599-cover.png",
+    "mimeType": "image/png",
+    "kind": "image",
+    "size": 87667,
+    "width": 750,
+    "height": 1000,
+    "duration": 0,
+    "userId": "msphy8fpf9l9y",
+    "purpose": "post",
+    "url": "/api/uploads/msphy8jg-3cb3c132-cover.png",
+    "createdAt": 1786503320766
+  }
+]

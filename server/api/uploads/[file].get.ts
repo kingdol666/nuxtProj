@@ -56,40 +56,52 @@ export default defineEventHandler(async (event) => {
 
   try {
     if (isVideo && rangeHeader) {
-      // Parse Range: bytes=start-end
       const stat = await fs.stat(filePath)
       const fileSize = stat.size
       const match = rangeHeader.match(/bytes=(\d*)-(\d*)/)
-      const start = match?.[1] ? parseInt(match[1], 10) : 0
-      const end = match?.[2] ? parseInt(match[2], 10) : fileSize - 1
-      const clampedEnd = Math.min(end, fileSize - 1)
-      const chunkSize = clampedEnd - start + 1
-
-      if (start >= fileSize || clampedEnd < start) {
-        setResponseStatus(event, 416)
-        setHeader(event, 'Content-Range', `bytes */${fileSize}`)
-        return null
-      }
-
-      const fd = await fs.open(filePath, 'r')
-      try {
-        const buf = Buffer.alloc(chunkSize)
-        await fd.read(buf, 0, chunkSize, start)
-        setResponseStatus(event, 206)
-        setHeader(event, 'Content-Type', MIME[ext])
-        setHeader(event, 'Content-Length', chunkSize)
-        setHeader(event, 'Content-Range', `bytes ${start}-${clampedEnd}/${fileSize}`)
-        setHeader(event, 'Accept-Ranges', 'bytes')
-        setHeader(event, 'Cache-Control', 'public, max-age=31536000, immutable')
-        return buf
-      } finally {
-        await fd.close()
+      let start: number
+      let end: number
+      if (!match) {
+        // Malformed Range → fall through to full-file read below.
+      } else {
+        if (match[1] === '' && match[2] !== '') {
+          // Suffix range: bytes=-N → last N bytes (fixes EOF seeking).
+          const suffix = parseInt(match[2], 10)
+          start = Math.max(0, fileSize - suffix)
+          end = fileSize - 1
+        } else {
+          start = match[1] ? parseInt(match[1], 10) : 0
+          end = match[2] ? parseInt(match[2], 10) : fileSize - 1
+        }
+        const clampedEnd = Math.min(end, fileSize - 1)
+        const chunkSize = clampedEnd - start + 1
+        if (start >= fileSize || start < 0 || clampedEnd < start || chunkSize <= 0) {
+          setResponseStatus(event, 416)
+          setHeader(event, 'Content-Range', `bytes */${fileSize}`)
+          return null
+        }
+        const fd = await fs.open(filePath, 'r')
+        try {
+          const buf = Buffer.alloc(chunkSize)
+          await fd.read(buf, 0, chunkSize, start)
+          setResponseStatus(event, 206)
+          setHeader(event, 'Content-Type', MIME[ext])
+          setHeader(event, 'Content-Length', chunkSize)
+          setHeader(event, 'Content-Range', `bytes ${start}-${clampedEnd}/${fileSize}`)
+          setHeader(event, 'Accept-Ranges', 'bytes')
+          setHeader(event, 'Cache-Control', 'public, max-age=31536000, immutable')
+          setHeader(event, 'X-Content-Type-Options', 'nosniff')
+          return buf
+        } finally {
+          await fd.close()
+        }
       }
     }
 
-    // Full file read (images, or video without Range header)
+    // Full file read (images, video without Range, or malformed Range)
     const data = await fs.readFile(filePath)
     setHeader(event, 'Content-Type', MIME[ext])
+    setHeader(event, 'X-Content-Type-Options', 'nosniff')
     setHeader(event, 'Cache-Control', 'public, max-age=31536000, immutable')
     if (isVideo) {
       setHeader(event, 'Accept-Ranges', 'bytes')

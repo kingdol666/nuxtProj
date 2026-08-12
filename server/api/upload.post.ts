@@ -43,6 +43,16 @@ function uploadsDir(): string {
 export default defineEventHandler(async (event) => {
   const user = await requireUser(event)
 
+  // Early guard: reject oversized uploads BEFORE buffering the whole body into
+  // memory (defense against memory exhaustion). Allows the largest single-file
+  // limit plus multipart-encoding headroom; the precise per-file check below
+  // still runs after parsing.
+  const maxAllowed = (getConfig().limits.uploads.maxVideoSizeMB + 2) * 1024 * 1024
+  const contentLength = parseInt(getRequestHeader(event, 'content-length') || '0', 10)
+  if (contentLength > maxAllowed) {
+    throw createError({ statusCode: 413, statusMessage: '上传文件过大' })
+  }
+
   const parts = await readMultipartFormData(event)
   if (!parts?.length) {
     throw createError({ statusCode: 400, statusMessage: '未找到上传文件' })
