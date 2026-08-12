@@ -21,7 +21,8 @@
 <a href="https://antdv.com"><img src="https://img.shields.io/badge/Ant_Design_Vue-4.2-0170FE?logo=antdesign&logoColor=white&style=for-the-badge" alt="Ant Design Vue"/></a>
 <br>
 <a href="https://pinia.vuejs.org"><img src="https://img.shields.io/badge/Pinia-4.x-FFD859?logo=pinia&logoColor=black&style=for-the-badge" alt="Pinia"/></a>
-<a href="#"><img src="https://img.shields.io/badge/WebSocket-Realtime-010101?logo=websocket&logoColor=white&style=for-the-badge" alt="WebSocket"/></a>
+<a href="https://github.com/WuKongIM/WuKongIM"><img src="https://img.shields.io/badge/WuKongIM-v2-FF6B35?logo=docker&logoColor=white&style=for-the-badge" alt="WuKongIM"/></a>
+<a href="https://www.docker.com"><img src="https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white&style=for-the-badge" alt="Docker"/></a>
 <a href="#"><img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="MIT License"/></a>
 
 </div>
@@ -83,13 +84,13 @@ WebSocket 即时推送 · 离线消息队列 · 上线自动消费 · 多端同�
 </td>
 <td width="50%" valign="top">
 
-### ⚡ 实时通信
+### ⚡ 实时通信（双引擎）
 
-- WebSocket 双向通道（crossws 适配器）
-- 在线状态检测 · 离线消息队列暂存
-- 自动重连 + 25 秒心跳 ping/pong
-- 同一用户多端在线，消息广播到所有活跃连接
-- 全局单例连接，模块级事件总线
+- **WuKongIM**（主引擎）：企业级 IM 框架 · 群聊/私信/离线消息
+- **easyjssdk** 客户端：WebSocket 长连接 · 自动重连 · 心跳保活
+- **自有 WebSocket**（降级）：crossws 适配器 · 离线队列 · 多端同步
+- 消息类型：**文本 / 图片 / GIF** 三种类型集成
+- 群聊频道 `grp_<id>` · 私信频道 Person 自动路由
 
 </td>
 </tr>
@@ -149,8 +150,10 @@ WebSocket 即时推送 · 离线消息队列 · 上线自动消费 · 多端同�
 |:---:|:---|
 | 🤝 **关注/粉丝** | 一键关注 · 粉丝/关注列表 · 关注动态 Feed |
 | 👤 **用户主页** | 公开资料 · 自定义头像 + 背景横幅 · 统计面板 |
-| 📨 **实时私信** | WebSocket 即时推送 · 离线消息暂存 · 上线自动消费 |
-| 🔔 **通知中心** | 未读消息计数 · 关注通知 · 实时铃铛提醒 |
+| 📨 **实时私信** | WuKongIM 即时推送 · 文本/图片/GIF 多类型 · 离线消息暂存 |
+| 👥 **群聊系统** | 创建群组 · 邀请好友 · 群内实时聊天（文本/图片/GIF）|
+| 🎁 **GIF 表情** | 内置 GIF 库 · 用户上传 GIF · 即时预览 · 全屏查看 |
+| 🔔 **通知中心** | 未读消息计数 · 关注通知 · 群邀请 · 实时铃铛提醒 |
 | ⚙️ **个人设置** | 头像上传 · 背景图设置 · 简介编辑 · 即时预览 |
 
 <br>
@@ -181,39 +184,63 @@ my-nuxt-demo/
 │   ├── user/[id].vue         #   用户公开主页
 │   ├── application.vue       #   应用推荐
 │   ├── admin.vue             #   后台管理（admin only）
+│   ├── topic/[id].vue        #   专题页
 │   └── art.vue               #   艺术展示
 │
 ├── 📂 components/             # Vue 组件
 │   ├── PostCard.vue          #   瀑布流卡片（图片/视频封面）
 │   ├── PostDetailModal.vue   #   详情弹窗（画廊 + 评论 + 操作）
 │   ├── PostEditorModal.vue   #   发帖编辑器（混合媒体上传）
-│   ├── ChatPanel.vue         #   浮动私信面板
+│   ├── ChatPanel.vue         #   浮动私信面板（文本/图片/GIF）
+│   ├── GroupChatPanel.vue    #   群聊浮动面板（群列表/聊天/建群/邀请）
+│   ├── MessageContent.vue    #   统一消息渲染（文本/图片/GIF + 全屏预览）
+│   ├── GifPicker.vue         #   GIF 表情选择器（内置库 + 用户上传）
 │   ├── NotificationBell.vue  #   通知铃铛
 │   ├── FollowButton.vue      #   关注按钮
 │   ├── Header.vue            #   全局导航栏
 │   ├── Sider.vue             #   侧边导航
 │   ├── AuthModal.vue         #   登录/注册弹窗
+│   ├── ContentDetail.vue     #   内容详情
 │   └── Comments.vue          #   评论区（对接 API）
 │
 ├── 📂 composables/           # Vue Composables（状态逻辑）
+│   ├── useWuKongIM.ts        #   ★ WuKongIM 客户端单例（群聊/私信/多消息类型）
+│   ├── useChatMedia.ts       #   ★ 聊天媒体上传 + GIF 库管理
+│   ├── useGroups.ts          #   ★ 群组 CRUD + 邀请管理
+│   ├── useGroupPanel.ts      #   ★ 群聊面板全局状态
+│   ├── useMessages.ts        #   私信状态（文本/图片/GIF）
 │   ├── useAuth.ts            #   认证状态 + 用户信息
-│   ├── usePosts.ts           #   帖子 CRUD（含错误处理）
+│   ├── usePosts.ts           #   帖子 CRUD
 │   ├── useCollections.ts     #   收藏夹管理
-│   ├── useMessages.ts        #   私信状态
 │   ├── useFollows.ts         #   关注关系
 │   ├── useRealtime.ts        #   WebSocket 客户端（模块级单例）
-│   ├── useChatPanel.ts       #   私信面板全局状态（单例）
+│   ├── useChatPanel.ts       #   私信面板全局状态
+│   ├── useSiteConfig.ts      #   站点配置
 │   ├── useAvatar.ts          #   头像样式
 │   └── useTheme.ts           #   主题切换
 │
 ├── 📂 server/                # Nitro 服务端
-│   ├── api/                  #   REST API（40+ 端点）
-│   ├── routes/_ws.ts         #   WebSocket 入口
-│   ├── utils/                #   db.ts / auth.ts / realtime.ts / poster.ts
+│   ├── api/                  #   REST API（50+ 端点）
+│   │   ├── messages/         #     私信（支持多消息类型持久化）
+│   │   ├── groups/           #     ★ 群组 + 邀请 CRUD
+│   │   ├── posts/            #     帖子 CRUD + 点赞
+│   │   ├── comments/         #     评论 + 回复 + 点赞
+│   │   ├── collections/      #     收藏夹
+│   │   └── ...               #     认证/用户/关注/上传/配置
+│   ├── routes/_ws.ts         #   WebSocket 入口（降级通道）
+│   ├── utils/
+│   │   ├── wukongim.ts       #   ★ WuKongIM HTTP API 客户端
+│   │   ├── db.ts             #   JSON 数据层（原子写入 + 互斥锁）
+│   │   ├── auth.ts           #   HMAC Cookie + scrypt 认证
+│   │   ├── realtime.ts       #   WebSocket 广播
+│   │   └── poster.ts         #   Canvas 封面生成
 │   └── plugins/              #   seed-admin / config 热重载
 │
+├── 📂 docker/wukongim/       # ★ WuKongIM Docker Compose 部署
+├── 📂 public/chat/gifs/      # ★ 内置 GIF 表情库
 ├── 📂 data/                  # JSON 持久化存储（无需数据库）
 ├── 📂 assets/css/            # 全局设计系统 Design Token
+├── 📂 scripts/               # E2E 测试脚本
 ├── 📂 stores/                # Pinia 状态仓库
 ├── config.yml                # 唯一配置入口（热重载）
 ├── nuxt.config.ts            # Nuxt 配置
@@ -235,6 +262,7 @@ my-nuxt-demo/
 | 依赖 | 最低版本 |
 |:---:|:---:|
 | Node.js | `>= 18.0.0` |
+| Docker | `>= 20.0`（启动 WuKongIM） |
 | npm / pnpm / yarn | 任一包管理器 |
 
 <br>
@@ -249,15 +277,24 @@ cd nuxtProj
 # 2️⃣ 安装依赖
 npm install
 
-# 3️⃣ 启动开发服务器
+# 3️⃣ 启动 WuKongIM 即时通讯服务（Docker）
+cd docker/wukongim
+docker compose up -d
+cd ../..
+
+# 4️⃣ 启动开发服务器
 npm run dev
 ```
 
 <br>
 
 > 🎉 启动成功后访问 **http://localhost:3000**
+>
+> WuKongIM 服务端口：
+> - `5001` HTTP API · `5200` WebSocket · `5300` 管理后台
 
 <br>
+
 
 ### 默认账号
 
@@ -300,11 +337,11 @@ npm run dev
 </td>
 <td width="33%" valign="top">
 
-**📨 私信聊天**
+**📨 私信 / 群聊**
 
-点击通知铃铛或私信按钮 → 打开聊天面板 → 实时收发消息
+私信按钮或群聊按钮 → 打开面板 → 实时收发 **文本 / 图片 / GIF**
 
-离线消息自动暂存，上线后即时推送
+点击工具栏 📷 发送图片 · 🎁 选择 GIF 表情 · 离线消息自动暂存
 
 </td>
 </tr>
@@ -403,6 +440,39 @@ async function updateData<T, R>(kind: DataKind, fn: (items: T[]) => R): Promise<
 
 </details>
 
+<details>
+<summary><b>💬 WuKongIM 即时通讯（双引擎架构）</b></summary>
+
+<br>
+
+```
+浏览器 ──ws:5200──→ WuKongIM (easyjssdk)     ← 主通道：群聊/私信/多消息类型
+                          │
+                ┌─────────┴──────────┐
+                │  Person 频道 = uid   │   私信：channelType=1
+                │  Group 频道 = grp_id │   群聊：channelType=2
+                │  离线消息自动补投     │
+                └─────────┬──────────┘
+                          │
+浏览器 ──ws:_ws────→ 自有 crossws 适配器      ← 降级通道：通知/配置推送
+```
+
+**消息协议**（应用层）：
+```typescript
+type MsgPayload =
+  | { type: 1; text: string }                          // 文本
+  | { type: 2; url: string; w?: number; h?: number }   // 图片
+  | { type: 3; url: string }                           // GIF
+```
+
+- **主引擎**: WuKongIM 处理群聊和私信的实时投递 + 离线消息存储
+- **降级通道**: 自有 WebSocket 在 WuKongIM 不可用时接管推送
+- **双写策略**: 私信同时走 WuKongIM 实时投递 + HTTP API 持久化（保证历史可查）
+- **群聊频道**: 创建群组时自动调用 WuKongIM API 建 `grp_<id>` 频道并同步订阅者
+- **GIF 库**: 内置 3 个 GIF + 用户上传，选择器集成在私信/群聊输入区
+
+</details>
+
 <br>
 
 <details>
@@ -468,10 +538,13 @@ features:
   enableSignup: true
   enableGuestBrowse: true
 
+wukongim:
+  enabled: true                    # 启用 WuKongIM 即时通讯
+  wsURL: "ws://localhost:5200"     # 浏览器 easyjssdk 连接地址
+  apiURL: "http://localhost:5001"  # 服务端 HTTP API 地址
+  managerToken: ""                 # 管理者 token（开启 token-auth 时必填）
+
 branding:
-  siteTitle: "Nuxt Community"
-  brandName: "Nuxt Admin"
-```
 
 - **热重载**: 修改 `config.yml` 并保存 → 运行中服务自动检测并即时生效
 - **PATCH 语义**: `PUT /api/config` 只需发送变更字段，未提供字段保持不变
@@ -514,9 +587,16 @@ branding:
 | **关注** | GET | `/api/follows` | 粉丝/关注列表（userId + dir/check） |
 | | POST | `/api/follows` | 关注/取关 |
 | **私信** | GET | `/api/messages` | 会话列表/单会话 |
-| | POST | `/api/messages` | 发送消息（toUserId + text） |
+| | POST | `/api/messages` | 发送消息（text/msgType/mediaUrl 多类型） |
 | | POST | `/api/messages/read` | 标记已读 |
 | | GET | `/api/messages/unread` | 未读计数 |
+| **群组** | GET | `/api/groups` | 我的群组列表 |
+| | POST | `/api/groups` | 创建群组（自动建 WuKongIM 频道） |
+| | GET | `/api/groups/[id]` | 群组详情 + 成员 |
+| | DELETE | `/api/groups/[id]` | 退出/解散群组 |
+| | GET | `/api/groups/invites` | 待处理邀请 |
+| | POST | `/api/groups/invites` | 邀请好友（需好友关系） |
+| | POST | `/api/groups/invites/[id]` | 接受/拒绝邀请 |
 | **用户** | GET | `/api/users/[id]/profile` | 公开资料 + 统计 |
 | | PUT | `/api/users/profile` | 更新个人资料 |
 | **媒体** | POST | `/api/upload` | 上传图片/视频（Content-Length 预检） |
@@ -525,7 +605,9 @@ branding:
 | **Feed** | GET | `/api/feed/following` | 关注动态 |
 | **配置** | GET | `/api/config` | 获取配置 |
 | | PUT | `/api/config` | 更新配置（admin, PATCH 语义） |
-| **WebSocket** | WS | `/_ws` | 实时通信（私信/通知/配置推送） |
+| **WebSocket** | WS | `/_ws` | 降级实时通信（私信/通知/配置推送） |
+| **WuKongIM** | WS | `ws:5200` | 主实时通道（群聊/私信/多消息类型） |
+| | HTTP | `http:5001` | 服务端 API（建群/同步订阅者） |
 
 <br>
 
@@ -606,6 +688,6 @@ MIT License © 2025
 
 <br>
 
-<sub>Built with ❤️ using Nuxt 3 · Vue 3 · Ant Design Vue · Pinia · WebSocket</sub>
+<sub>Built with ❤️ using Nuxt 3 · Vue 3 · Ant Design Vue · Pinia · WuKongIM · WebSocket</sub>
 
 </div>

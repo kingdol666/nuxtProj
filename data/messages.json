@@ -4,7 +4,7 @@
     "fromUserId": "msphvak8bf97d",
     "toUserId": "admin-root",
     "text": "hello",
-    "read": false,
+    "read": true,
     "delivered": true,
     "createdAt": 1786503183684
   },
