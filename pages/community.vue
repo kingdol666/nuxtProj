@@ -6,6 +6,7 @@ import { PlusOutlined, SearchOutlined, FireOutlined, DeleteOutlined } from '@ant
 import { usePosts, type Post } from '~/composables/usePosts'
 import { useCollections } from '~/composables/useCollections'
 import { useAuth } from '~/composables/useAuth'
+import { apiError } from '~/composables/useApiError'
 
 const { posts, loading, fetchPosts, toggleLike, updatePost, removePost, allTags } = usePosts()
 const { fetchCollections } = useCollections()
@@ -85,8 +86,8 @@ async function onToggleLike(post: Post) {
     if (!res.liked) {
       // pass-through: 取消点赞
     }
-  } catch {
-    message.error('操作失败')
+  } catch (e: unknown) {
+    message.error(apiError(e))
   }
 }
 

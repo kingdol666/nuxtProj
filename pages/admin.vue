@@ -15,6 +15,7 @@ import { useTheme } from '~/composables/useTheme'
 import { useAuth } from '~/composables/useAuth'
 import { useContentStore } from '~/stores/contentStore'
 import { useMenuStore } from '~/stores/menuStore'
+import { apiError } from '~/composables/useApiError'
 import {
   DashboardOutlined,
   FileTextOutlined,
@@ -116,9 +117,8 @@ function pageWindow(current: number, total: number): (number | '…')[] {
   }
   return out
 }
-
-function errMsg(e: any): string {
-  return e?.statusMessage || e?.message || '未知错误'
+function errMsg(e: unknown): string {
+  return apiError(e)
 }
 
 // ─────────────────────────── 内容管理 ───────────────────────────

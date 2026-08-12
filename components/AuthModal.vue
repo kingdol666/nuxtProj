@@ -2,6 +2,7 @@
 // 登录/注册弹窗：玻璃拟态 + Tab 切换 + 表单校验 + 错误反馈。
 import { ref, computed, watch } from 'vue'
 import { useAuth } from '~/composables/useAuth'
+import { apiError } from '~/composables/useApiError'
 import {
   CloseOutlined,
   UserOutlined,
@@ -48,9 +49,8 @@ async function submit() {
       await register(username.value.trim(), password.value)
     }
     closeAuthModal()
-  } catch (e: any) {
-    const msg = e?.statusMessage || e?.message || ''
-    errorMsg.value = msg || (mode.value === 'login' ? '登录失败' : '注册失败')
+  } catch (e: unknown) {
+    errorMsg.value = apiError(e, mode.value === 'login' ? '登录失败' : '注册失败')
   } finally {
     loading.value = false
   }

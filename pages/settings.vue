@@ -15,6 +15,7 @@ import {
 } from '@ant-design/icons-vue'
 import { useAuth } from '~/composables/useAuth'
 import { avatarStyle, avatarStyleFull, AVATAR_GRADIENTS } from '~/composables/useAvatar'
+import { apiError } from '~/composables/useApiError'
 
 const router = useRouter()
 const { user, isLoggedIn, fetchMe, updateProfile, openAuthModal } = useAuth()
@@ -57,9 +58,8 @@ async function uploadAvatar(file: File) {
     fd.append('file', file)
     const res = await $fetch<{ url: string }>('/api/upload?purpose=avatar', { method: 'POST', body: fd })
     avatarUrl.value = res.url
-    message.success('头像上传成功')
-  } catch {
-    message.error('头像上传失败')
+  } catch (e: unknown) {
+    message.error(apiError(e, '头像上传失败'))
   } finally {
     uploadingAvatar.value = false
   }
@@ -72,9 +72,8 @@ async function uploadBackground(file: File) {
     fd.append('file', file)
     const res = await $fetch<{ url: string }>('/api/upload?purpose=background', { method: 'POST', body: fd })
     backgroundUrl.value = res.url
-    message.success('背景上传成功')
-  } catch {
-    message.error('背景上传失败')
+  } catch (e: unknown) {
+    message.error(apiError(e, '背景上传失败'))
   } finally {
     uploadingBg.value = false
   }

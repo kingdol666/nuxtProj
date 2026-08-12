@@ -1,7 +1,7 @@
 // composables/useChatMedia.ts
 //
 // 聊天媒体上传与 GIF 库管理。
-// 职责：
+import { apiError } from './useApiError'
 //   1. 上传图片/GIF 文件（复用 /api/upload）
 //   2. 判定文件类型 → 返回对应的 MsgType
 //   3. 提供内置 GIF 表情库（静态清单，用户也可自行上传 .gif）
@@ -77,7 +77,7 @@ export const useChatMedia = () => {
       }
       return { url: res.url, width: res.width, height: res.height, msgType: msgType as 2 | 3 }
     } catch (e: unknown) {
-      error.value = e instanceof Error ? e.message : '上传失败'
+      error.value = apiError(e, '上传失败')
       return null
     } finally {
       uploading.value = false

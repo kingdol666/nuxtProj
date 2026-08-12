@@ -14,6 +14,7 @@ import { useSiteConfig } from './useSiteConfig'
 // easyjssdk 同时支持 Browser 和 Node.js（经 ws 包），静态导入 SSR 安全。
 import { WKIM, WKIMChannelType, WKIMEvent } from 'easyjssdk'
 import type { RecvMessage } from 'easyjssdk'
+import { apiError } from './useApiError'
 
 // easyjssdk 的 SendResult 未导出，这里定义我们用到的最小子集
 interface SendResultLike {
@@ -157,7 +158,7 @@ export const useWuKongIM = () => {
       await imInstance.connect()
       return true
     } catch (e: unknown) {
-      errorMsg.value = e instanceof Error ? e.message : '连接 WuKongIM 失败'
+      errorMsg.value = apiError(e, '连接 WuKongIM 失败')
       return false
     }
   }
@@ -191,7 +192,7 @@ export const useWuKongIM = () => {
     try {
       res = await imInstance.send(channelId, WKIMChannelType.Group, payload)
     } catch (e: unknown) {
-      errorMsg.value = e instanceof Error ? e.message : '发送失败'
+      errorMsg.value = apiError(e, '发送失败')
       return false
     }
     // 乐观追加到本地流（WuKongIM 不会把自发消息回推给发送者）
@@ -219,7 +220,7 @@ export const useWuKongIM = () => {
       const res: SendResultLike = await imInstance.send(toUserId, WKIMChannelType.Person, payload)
       return res.reasonCode === 1
     } catch (e: unknown) {
-      errorMsg.value = e instanceof Error ? e.message : '私信发送失败'
+      errorMsg.value = apiError(e, '私信发送失败')
       return false
     }
   }

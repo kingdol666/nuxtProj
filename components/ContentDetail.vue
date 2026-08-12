@@ -6,6 +6,7 @@
 import { ref, computed, watch, onBeforeUnmount } from 'vue'
 import { useTheme } from '~/composables/useTheme'
 import { useAuth } from '~/composables/useAuth'
+import { apiError } from '~/composables/useApiError'
 import {
   CloseOutlined,
   FileTextOutlined,
@@ -217,10 +218,9 @@ async function submitRating(value: number) {
   try {
     await $fetch('/api/ratings', { method: 'POST', body: { contentId: props.item!.id, value } })
     flashToast('评分已提交')
-    await loadRating()
-  } catch (e: any) {
+  } catch (e: unknown) {
     userRating.value = prev
-    flashToast(e?.statusMessage || '评分失败')
+    flashToast(apiError(e, '评分失败'))
   } finally {
     ratingSubmitting.value = false
   }
@@ -255,9 +255,8 @@ async function submitComment() {
       body: { contentId: props.item!.id, text, parentId: null },
     })
     allComments.value.unshift(created)
-    newCommentText.value = ''
-  } catch (e: any) {
-    flashToast(e?.statusMessage || '评论失败')
+  } catch (e: unknown) {
+    flashToast(apiError(e, '评论失败'))
   } finally {
     commentPosting.value = false
   }
@@ -281,9 +280,8 @@ async function submitReply(parentId: string) {
     })
     allComments.value.push(created)
     replyTexts.value[parentId] = ''
-    replyTo.value = null
-  } catch (e: any) {
-    flashToast(e?.statusMessage || '回复失败')
+  } catch (e: unknown) {
+    flashToast(apiError(e, '回复失败'))
   }
 }
 
@@ -329,9 +327,8 @@ async function deleteComment(commentId: string) {
       return true
     })
     deleteConfirmId.value = null
-    flashToast('评论已删除')
-  } catch (e: any) {
-    flashToast(e?.statusMessage || '删除失败')
+  } catch (e: unknown) {
+    flashToast(apiError(e, '删除失败'))
   }
 }
 

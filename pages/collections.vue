@@ -12,6 +12,7 @@ import {
 import { useCollections, type Collection } from '~/composables/useCollections'
 import { usePosts, type Post } from '~/composables/usePosts'
 import { useAuth } from '~/composables/useAuth'
+import { apiError } from '~/composables/useApiError'
 
 const { collections, loading, fetchCollections, createCollection, removeCollection } = useCollections()
 const { fetchPosts } = usePosts()
@@ -88,8 +89,8 @@ async function onToggleLike(post: Post) {
       if (res.liked) { if (!post.likedBy.includes(uid)) post.likedBy.push(uid) }
       else { post.likedBy = post.likedBy.filter((u) => u !== uid) }
     }
-  } catch {
-    message.error('操作失败')
+  } catch (e: unknown) {
+    message.error(apiError(e))
   }
 }
 

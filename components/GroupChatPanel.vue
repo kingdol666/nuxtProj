@@ -15,6 +15,7 @@ import { useAuth } from '~/composables/useAuth'
 import { useGroups, type GroupMember } from '~/composables/useGroups'
 import { useWuKongIM } from '~/composables/useWuKongIM'
 import { useRealtime } from '~/composables/useRealtime'
+import { apiError } from '~/composables/useApiError'
 
 const props = defineProps<{ open: boolean }>()
 const emit = defineEmits<{ (e: 'update:open', v: boolean): void }>()
@@ -93,7 +94,7 @@ async function enterChat(groupId: string) {
     await nextTick()
     scrollToBottom()
   } catch (e: unknown) {
-    message.error(e instanceof Error ? e.message : '打开群聊失败')
+    message.error(apiError(e, '打开群聊失败'))
   }
 }
 
@@ -112,7 +113,7 @@ async function doCreateGroup() {
     message.success('群组已创建')
     await enterChat(g.id)
   } catch (e: unknown) {
-    message.error(e instanceof Error ? e.message : '创建失败')
+    message.error(apiError(e, '创建失败'))
   }
 }
 
@@ -127,7 +128,7 @@ async function doLeave() {
     message.success(isOwner ? '群组已解散' : '已退出群组')
     backToList()
   } catch (e: unknown) {
-    message.error(e instanceof Error ? e.message : '操作失败')
+    message.error(apiError(e, '操作失败'))
   }
 }
 
@@ -165,10 +166,7 @@ async function doInvite(f: Friend) {
     await inviteMember(activeGroup.value.id, f.id)
     message.success(`已向 ${f.username} 发送邀请`)
   } catch (e: unknown) {
-    // H3 错误：友好信息在 data.statusMessage；提取不到则兜底
-    const err = e as { data?: { statusMessage?: string }; message?: string }
-    const msg = err?.data?.statusMessage || err?.message || '邀请失败'
-    message.error(msg)
+    message.error(apiError(e, '邀请失败'))
   }
 }
 
@@ -177,8 +175,7 @@ async function doRespond(inviteId: string, action: 'accept' | 'decline') {
     await respondInvite(inviteId, action)
     message.success(action === 'accept' ? '已加入群组' : '已拒绝')
   } catch (e: unknown) {
-    const err = e as { data?: { statusMessage?: string }; message?: string }
-    message.error(err?.data?.statusMessage || err?.message || '操作失败')
+    message.error(apiError(e, '操作失败'))
   }
 }
 

@@ -17,6 +17,7 @@ import { avatarStyle, avatarStyleFull } from '~/composables/useAvatar'
 import { useAuth } from '~/composables/useAuth'
 import { useFollows } from '~/composables/useFollows'
 import type { Post } from '~/composables/usePosts'
+import { apiError } from '~/composables/useApiError'
 import FollowButton from '~/components/FollowButton.vue'
 import PostCard from '~/components/PostCard.vue'
 import PostDetailModal from '~/components/PostDetailModal.vue'
@@ -137,8 +138,8 @@ async function onToggleLike(post: Post) {
       if (res.liked) { if (!post.likedBy.includes(uid)) post.likedBy.push(uid) }
       else { post.likedBy = post.likedBy.filter((u) => u !== uid) }
     }
-  } catch {
-    message.error('操作失败')
+  } catch (e: unknown) {
+    message.error(apiError(e))
   }
 }
 
