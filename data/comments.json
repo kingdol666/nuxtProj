@@ -70,5 +70,19 @@
     "targetType": "post",
     "likedBy": [],
     "createdAt": 1786503722514
+  },
+  {
+    "id": "mspk4d3ql5dhz",
+    "contentId": "mspk4cu94lnay",
+    "userId": "mspk4cltgfz25",
+    "username": "test_post_1786506965183",
+    "avatarColor": 2,
+    "text": "好帖！",
+    "parentId": null,
+    "targetType": "post",
+    "likedBy": [
+      "admin-root"
+    ],
+    "createdAt": 1786506965846
   }
 ]

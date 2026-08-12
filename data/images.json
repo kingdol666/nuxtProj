@@ -103,5 +103,50 @@
     "purpose": "post",
     "url": "/api/uploads/mspix02j-bcb6a7d4.jpg",
     "createdAt": 1786504942751
+  },
+  {
+    "id": "mspk0zvvynxw7",
+    "filename": "mspk0zvt-b6eb4c05-cover.png",
+    "originalName": "业务逻辑测试-cover.png",
+    "mimeType": "image/png",
+    "kind": "image",
+    "size": 89716,
+    "width": 750,
+    "height": 1000,
+    "duration": 0,
+    "userId": "mspk0zr7t533h",
+    "purpose": "post",
+    "url": "/api/uploads/mspk0zvt-b6eb4c05-cover.png",
+    "createdAt": 1786506808747
+  },
+  {
+    "id": "mspk4cu5frchx",
+    "filename": "mspk4cu2-32e6828c-cover.png",
+    "originalName": "管理员帖子_1786506965183-cover.png",
+    "mimeType": "image/png",
+    "kind": "image",
+    "size": 88609,
+    "width": 750,
+    "height": 1000,
+    "duration": 0,
+    "userId": "admin-root",
+    "purpose": "post",
+    "url": "/api/uploads/mspk4cu2-32e6828c-cover.png",
+    "createdAt": 1786506965501
+  },
+  {
+    "id": "mspk4cwniqeby",
+    "filename": "mspk4cwk-9dbbddeb-cover.png",
+    "originalName": "测试帖子-cover.png",
+    "mimeType": "image/png",
+    "kind": "image",
+    "size": 64277,
+    "width": 750,
+    "height": 1000,
+    "duration": 0,
+    "userId": "mspk4cltgfz25",
+    "purpose": "post",
+    "url": "/api/uploads/mspk4cwk-9dbbddeb-cover.png",
+    "createdAt": 1786506965591
   }
 ]

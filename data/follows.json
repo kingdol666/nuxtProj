@@ -16,5 +16,11 @@
     "followerId": "msphucqse2v76",
     "followeeId": "seed-admin",
     "createdAt": 1786503140053
+  },
+  {
+    "id": "mspk0zyke8au9",
+    "followerId": "mspk0zr7t533h",
+    "followeeId": "nonexistent-user-xxx",
+    "createdAt": 1786506808844
   }
 ]

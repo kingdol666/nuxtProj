@@ -5,7 +5,7 @@
     "passwordHash": "4b9522e9980f2189fae93413e7b11a08:1fe27e5afaab7accf71399b9075842d0f49403bc7227afec2a04ed267134717284b45d8a98a982b72a28509a43744c9331deb32efd768f75eeced8c44fffece0",
     "role": "admin",
     "avatarColor": 0,
-    "bio": "ϵͳ����Ա �� ȫջ������",
+    "bio": "系统管理员 · 全栈开发者",
     "createdAt": 1786291478482,
     "avatarUrl": "",
     "backgroundUrl": ""
@@ -64,5 +64,82 @@
     "backgroundUrl": "",
     "bio": "",
     "createdAt": 1786503320702
+  },
+  {
+    "id": "mspk0zr7t533h",
+    "username": "test_biz_08575",
+    "passwordHash": "41f3b7959ea244c307fae012e4b54685:ad5c0031575e38579f2204387aa7facdfd2f7a3eefc4b8a69b9efca86861b60c967f056566a96f01e608674b823e28ecd2d94fcfc0442d988efc7ef5f045884f",
+    "role": "user",
+    "avatarColor": 0,
+    "avatarUrl": "",
+    "backgroundUrl": "",
+    "bio": "",
+    "createdAt": 1786506808652
+  },
+  {
+    "id": "mspk3h5m6bqdv",
+    "username": "test_auth_1786506924416",
+    "passwordHash": "d064345675ff4402edbf5d619823ec39:d2bc2e0d507f67c50310f523f85ed1448639d410b7ebc73f69fc011529ba5c56803775a1bdc5bde6f364accd6dc790c67319e7572d75c25949e5741b55eb2382",
+    "role": "user",
+    "avatarColor": 1,
+    "avatarUrl": "",
+    "backgroundUrl": "",
+    "bio": "更新简介测试",
+    "createdAt": 1786506924508
+  },
+  {
+    "id": "mspk4cltgfz25",
+    "username": "test_post_1786506965183",
+    "passwordHash": "cf9d6d54ffc730512d4c8bea19f0da59:4af40b23c765b021774e17653db65b29891c4fae1771f4b631078b78aa608b206a78ad8f8ed4cfc594c7a857ef395e3bd6d2ce4a513bccb16d6678a19a4245da",
+    "role": "user",
+    "avatarColor": 2,
+    "avatarUrl": "",
+    "backgroundUrl": "",
+    "bio": "",
+    "createdAt": 1786506965290
+  },
+  {
+    "id": "mspk5e3z5554l",
+    "username": "test_coll_a_1786507013771",
+    "passwordHash": "66658add43334dc2f6e10c2d2542e6ac:c1c92ba33083fd51cf883ba78cc13e70d8da8bd8c6639c38940b2a596e27523e85d44ebb25be87958df5ce4a1de39a1884533ffd93fd43f2978ad0ccc1ce1cfc",
+    "role": "user",
+    "avatarColor": 3,
+    "avatarUrl": "",
+    "backgroundUrl": "",
+    "bio": "",
+    "createdAt": 1786507013893
+  },
+  {
+    "id": "mspk5e75m8g63",
+    "username": "test_coll_b_1786507013771",
+    "passwordHash": "121d0e987b9e90f0763392eb01651919:ea1ca829e445d14bc231ee16ea70df48213a2a1f241d8628bca07a26a1fa0c616ee0938d1435188312314bbc9f6160a5ecee99f332b59bb1ff2d027d22dbac79",
+    "role": "user",
+    "avatarColor": 4,
+    "avatarUrl": "",
+    "backgroundUrl": "",
+    "bio": "",
+    "createdAt": 1786507014006
+  },
+  {
+    "id": "mspk5lwdewhmg",
+    "username": "test_coll_a_1786507023866",
+    "passwordHash": "a16eed26b8b46aa3489d68f47b9f57db:eb0717bdbaaf57df0b870e0624f00a8a9fba26a299614706f8385b140166a44176732237d53c0e22e49227121a3e1bddf769b3c053029856bcc2e506b90696b5",
+    "role": "user",
+    "avatarColor": 5,
+    "avatarUrl": "",
+    "backgroundUrl": "",
+    "bio": "",
+    "createdAt": 1786507023989
+  },
+  {
+    "id": "mspk5lzki8t8z",
+    "username": "test_coll_b_1786507023866",
+    "passwordHash": "3654c4141430dcdf157aff6314f115ab:488014d8eb247f6e459c83046b7f3017fa72078f435fe2d6d388c31fcc52dea96fd413d630739ff10e7fe057a309e1caf0eba609c356e2ba67dda997aa515c7b",
+    "role": "user",
+    "avatarColor": 0,
+    "avatarUrl": "",
+    "backgroundUrl": "",
+    "bio": "",
+    "createdAt": 1786507024104
   }
 ]

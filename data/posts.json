@@ -1,5 +1,25 @@
 [
   {
+    "id": "mspk4cu94lnay",
+    "userId": "admin-root",
+    "username": "admin",
+    "avatarColor": 0,
+    "title": "管理员帖子_1786506965183",
+    "content": "供跨用户测试",
+    "images": [
+      "/api/uploads/mspk4cu2-32e6828c-cover.png"
+    ],
+    "videos": [],
+    "tags": [
+      "e2e"
+    ],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 1,
+    "createdAt": 1786506965504,
+    "updatedAt": 1786506965504
+  },
+  {
     "id": "mspix036ndbo7",
     "userId": "admin-root",
     "username": "admin",

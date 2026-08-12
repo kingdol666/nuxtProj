@@ -16,5 +16,23 @@
     "read": true,
     "delivered": true,
     "createdAt": 1786503320924
+  },
+  {
+    "id": "mspk5eo1bieih",
+    "fromUserId": "mspk5e3z5554l",
+    "toUserId": "mspk5e75m8g63",
+    "text": "你好！",
+    "read": true,
+    "delivered": false,
+    "createdAt": 1786507014529
+  },
+  {
+    "id": "mspk5mg1n6gku",
+    "fromUserId": "mspk5lwdewhmg",
+    "toUserId": "mspk5lzki8t8z",
+    "text": "你好！",
+    "read": true,
+    "delivered": false,
+    "createdAt": 1786507024608
   }
 ]
