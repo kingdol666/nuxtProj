@@ -228,7 +228,7 @@ async function submit() {
     :open="open"
     @update:open="(v: boolean) => emit('update:open', v)"
     :footer="null"
-    :width="560"
+    :width="600"
     :title="null"
     :closable="false"
     :destroy-on-close="true"
@@ -236,22 +236,32 @@ async function submit() {
     centered
   >
     <div class="editor">
+      <!-- 渐变标题条 -->
       <header class="editor-head">
-        <h2>{{ isEditing ? '编辑笔记' : '发布笔记' }}</h2>
+        <div class="eh-title">
+          <span class="eh-icon"><PlusOutlined /></span>
+          <h2>{{ isEditing ? '编辑笔记' : '发布笔记' }}</h2>
+        </div>
         <button class="close-btn" @click="close" aria-label="关闭"><CloseOutlined /></button>
       </header>
 
       <!-- 图片上传区 -->
       <div class="images-section">
+        <div class="section-label">
+          <PictureOutlined />
+          <span>添加图片/视频</span>
+          <span class="section-counter">{{ totalMedia }} / 9</span>
+        </div>
         <div class="images-grid">
           <!-- 已上传图片 -->
-          <div v-for="(img, i) in images" :key="'img-'+i" class="img-item" :class="{ 'is-cover': selectedCover === i }">
+          <div v-for="(img, i) in images" :key="'img-'+i" class="img-item" :class="{ 'is-cover': selectedCover === i }" @click="selectedCover = i">
             <img :src="img" alt="" />
-            <button class="img-del" @click="removeImage(i)" aria-label="删除"><DeleteOutlined /></button>
-            <button class="cover-badge" :class="{ active: selectedCover === i }" @click="selectedCover = i" :title="selectedCover === i ? '当前封面' : '设为封面'">
+            <button class="img-del" @click.stop="removeImage(i)" aria-label="删除"><DeleteOutlined /></button>
+            <button class="cover-badge" :class="{ active: selectedCover === i }" @click.stop="selectedCover = i" :title="selectedCover === i ? '当前封面' : '设为封面'">
               <StarFilled v-if="selectedCover === i" />
               <StarOutlined v-else />
             </button>
+            <span v-if="selectedCover === i" class="cover-tag">封面</span>
           </div>
           <!-- 视频 -->
           <div v-for="(vid, i) in videos" :key="'vid-'+i" class="img-item video-item">
@@ -272,35 +282,41 @@ async function submit() {
             <div v-if="uploading" class="spinner" />
             <template v-else>
               <PlusOutlined class="add-icon" />
-              <span class="add-text">图片/视频</span>
+              <span class="add-text">添加</span>
             </template>
           </button>
         </div>
 
-        <!-- 主题封面大图卡片（始终显示，可被选为封面） -->
-        <div v-if="title.trim()" class="cover-gen-card" :class="{ 'is-cover': selectedCover === 'generated' }" @click="selectedCover = 'generated'">
-          <div class="cgc-preview">
-            <img :src="coverPreviewUrl" alt="主题封面" class="cgc-img" :key="coverPreviewUrl" />
-            <button class="cover-badge" :class="{ active: selectedCover === 'generated' }" @click.stop="selectedCover = 'generated'" :title="selectedCover === 'generated' ? '当前封面' : '设为封面'">
-              <StarFilled v-if="selectedCover === 'generated'" />
-              <StarOutlined v-else />
-            </button>
-          </div>
-          <div class="cgc-controls">
-            <span class="cgc-label"><StarOutlined /> 主题文字大图</span>
-            <div class="gradient-picker">
-              <button
-                v-for="(g, i) in gradientPalettes"
-                :key="i"
-                class="gp-swatch"
-                :class="{ active: selectedGradient === i }"
-                :style="{ background: `linear-gradient(135deg, ${g.from}, ${g.to})` }"
-                :title="g.name"
-                @click.stop="selectedGradient = i"
-              />
+        <!-- 主题封面大图卡片（有标题时显示，可被选为封面） -->
+        <Transition name="slide-fade">
+          <div v-if="title.trim()" class="cover-gen-card" :class="{ 'is-cover': selectedCover === 'generated' }" @click="selectedCover = 'generated'">
+            <div class="cgc-preview">
+              <img :src="coverPreviewUrl" alt="主题封面" class="cgc-img" :key="coverPreviewUrl" />
+              <button class="cover-badge" :class="{ active: selectedCover === 'generated' }" @click.stop="selectedCover = 'generated'" :title="selectedCover === 'generated' ? '当前封面' : '设为封面'">
+                <StarFilled v-if="selectedCover === 'generated'" />
+                <StarOutlined v-else />
+              </button>
+              <span v-if="selectedCover === 'generated'" class="cover-tag">封面</span>
+            </div>
+            <div class="cgc-controls">
+              <div class="cgc-header">
+                <span class="cgc-label"><StarOutlined /> 主题文字大图</span>
+                <span class="cgc-sub">根据标题内容自动生成</span>
+              </div>
+              <div class="gradient-picker">
+                <button
+                  v-for="(g, i) in gradientPalettes"
+                  :key="i"
+                  class="gp-swatch"
+                  :class="{ active: selectedGradient === i }"
+                  :style="{ background: `linear-gradient(135deg, ${g.from}, ${g.to})` }"
+                  :title="g.name"
+                  @click.stop="selectedGradient = i"
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </Transition>
 
         <p class="hint">点击 ★ 选择封面 · 最多 9 个文件（图片 ≤ 8MB，视频 ≤ 100MB）</p>
         <input ref="fileInput" type="file" accept="image/*,video/*" multiple hidden @change="onFiles" />
@@ -308,6 +324,7 @@ async function submit() {
 
       <!-- 标题 -->
       <div class="field">
+        <label class="field-label">标题</label>
         <input
           v-model="title"
           class="title-input"
@@ -319,22 +336,24 @@ async function submit() {
 
       <!-- 正文 -->
       <div class="field">
+        <label class="field-label">正文内容</label>
         <textarea
           v-model="content"
           class="content-input"
-          rows="6"
+          rows="5"
           maxlength="5000"
-          placeholder="分享你的想法、经历或发现…（支持换行）"
+          placeholder="分享你的想法、经历或发现…"
         />
         <div class="char-count">{{ content.length }} / 5000</div>
       </div>
 
       <!-- 标签 -->
-      <div class="field tags-field">
+      <div class="field">
+        <label class="field-label">标签</label>
         <div class="tags-row">
           <span v-for="(t, i) in tags" :key="t" class="tag-chip">
             #{{ t }}
-            <button class="tag-x" @click="removeTag(i)" aria-label="移除标签">×</button>
+            <button class="tag-x" @click="removeTag(i)" aria-label="移除标签"><CloseOutlined /></button>
           </span>
           <input
             v-model="tagInput"
@@ -349,13 +368,17 @@ async function submit() {
 
       <!-- 底部操作 -->
       <footer class="editor-foot">
-        <span class="foot-hint">
-          <PictureOutlined /> {{ imageCount }} 张图片 · {{ tags.length }} 个标签
-          <span v-if="selectedCover === 'generated'" class="cover-hint-inline"> · 封面：主题大图</span>
-          <span v-else class="cover-hint-inline"> · 封面：图片 {{ selectedCover + 1 }}</span>
-        </span>
+        <div class="foot-info">
+          <span class="fi-item"><PictureOutlined /> {{ imageCount }} 图</span>
+          <span class="fi-sep">·</span>
+          <span class="fi-item">{{ tags.length }} 标签</span>
+          <span v-if="selectedCover === 'generated'" class="fi-cover">封面：主题大图</span>
+          <span v-else class="fi-cover">封面：图 {{ (selectedCover as number) + 1 }}</span>
+        </div>
         <button class="publish-btn" :disabled="!canSubmit" @click="submit">
-          <SendOutlined /> {{ isEditing ? '保存' : '发布' }}
+          <span v-if="submitting" class="btn-spinner" />
+          <SendOutlined v-else />
+          {{ isEditing ? '保存' : '发布' }}
         </button>
       </footer>
     </div>
@@ -363,112 +386,236 @@ async function submit() {
 </template>
 
 <style scoped lang="less">
-.editor { display: flex; flex-direction: column; gap: 14px; }
-.editor-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); }
-.editor-head h2 { font-size: var(--text-lg); font-weight: 700; margin: 0; }
+.editor {
+  display: flex; flex-direction: column; gap: 16px;
+  padding: 2px;
+}
 
-.images-section { display: flex; flex-direction: column; gap: 10px; }
+/* ── 标题条 ── */
+.editor-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 12px; margin-bottom: 4px;
+  border-bottom: 1px solid var(--border-color);
+}
+.eh-title { display: flex; align-items: center; gap: 10px; }
+.eh-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 10px;
+  background: var(--accent-soft); color: var(--accent); font-size: 16px;
+}
+.editor-head h2 { font-size: var(--text-lg); font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+.close-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border: none; border-radius: 8px;
+  background: var(--bg-subtle); color: var(--text-muted); cursor: pointer;
+  font-size: 13px; transition: all var(--dur-fast);
+}
+.close-btn:hover { background: var(--danger); color: #fff; }
+
+/* ── 区块通用 ── */
+.section-label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: var(--text-sm); font-weight: 600; color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+.section-counter { margin-left: auto; font-size: var(--text-xs); color: var(--text-muted); font-weight: 400; }
+.field-label {
+  font-size: var(--text-sm); font-weight: 600; color: var(--text-secondary);
+  margin-bottom: 6px; display: block;
+}
+
+/* ── 图片网格 ── */
+.images-section { display: flex; flex-direction: column; }
 .images-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-  min-height: 100px;
+  min-height: 80px;
 }
 .img-item {
   position: relative; aspect-ratio: 1; border-radius: var(--radius-md); overflow: hidden;
-  border: 1px solid var(--border-color); background: var(--bg-subtle);
+  border: 2px solid transparent; background: var(--bg-subtle);
+  cursor: pointer; transition: all var(--dur-fast);
 }
-.img-item.is-cover { box-shadow: 0 0 0 3px var(--accent), 0 0 0 5px rgba(99,102,241,0.2); }
+.img-item:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+.img-item.is-cover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow-sm);
+}
 .img-item img, .img-item video { width: 100%; height: 100%; object-fit: cover; }
 .img-del {
-  position: absolute; top: 4px; right: 4px; width: 22px; height: 22px;
+  position: absolute; top: 5px; right: 5px; width: 22px; height: 22px;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.6); border: none; border-radius: 50%; color: #fff;
-  cursor: pointer; font-size: 12px;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+  border: none; border-radius: 7px; color: #fff;
+  cursor: pointer; font-size: 11px; opacity: 0;
+  transition: all var(--dur-fast); z-index: 3;
 }
+.img-item:hover .img-del { opacity: 1; }
+.img-del:hover { background: var(--danger); }
 .cover-badge {
-  position: absolute; top: 4px; right: 30px; width: 22px; height: 22px;
+  position: absolute; top: 5px; left: 5px; width: 24px; height: 24px;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.5); border: none; border-radius: 50%; color: #fff;
+  background: rgba(0,0,0,0.45); backdrop-filter: blur(4px);
+  border: none; border-radius: 7px; color: rgba(255,255,255,0.7);
   cursor: pointer; font-size: 12px; z-index: 2;
+  transition: all var(--dur-fast);
 }
-.cover-badge.active { background: var(--accent); }
-.cover-badge:hover { background: var(--accent-hover); }
+.cover-badge:hover { background: rgba(0,0,0,0.7); color: #fff; }
+.cover-badge.active { background: var(--accent); color: #fff; box-shadow: 0 2px 8px var(--accent-glow); }
+.cover-tag {
+  position: absolute; bottom: 5px; left: 5px;
+  padding: 2px 8px; font-size: 10px; font-weight: 600;
+  color: #fff; background: var(--accent);
+  border-radius: 5px; backdrop-filter: blur(4px); z-index: 2;
+}
 .vid-badge {
-  position: absolute; bottom: 4px; left: 4px; padding: 2px 6px;
-  font-size: 10px; color: #fff; background: rgba(0,0,0,0.6); border-radius: 4px;
+  position: absolute; bottom: 5px; right: 5px; padding: 2px 7px;
+  font-size: 10px; font-weight: 500; color: #fff;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); border-radius: 5px;
 }
 .pending-badge {
-  position: absolute; bottom: 4px; left: 4px; padding: 2px 6px;
-  font-size: 10px; color: #fff; background: rgba(99,102,241,0.8); border-radius: 4px;
+  position: absolute; bottom: 5px; right: 5px; padding: 2px 7px;
+  font-size: 10px; font-weight: 500; color: #fff;
+  background: var(--info); border-radius: 5px;
 }
 .img-add {
   aspect-ratio: 1; border: 2px dashed var(--border-strong); border-radius: var(--radius-md);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-  background: var(--bg-subtle); cursor: pointer; color: var(--text-muted); transition: all var(--dur-fast);
+  background: transparent; cursor: pointer; color: var(--text-muted);
+  transition: all var(--dur-fast);
 }
-.img-add:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
-.img-add:disabled { opacity: 0.5; cursor: not-allowed; }
-.add-icon { font-size: 24px; }
-.add-text { font-size: 11px; }
+.img-add:hover:not(:disabled) {
+  border-color: var(--accent); color: var(--accent);
+  background: var(--accent-soft); transform: scale(1.02);
+}
+.img-add:disabled { opacity: 0.4; cursor: not-allowed; }
+.add-icon { font-size: 22px; }
+.add-text { font-size: 10px; font-weight: 500; }
 
-/* 主题封面大图卡片 */
+/* ── 主题封面卡片 ── */
 .cover-gen-card {
-  display: flex; gap: 12px; padding: 10px; border-radius: var(--radius-lg);
+  display: flex; gap: 14px; padding: 12px;
+  border-radius: var(--radius-lg);
   border: 2px solid var(--border-color); background: var(--bg-subtle);
-  cursor: pointer; transition: all var(--dur-fast);
+  cursor: pointer; transition: all var(--dur);
+  margin-top: 10px;
 }
-.cover-gen-card.is-cover { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
-.cover-gen-card:hover { border-color: var(--accent); }
+.cover-gen-card:hover { border-color: var(--border-strong); background: var(--bg-surface); }
+.cover-gen-card.is-cover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 4px 16px rgba(99,102,241,0.1);
+}
 .cgc-preview {
-  position: relative; width: 100px; height: 133px; flex-shrink: 0;
-  border-radius: var(--radius-md); overflow: hidden; background: var(--bg-surface);
+  position: relative; width: 90px; height: 120px; flex-shrink: 0;
+  border-radius: var(--radius-md); overflow: hidden;
+  background: var(--bg-surface); box-shadow: var(--shadow-sm);
 }
 .cgc-img { width: 100%; height: 100%; object-fit: cover; }
-.cgc-controls { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 8px; }
-.cgc-label { font-size: var(--text-sm); color: var(--text-secondary); display: flex; align-items: center; gap: 4px; }
-.gradient-picker { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.gp-swatch { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: all var(--dur-fast); }
-.gp-swatch.active { border-color: var(--text-primary); transform: scale(1.15); }
-.gp-swatch:hover { transform: scale(1.1); }
+.cgc-controls { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+.cgc-header { display: flex; flex-direction: column; gap: 2px; }
+.cgc-label { font-size: var(--text-sm); font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 5px; }
+.cgc-sub { font-size: var(--text-xs); color: var(--text-muted); }
+.gradient-picker { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.gp-swatch {
+  width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--bg-surface);
+  cursor: pointer; transition: all var(--dur-fast);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.gp-swatch.active { transform: scale(1.2); box-shadow: 0 2px 8px rgba(0,0,0,0.2); border-color: var(--text-primary); }
+.gp-swatch:hover { transform: scale(1.15); }
 
-.hint { font-size: var(--text-xs); color: var(--text-muted); margin: 0; }
-.cover-hint-inline { color: var(--accent); font-weight: 500; }
+/* slide-fade 过渡 */
+.slide-fade-enter-active, .slide-fade-leave-active { transition: all 0.3s var(--ease-out); }
+.slide-fade-enter-from, .slide-fade-leave-to { opacity: 0; transform: translateY(-8px); }
 
-.field { display: flex; flex-direction: column; gap: 4px; }
+/* ── 提示文字 ── */
+.hint { font-size: var(--text-xs); color: var(--text-muted); margin: 6px 0 0; line-height: 1.5; }
+
+/* ── 输入框 ── */
+.field { display: flex; flex-direction: column; }
 .title-input {
-  width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);
-  font-size: var(--text-md); background: var(--bg-surface); color: var(--text-primary);
-  outline: none; transition: border-color var(--dur-fast);
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid var(--border-color); border-radius: var(--radius-md);
+  font-size: var(--text-md); font-weight: 500; background: var(--bg-surface); color: var(--text-primary);
+  outline: none; transition: all var(--dur-fast);
 }
-.title-input:focus { border-color: var(--accent); }
+.title-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.title-input::placeholder { color: var(--text-muted); font-weight: 400; }
 .content-input {
-  width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);
-  font-size: var(--text-sm); background: var(--bg-surface); color: var(--text-primary);
-  outline: none; resize: vertical; min-height: 100px; font-family: var(--font-sans);
-  transition: border-color var(--dur-fast);
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid var(--border-color); border-radius: var(--radius-md);
+  font-size: var(--text-sm); line-height: 1.6; background: var(--bg-surface); color: var(--text-primary);
+  outline: none; resize: vertical; min-height: 90px; font-family: var(--font-sans);
+  transition: all var(--dur-fast);
 }
-.content-input:focus { border-color: var(--accent); }
-.char-count { font-size: var(--text-xs); color: var(--text-muted); text-align: right; }
+.content-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.content-input::placeholder { color: var(--text-muted); }
+.char-count { font-size: var(--text-xs); color: var(--text-muted); text-align: right; margin-top: 4px; }
 
-.tags-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); min-height: 42px; }
-.tag-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; background: var(--accent-soft); color: var(--accent); border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 500; }
-.tag-x { border: none; background: none; color: var(--text-muted); cursor: pointer; font-size: 14px; line-height: 1; padding: 0; }
-.tag-x:hover { color: var(--danger); }
+/* ── 标签 ── */
+.tags-row {
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  padding: 8px 10px; border: 1.5px solid var(--border-color); border-radius: var(--radius-md);
+  min-height: 44px; transition: all var(--dur-fast);
+}
+.tags-row:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.tag-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 6px 4px 10px;
+  background: var(--accent-soft); color: var(--accent);
+  border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 600;
+  transition: all var(--dur-fast);
+}
+.tag-chip:hover { background: rgba(99,102,241,0.15); }
+.tag-x {
+  display: flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px;
+  border: none; background: rgba(99,102,241,0.15); color: var(--accent);
+  cursor: pointer; font-size: 9px; border-radius: 50%; line-height: 1;
+  transition: all var(--dur-fast);
+}
+.tag-x:hover { background: var(--danger); color: #fff; }
 .tag-input { border: none; outline: none; background: none; font-size: var(--text-sm); color: var(--text-primary); flex: 1; min-width: 100px; }
+.tag-input::placeholder { color: var(--text-muted); }
 
-.editor-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid var(--border-color); }
-.foot-hint { font-size: var(--text-xs); color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
-.publish-btn {
-  display: inline-flex; align-items: center; gap: 6px; padding: 8px 24px;
-  border: none; border-radius: var(--radius-full); background: var(--accent); color: #fff;
-  font-size: var(--text-sm); font-weight: 600; cursor: pointer; transition: all var(--dur-fast);
+/* ── 底部操作栏 ── */
+.editor-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 0 0; margin-top: 4px;
+  border-top: 1px solid var(--border-color);
 }
-.publish-btn:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); }
-.publish-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.foot-info { display: flex; align-items: center; gap: 4px; font-size: var(--text-xs); color: var(--text-muted); }
+.fi-item { display: flex; align-items: center; gap: 3px; }
+.fi-sep { opacity: 0.5; }
+.fi-cover { margin-left: 8px; padding: 2px 8px; background: var(--accent-soft); color: var(--accent); border-radius: var(--radius-full); font-weight: 500; }
+.publish-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 28px;
+  border: none; border-radius: var(--radius-full);
+  background: var(--accent); color: #fff;
+  font-size: var(--text-sm); font-weight: 600; letter-spacing: 0.01em;
+  cursor: pointer; transition: all var(--dur-fast);
+  box-shadow: var(--shadow-sm);
+}
+.publish-btn:hover:not(:disabled) {
+  background: var(--accent-hover); transform: translateY(-1px);
+  box-shadow: var(--shadow-accent);
+}
+.publish-btn:active:not(:disabled) { transform: translateY(0); }
+.publish-btn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
 
+/* ── 加载动画 ── */
 .spinner {
-  width: 20px; height: 20px; border: 2px solid rgba(99,102,241,0.2);
-  border-top-color: var(--accent); border-radius: 50%;
-  animation: spin 0.6s linear infinite;
+  width: 20px; height: 20px;
+  border: 2px solid rgba(99,102,241,0.2);
+  border-top-color: var(--accent);
+  border-radius: 50%; animation: spin 0.6s linear infinite;
+}
+.btn-spinner {
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%; animation: spin 0.6s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 </style>
