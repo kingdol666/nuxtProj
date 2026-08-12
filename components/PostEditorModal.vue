@@ -226,6 +226,7 @@ async function submit() {
     :footer="null"
     :width="560"
     :title="null"
+    :closable="false"
     :destroy-on-close="true"
     wrap-class-name="post-editor-modal"
     centered

@@ -268,6 +268,7 @@ watch(() => [props.post?.id, props.open], ([pid, open]) => {
     @update:open="(v: boolean) => emit('update:open', v)"
     :footer="null"
     :title="null"
+    :closable="false"
     :width="920"
     :destroy-on-close="true"
     wrap-class-name="post-detail-modal"
@@ -450,6 +451,7 @@ watch(() => [props.post?.id, props.open], ([pid, open]) => {
         @update:open="(v: boolean) => (collectPickerOpen = v)"
         :footer="null"
         :title="null"
+        :closable="false"
         :width="420"
         :destroy-on-close="true"
         centered
