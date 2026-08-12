@@ -180,16 +180,16 @@ async function submit() {
     }
 
     // 2. 封面逻辑
-    // coverMode='generated' → 后端生成主题封面（不传图片）
-    // coverMode='image'     → 用上传的图片；封面排第一位
-    // 无图片时后端强制生成（不管 coverMode）
+    // coverMode='image'     → 用户选的图片排第一位做封面
+    // coverMode='generated' → 后端生成主题封面插入第一位，用户图片保留在后面
+    // 无图片时后端强制生成
     const wantGen = coverMode.value === 'generated' || images.value.length === 0
     let finalImages = images.value
     if (!wantGen && images.value.length > 1 && coverIndex.value > 0) {
       // 用户选的封面排第一位
       finalImages = [images.value[coverIndex.value], ...images.value.filter((_, i) => i !== coverIndex.value)]
     }
-    if (wantGen) finalImages = []
+    // wantGen=true 时不再清空图片：后端会把生成的封面插到第一位，用户图片保留
 
     const payload = {
       title: title.value.trim(),

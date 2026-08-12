@@ -38,8 +38,9 @@ export default defineEventHandler(async (event) => {
   const videos = Array.isArray(body?.videos) ? body.videos.filter((u) => typeof u === 'string' && u.length < 500).slice(0, cfg.uploads.maxVideos) : []
   const tags = Array.isArray(body?.tags) ? body.tags.filter((t) => typeof t === 'string' && t.length <= cfg.posts.tagMaxLen).slice(0, cfg.posts.maxTags) : []
 
-  // ── 封面生成逻辑（与小红书一致）──
-  // 规则：无图片时强制生成；有图片时仅当 useCoverGen=true 才生成主题封面（替换用户图片）
+  // ── 封面生成逻辑 ──
+  // useCoverGen=true → 生成主题封面插到 images[0]，用户上传的图片保留在后面
+  // 无图片时强制生成
   const mustGenCover = images.length === 0
   const wantGenCover = body?.useCoverGen === true || mustGenCover
   if (wantGenCover) {
@@ -50,8 +51,8 @@ export default defineEventHandler(async (event) => {
     await fs.mkdir(dir, { recursive: true })
     await fs.writeFile(join(dir, filename), coverPng)
     const coverUrl = `/api/uploads/${filename}`
-    images = [coverUrl]
-    // 记录元数据到 images.json，使封面可通过元数据查找
+    // 生成的封面插到第一位，用户图片保留在后面（共存）
+    images = [coverUrl, ...images]
     await updateImages((items) => {
       const meta: ImageMeta = {
         id: genId(), filename, originalName: `${title}-cover.png`, mimeType: 'image/png',

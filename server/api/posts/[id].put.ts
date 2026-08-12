@@ -59,7 +59,7 @@ export default defineEventHandler(async (event) => {
     body.tags = body.tags.filter((t) => typeof t === 'string' && t.length <= cfg.posts.tagMaxLen).slice(0, cfg.posts.maxTags)
   }
 
-  // ── 第一步：同步更新字段（图片暂时占位）──
+  // ── 第一步：同步更新字段，记录是否需要生成封面 ──
   const needGenCover = await updatePosts(async (items) => {
     const idx = items.findIndex((p) => p.id === id)
     if (idx === -1) throw createError({ statusCode: 404, statusMessage: '帖子不存在' })
@@ -71,40 +71,28 @@ export default defineEventHandler(async (event) => {
     if (body.content !== undefined) post.content = body.content!
     if (body.tags !== undefined) post.tags = body.tags!
     if (body.videos !== undefined) post.videos = body.videos!
-    // 判断是否需要生成主题封面
-    const providedImages = Array.isArray(body.images) ? body.images : post.images
+    if (body.images !== undefined) post.images = body.images!
     const hasVideo = body.videos !== undefined ? body.videos.length > 0 : (post.videos?.length ?? 0) > 0
-    const mustGen = providedImages.length === 0 && !hasVideo
+    const mustGen = post.images.length === 0 && !hasVideo
     const wantGen = body.useCoverGen === true || mustGen
-    if (wantGen) {
-      // 占位：记录旧图片 URL 以便删除旧封面文件（分号分隔编码在占位符里）
-      const oldImgs = post.images.filter((u) => u !== '__auto_cover__')
-      post.images = [`__auto_cover__${oldImgs.length ? '::' + oldImgs.join('|') : ''}`]
-    } else if (body.images !== undefined) {
-      post.images = body.images!
-    }
     post.updatedAt = Date.now()
     return wantGen
   })
 
-  // ── 第二步：若需要生成封面，删除旧封面文件 + 生成新封面 + 记录元数据 ──
+  // ── 第二步：若需要生成封面，删除旧封面文件 + 生成新封面 + 插到第一位 ──
   if (needGenCover) {
     const updated = await updatePosts(async (items) => {
       const p = items.find((x) => x.id === id)
       if (!p) return p
-      // 找到占位符条目
-      const phIdx = p.images.findIndex((u) => u.startsWith('__auto_cover__'))
-      if (phIdx === -1) return p
-      const placeholder = p.images[phIdx]
-      // 解析旧图片 URL（占位符格式: __auto_cover__::url1|url2）
-      const oldUrls = placeholder.includes('::') ? placeholder.split('::')[1].split('|') : []
-      // 删除旧封面文件（仅自动生成的 cover）
-      for (const oldUrl of oldUrls) {
-        const oldFile = oldUrl.split('/').pop()
-        if (oldFile && oldFile.includes('cover')) {
-          await fs.unlink(join(uploadsDir(), oldFile)).catch(() => {})
+      // 删除旧的自动封面文件（filename 含 cover 的）
+      for (const url of p.images) {
+        const fn = url.split('/').pop()
+        if (fn && fn.includes('cover')) {
+          await fs.unlink(join(uploadsDir(), fn)).catch(() => {})
         }
       }
+      // 移除旧封面 URL，保留用户上传的图片
+      const userImages = p.images.filter((url) => !url.split('/').pop()?.includes('cover'))
       // 生成新封面
       const gradientIndex = typeof body.coverGradient === 'number' ? body.coverGradient : -1
       const coverPng = await generateCoverImage({ title: p.title, content: p.content, tags: p.tags, gradientIndex })
@@ -112,8 +100,8 @@ export default defineEventHandler(async (event) => {
       const dir = uploadsDir()
       await fs.mkdir(dir, { recursive: true })
       await fs.writeFile(join(dir, filename), coverPng)
-      p.images = [`/api/uploads/${filename}`]
-      // 记录元数据
+      // 新封面插到第一位，用户图片保留在后面
+      p.images = [`/api/uploads/${filename}`, ...userImages]
       await updateImages((all) => {
         const meta: ImageMeta = {
           id: genId(), filename, originalName: `${p.title}-cover.png`, mimeType: 'image/png',
