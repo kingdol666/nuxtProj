@@ -1,9 +1,9 @@
 <script setup lang="ts">
 // PostEditorModal.vue — 发帖编辑器（标题 / 正文 / 多图上传 / 标签 / 封面选择）
-// 封面选择逻辑：
-//   coverMode = 'image'     → 用上传图片做封面（可指定哪张）
-//   coverMode = 'generated' → 用主题文字大图做封面（后端生成）
-//   无图片时 coverMode 强制为 'generated'
+// 封面选择逻辑（统一列表）：
+//   selectedCover = 'generated'              → 主题大图做封面
+//   selectedCover = 数字索引（0,1,2...）      → 对应的上传图片做封面（排第一位）
+//   无图片时 selectedCover 强制为 'generated'
 import { ref, computed, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import {
@@ -39,10 +39,8 @@ interface PendingFile { file: File; preview: string; kind: 'image' | 'video' }
 const pendingFiles = ref<PendingFile[]>([])
 
 // ── 封面控制 ──
-// coverMode: 'image' = 用上传图片做封面; 'generated' = 用主题大图做封面
-const coverMode = ref<'image' | 'generated'>('generated')
-// 多图时封面索引（哪张图做封面，排第一位）
-const coverIndex = ref(0)
+// selectedCover: 'generated' = 用主题大图做封面; 数字 = 用对应索引的上传图片做封面
+const selectedCover = ref<'generated' | number>('generated')
 // 主题封面配色
 const gradientPalettes = [
   { from: '#667eea', to: '#764ba2', name: '紫罗兰' },
@@ -60,18 +58,22 @@ const selectedGradient = ref(0)
 
 // 有多少张图片（已上传 + 待上传的图片，不含视频）
 const imageCount = computed(() => images.value.length + pendingFiles.value.filter((p) => p.kind === 'image').length)
-// 是否可用「上传图片」做封面（至少有一张图片）
-const canUseImageCover = computed(() => imageCount.value > 0)
-// 当无图片时，coverMode 自动切到 generated
-watch(canUseImageCover, (v) => {
-  if (!v) coverMode.value = 'generated'
+// 当图片被删光时，selectedCover 自动切回 generated
+watch(imageCount, (n) => {
+  if (n === 0) selectedCover.value = 'generated'
+  else if (typeof selectedCover.value === 'number' && selectedCover.value >= n) {
+    selectedCover.value = Math.max(0, n - 1)
+  }
 }, { immediate: true })
+
+// 是否生成主题封面：用户选了 generated，或者没有任何图片时强制
+const wantGen = computed(() => selectedCover.value === 'generated' || imageCount.value === 0)
 
 // ── 主题封面预览（防抖，避免每次按键请求服务端）──
 const coverPreviewUrl = ref('')
 let coverPreviewTimer: ReturnType<typeof setTimeout> | null = null
 function updateCoverPreview() {
-  if (coverMode.value !== 'generated' || !title.value.trim()) { coverPreviewUrl.value = ''; return }
+  if (!title.value.trim()) { coverPreviewUrl.value = ''; return }
   if (coverPreviewTimer) clearTimeout(coverPreviewTimer)
   coverPreviewTimer = setTimeout(() => {
     const t = encodeURIComponent(title.value.trim() || '未填写标题')
@@ -80,7 +82,7 @@ function updateCoverPreview() {
     coverPreviewUrl.value = `/api/poster/cover?title=${t}&content=${c}&tags=${tg}&gradient=${selectedGradient.value}&t=${Date.now()}`
   }, 400)
 }
-watch([title, content, tags, selectedGradient, coverMode], updateCoverPreview, { immediate: true })
+watch([title, content, tags, selectedGradient], updateCoverPreview, { immediate: true })
 
 const fileInput = ref<HTMLInputElement | null>(null)
 const isEditing = computed(() => !!props.post?.id)
@@ -97,10 +99,9 @@ watch(() => props.open, (v) => {
   tagInput.value = ''
   for (const pf of pendingFiles.value) URL.revokeObjectURL(pf.preview)
   pendingFiles.value = []
-  coverIndex.value = 0
   selectedGradient.value = 0
-  // 有图片默认用图片做封面；无图片用主题大图
-  coverMode.value = (p && p.images?.length > 0) ? 'image' : 'generated'
+  // 有图片默认用第一张做封面；无图片用主题大图
+  selectedCover.value = (p && p.images?.length > 0) ? 0 : 'generated'
 })
 
 const canSubmit = computed(() => !!title.value.trim() && !!content.value.trim() && !submitting.value)
@@ -128,14 +129,16 @@ function onFiles(e: Event) {
     }
     pendingFiles.value.push({ file, preview: URL.createObjectURL(file), kind })
   }
-  // 第一次添加图片时，自动切到图片封面模式
-  if (coverMode.value === 'generated' && canUseImageCover.value) coverMode.value = 'image'
+  // 第一次添加图片时，自动选第一张做封面
+  if (selectedCover.value === 'generated' && imageCount.value > 0) selectedCover.value = 0
   input.value = ''
 }
 
 function removeImage(i: number) {
   images.value.splice(i, 1)
-  if (coverIndex.value >= images.value.length) coverIndex.value = Math.max(0, images.value.length - 1)
+  if (typeof selectedCover.value === 'number' && selectedCover.value >= images.value.length) {
+    selectedCover.value = images.value.length > 0 ? 0 : 'generated'
+  }
 }
 function removePending(i: number) {
   const pf = pendingFiles.value[i]
@@ -179,17 +182,18 @@ async function submit() {
       uploading.value = false
     }
 
-    // 2. 封面逻辑
-    // coverMode='image'     → 用户选的图片排第一位做封面
-    // coverMode='generated' → 后端生成主题封面插入第一位，用户图片保留在后面
-    // 无图片时后端强制生成
-    const wantGen = coverMode.value === 'generated' || images.value.length === 0
-    let finalImages = images.value
-    if (!wantGen && images.value.length > 1 && coverIndex.value > 0) {
-      // 用户选的封面排第一位
-      finalImages = [images.value[coverIndex.value], ...images.value.filter((_, i) => i !== coverIndex.value)]
+    // 2. 封面逻辑 — 把用户选的封面图排到 images[0]
+    //    selectedCover='generated' → 后端生成主题封面插到第一位
+    //    selectedCover=数字        → 该图片排第一位做封面，后端不生成（除非无图）
+    const useGen = wantGen.value
+    let finalImages = [...images.value]
+    if (!useGen && typeof selectedCover.value === 'number') {
+      const idx = selectedCover.value
+      if (idx > 0 && idx < finalImages.length) {
+        const [picked] = finalImages.splice(idx, 1)
+        finalImages = [picked, ...finalImages]
+      }
     }
-    // wantGen=true 时不再清空图片：后端会把生成的封面插到第一位，用户图片保留
 
     const payload = {
       title: title.value.trim(),
@@ -198,7 +202,7 @@ async function submit() {
       videos: videos.value,
       tags: tags.value,
       coverGradient: selectedGradient.value,
-      useCoverGen: wantGen,
+      useCoverGen: useGen,
     }
     if (isEditing.value && props.post) {
       const updated = await updatePost(props.post.id, payload)
@@ -241,11 +245,11 @@ async function submit() {
       <div class="images-section">
         <div class="images-grid">
           <!-- 已上传图片 -->
-          <div v-for="(img, i) in images" :key="'img-'+i" class="img-item" :class="{ 'is-cover': coverMode === 'image' && i === coverIndex }">
+          <div v-for="(img, i) in images" :key="'img-'+i" class="img-item" :class="{ 'is-cover': selectedCover === i }">
             <img :src="img" alt="" />
             <button class="img-del" @click="removeImage(i)" aria-label="删除"><DeleteOutlined /></button>
-            <button v-if="coverMode === 'image' && images.length > 1" class="cover-badge" :class="{ active: i === coverIndex }" @click="coverIndex = i" :title="i === coverIndex ? '当前封面' : '设为封面'">
-              <StarFilled v-if="i === coverIndex" />
+            <button class="cover-badge" :class="{ active: selectedCover === i }" @click="selectedCover = i" :title="selectedCover === i ? '当前封面' : '设为封面'">
+              <StarFilled v-if="selectedCover === i" />
               <StarOutlined v-else />
             </button>
           </div>
@@ -273,41 +277,32 @@ async function submit() {
           </button>
         </div>
 
-        <!-- 封面来源选择 -->
-        <div class="cover-source-picker">
-          <span class="csp-label">封面来源：</span>
-          <button class="csp-btn" :class="{ active: coverMode === 'image' }" :disabled="!canUseImageCover" @click="coverMode = 'image'">
-            <PictureOutlined /> 上传图片
-          </button>
-          <button class="csp-btn" :class="{ active: coverMode === 'generated' }" @click="coverMode = 'generated'">
-            <StarOutlined /> 主题大图
-          </button>
-          <span v-if="!canUseImageCover" class="csp-hint">（无图片时使用主题大图）</span>
-        </div>
-
-        <!-- 主题封面预览 + 配色（选择「主题大图」时显示） -->
-        <div v-if="coverMode === 'generated' && title.trim()" class="cover-preview-section">
-          <div class="cover-preview-label">
-            <PictureOutlined /> 主题封面预览
+        <!-- 主题封面大图卡片（始终显示，可被选为封面） -->
+        <div v-if="title.trim()" class="cover-gen-card" :class="{ 'is-cover': selectedCover === 'generated' }" @click="selectedCover = 'generated'">
+          <div class="cgc-preview">
+            <img :src="coverPreviewUrl" alt="主题封面" class="cgc-img" :key="coverPreviewUrl" />
+            <button class="cover-badge" :class="{ active: selectedCover === 'generated' }" @click.stop="selectedCover = 'generated'" :title="selectedCover === 'generated' ? '当前封面' : '设为封面'">
+              <StarFilled v-if="selectedCover === 'generated'" />
+              <StarOutlined v-else />
+            </button>
           </div>
-          <div class="cover-preview-box">
-            <img :src="coverPreviewUrl" alt="封面预览" class="cover-preview-img" :key="coverPreviewUrl" />
-          </div>
-          <div class="gradient-picker">
-            <span class="gp-label">配色：</span>
-            <button
-              v-for="(g, i) in gradientPalettes"
-              :key="i"
-              class="gp-swatch"
-              :class="{ active: selectedGradient === i }"
-              :style="{ background: `linear-gradient(135deg, ${g.from}, ${g.to})` }"
-              :title="g.name"
-              @click="selectedGradient = i"
-            />
+          <div class="cgc-controls">
+            <span class="cgc-label"><StarOutlined /> 主题文字大图</span>
+            <div class="gradient-picker">
+              <button
+                v-for="(g, i) in gradientPalettes"
+                :key="i"
+                class="gp-swatch"
+                :class="{ active: selectedGradient === i }"
+                :style="{ background: `linear-gradient(135deg, ${g.from}, ${g.to})` }"
+                :title="g.name"
+                @click.stop="selectedGradient = i"
+              />
+            </div>
           </div>
         </div>
 
-        <p class="hint">最多 9 个文件（图片 ≤ 8MB，视频 ≤ 100MB）· 支持 JPG/PNG/GIF/MP4/WebM</p>
+        <p class="hint">点击 ★ 选择封面 · 最多 9 个文件（图片 ≤ 8MB，视频 ≤ 100MB）</p>
         <input ref="fileInput" type="file" accept="image/*,video/*" multiple hidden @change="onFiles" />
       </div>
 
@@ -356,6 +351,8 @@ async function submit() {
       <footer class="editor-foot">
         <span class="foot-hint">
           <PictureOutlined /> {{ imageCount }} 张图片 · {{ tags.length }} 个标签
+          <span v-if="selectedCover === 'generated'" class="cover-hint-inline"> · 封面：主题大图</span>
+          <span v-else class="cover-hint-inline"> · 封面：图片 {{ selectedCover + 1 }}</span>
         </span>
         <button class="publish-btn" :disabled="!canSubmit" @click="submit">
           <SendOutlined /> {{ isEditing ? '保存' : '发布' }}
@@ -370,7 +367,7 @@ async function submit() {
 .editor-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); }
 .editor-head h2 { font-size: var(--text-lg); font-weight: 700; margin: 0; }
 
-.images-section { display: flex; flex-direction: column; gap: 8px; }
+.images-section { display: flex; flex-direction: column; gap: 10px; }
 .images-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
   min-height: 100px;
@@ -391,7 +388,7 @@ async function submit() {
   position: absolute; top: 4px; right: 30px; width: 22px; height: 22px;
   display: flex; align-items: center; justify-content: center;
   background: rgba(0,0,0,0.5); border: none; border-radius: 50%; color: #fff;
-  cursor: pointer; font-size: 12px;
+  cursor: pointer; font-size: 12px; z-index: 2;
 }
 .cover-badge.active { background: var(--accent); }
 .cover-badge:hover { background: var(--accent-hover); }
@@ -413,34 +410,28 @@ async function submit() {
 .add-icon { font-size: 24px; }
 .add-text { font-size: 11px; }
 
-/* 封面来源选择器 */
-.cover-source-picker {
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-  padding: 6px 0;
+/* 主题封面大图卡片 */
+.cover-gen-card {
+  display: flex; gap: 12px; padding: 10px; border-radius: var(--radius-lg);
+  border: 2px solid var(--border-color); background: var(--bg-subtle);
+  cursor: pointer; transition: all var(--dur-fast);
 }
-.csp-label { font-size: var(--text-sm); color: var(--text-secondary); font-weight: 500; }
-.csp-btn {
-  display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px;
-  border: 1px solid var(--border-color); border-radius: var(--radius-full);
-  background: var(--bg-surface); color: var(--text-secondary);
-  font-size: var(--text-xs); cursor: pointer; transition: all var(--dur-fast);
+.cover-gen-card.is-cover { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+.cover-gen-card:hover { border-color: var(--accent); }
+.cgc-preview {
+  position: relative; width: 100px; height: 133px; flex-shrink: 0;
+  border-radius: var(--radius-md); overflow: hidden; background: var(--bg-surface);
 }
-.csp-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
-.csp-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-.csp-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.csp-hint { font-size: var(--text-xs); color: var(--text-muted); }
-
-.cover-preview-section { margin-top: 8px; }
-.cover-preview-label { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-.cover-preview-box { width: 100%; max-width: 220px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); margin: 0 auto; }
-.cover-preview-img { width: 100%; display: block; }
-.gradient-picker { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-.gp-label { font-size: var(--text-xs); color: var(--text-secondary); }
-.gp-swatch { width: 26px; height: 26px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: all var(--dur-fast); }
-.gp-swatch.active { border-color: var(--text-primary); transform: scale(1.15); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.cgc-img { width: 100%; height: 100%; object-fit: cover; }
+.cgc-controls { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+.cgc-label { font-size: var(--text-sm); color: var(--text-secondary); display: flex; align-items: center; gap: 4px; }
+.gradient-picker { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.gp-swatch { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: all var(--dur-fast); }
+.gp-swatch.active { border-color: var(--text-primary); transform: scale(1.15); }
 .gp-swatch:hover { transform: scale(1.1); }
 
 .hint { font-size: var(--text-xs); color: var(--text-muted); margin: 0; }
+.cover-hint-inline { color: var(--accent); font-weight: 500; }
 
 .field { display: flex; flex-direction: column; gap: 4px; }
 .title-input {
@@ -458,7 +449,6 @@ async function submit() {
 .content-input:focus { border-color: var(--accent); }
 .char-count { font-size: var(--text-xs); color: var(--text-muted); text-align: right; }
 
-.tags-field { }
 .tags-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); min-height: 42px; }
 .tag-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; background: var(--accent-soft); color: var(--accent); border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 500; }
 .tag-x { border: none; background: none; color: var(--text-muted); cursor: pointer; font-size: 14px; line-height: 1; padding: 0; }
