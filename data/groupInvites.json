@@ -48,5 +48,25 @@
     "toUserId": "msqcpq1f8l0c0",
     "status": "pending",
     "createdAt": 1786556392450
+  },
+  {
+    "id": "msqdxas6utk4s",
+    "groupId": "msqdxapt0gnao",
+    "groupName": "E2E群聊测试",
+    "fromUserId": "msqcppwqcfjyb",
+    "fromUsername": "e2e_alice",
+    "toUserId": "msqcpq1f8l0c0",
+    "status": "pending",
+    "createdAt": 1786557024726
+  },
+  {
+    "id": "msqdzhgg3urqu",
+    "groupId": "msqdzhcdlmnsv",
+    "groupName": "E2E群聊测试",
+    "fromUserId": "msqcppwqcfjyb",
+    "fromUsername": "e2e_alice",
+    "toUserId": "msqcpq1f8l0c0",
+    "status": "accepted",
+    "createdAt": 1786557126688
   }
 ]

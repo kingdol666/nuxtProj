@@ -268,5 +268,20 @@
     "purpose": "post",
     "url": "/api/uploads/msqd933g-a503ac2e-cover.png",
     "createdAt": 1786555895022
+  },
+  {
+    "id": "msqdzhqg8w92y",
+    "filename": "msqdzhqd-96a065d9-cover.png",
+    "originalName": "E2E测试帖子-cover.png",
+    "mimeType": "image/png",
+    "kind": "image",
+    "size": 69021,
+    "width": 750,
+    "height": 1000,
+    "duration": 0,
+    "userId": "msqcppwqcfjyb",
+    "purpose": "post",
+    "url": "/api/uploads/msqdzhqd-96a065d9-cover.png",
+    "createdAt": 1786557127048
   }
 ]

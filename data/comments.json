@@ -182,5 +182,41 @@
     "targetType": "content",
     "likedBy": [],
     "createdAt": 1786555894896
+  },
+  {
+    "id": "msqdzd615rkjy",
+    "contentId": "msl6dz43bmbni",
+    "userId": "admin-root",
+    "username": "admin",
+    "avatarColor": 0,
+    "text": "fresh server test",
+    "parentId": null,
+    "targetType": "content",
+    "likedBy": [],
+    "createdAt": 1786557121129
+  },
+  {
+    "id": "msqdzhkumrakx",
+    "contentId": "msl6dz43bmbni",
+    "userId": "msqcppwqcfjyb",
+    "username": "e2e_alice",
+    "avatarColor": 5,
+    "text": "这条评论很好看",
+    "parentId": null,
+    "targetType": "content",
+    "likedBy": [],
+    "createdAt": 1786557126846
+  },
+  {
+    "id": "msqdzhl7mzqec",
+    "contentId": "msl6dz43bmbni",
+    "userId": "msqcpq1f8l0c0",
+    "username": "e2e_bob",
+    "avatarColor": 0,
+    "text": "同意你的观点",
+    "parentId": "msqdzhkumrakx",
+    "targetType": "content",
+    "likedBy": [],
+    "createdAt": 1786557126859
   }
 ]

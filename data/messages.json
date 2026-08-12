@@ -173,5 +173,18 @@
     "mediaUrl": "",
     "mediaW": 0,
     "mediaH": 0
+  },
+  {
+    "id": "msqdzhb6n9g6o",
+    "fromUserId": "msqcppwqcfjyb",
+    "toUserId": "msqcpq1f8l0c0",
+    "text": "持久化文本",
+    "read": false,
+    "delivered": false,
+    "createdAt": 1786557126498,
+    "msgType": 1,
+    "mediaUrl": "",
+    "mediaW": 0,
+    "mediaH": 0
   }
 ]

@@ -1,5 +1,23 @@
 [
   {
+    "id": "msqdzhqje7y7i",
+    "userId": "msqcppwqcfjyb",
+    "username": "e2e_alice",
+    "avatarColor": 5,
+    "title": "E2E测试帖子",
+    "content": "测试内容",
+    "images": [
+      "/api/uploads/msqdzhqd-96a065d9-cover.png"
+    ],
+    "videos": [],
+    "tags": [],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1786557127050,
+    "updatedAt": 1786557127050
+  },
+  {
     "id": "msqd933kv8023",
     "userId": "msqcppwqcfjyb",
     "username": "e2e_alice",

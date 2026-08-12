@@ -3,11 +3,12 @@
    统一字体 / 配色 / 间距 / 圆角 / 阴影。所有页面共享此基础。
    ════════════════════════════════════════════════════════════════════ */
 
-/* ── 字体族 ─────────────────────────────────────────────────────────── */
+/* ── 字体族 + 设计 Token ───────────────────────────────────────────── */
 :root {
-  --font-sans: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont,
+  /* ── 字体族（Space Grotesk for display, DM Sans for body） ── */
+  --font-sans: 'DM Sans', 'Noto Sans SC', -apple-system, BlinkMacSystemFont,
     'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
-  --font-display: 'Inter', 'Noto Sans SC', -apple-system, 'PingFang SC',
+  --font-display: 'Space Grotesk', 'Noto Sans SC', -apple-system, 'PingFang SC',
     'Microsoft YaHei', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, 'Courier New', monospace;
 
@@ -26,12 +27,12 @@
   --leading-snug: 1.4;
   --leading-normal: 1.6;
 
-  /* ── 主色 (Indigo-Violet, 现代高级) ── */
-  --accent: #6366f1;
-  --accent-hover: #4f46e5;
-  --accent-active: #4338ca;
-  --accent-soft: rgba(99, 102, 241, 0.1);
-  --accent-glow: rgba(99, 102, 241, 0.35);
+  /* ── 主色 (Teal-Blue, distinctive & modern) ── */
+  --accent: #0d9488;
+  --accent-hover: #0f766e;
+  --accent-active: #115e59;
+  --accent-soft: rgba(13, 148, 136, 0.1);
+  --accent-glow: rgba(13, 148, 136, 0.3);
 
   /* 辅助色 */
   --success: #10b981;
@@ -55,7 +56,7 @@
   --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
   --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.08);
   --shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.12);
-  --shadow-accent: 0 8px 24px rgba(99, 102, 241, 0.2);
+  --shadow-accent: 0 8px 24px rgba(13, 148, 136, 0.2);
 
   /* ── 圆角 ── */
   --radius-sm: 8px;
@@ -74,11 +75,11 @@
 
 /* ── 暗色模式覆盖 ──────────────────────────────────────────────────── */
 html.dark {
-  --accent: #818cf8;
-  --accent-hover: #a5b4fc;
-  --accent-active: #c7d2fe;
-  --accent-soft: rgba(129, 140, 248, 0.15);
-  --accent-glow: rgba(129, 140, 248, 0.4);
+  --accent: #2dd4bf;
+  --accent-hover: #5eead4;
+  --accent-active: #99f6e4;
+  --accent-soft: rgba(45, 212, 191, 0.15);
+  --accent-glow: rgba(45, 212, 191, 0.35);
 
   --text-primary: #f3f4f6;
   --text-secondary: #b8bcc8;
@@ -93,8 +94,7 @@ html.dark {
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
   --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
-  --shadow-accent: 0 8px 24px rgba(129, 140, 248, 0.25);
+  --shadow-accent: 0 8px 24px rgba(45, 212, 191, 0.22);
 }
 
 /* ── 基础排版 ──────────────────────────────────────────────────────── */
@@ -159,7 +159,7 @@ h1, h2, h3, h4 {
   --glass-highlight: rgba(255, 255, 255, 0.7);
   --glass-blur: blur(24px) saturate(180%);
   /* 全局背景叠层（照片之上盖一层带主色调的渐变，让玻璃更通透有层次） */
-  --bg-overlay: linear-gradient(135deg, rgba(15, 23, 42, 0.45) 0%, rgba(49, 46, 129, 0.4) 60%, rgba(15, 23, 42, 0.55) 100%);
+  --bg-overlay: linear-gradient(135deg, rgba(15, 23, 42, 0.42) 0%, rgba(13, 148, 136, 0.28) 55%, rgba(15, 23, 42, 0.55) 100%);
 }
 html.dark {
   --glass-bg: rgba(22, 22, 30, 0.55);
@@ -168,7 +168,7 @@ html.dark {
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-border-inset: rgba(255, 255, 255, 0.06);
   --glass-highlight: rgba(255, 255, 255, 0.08);
-  --bg-overlay: linear-gradient(135deg, rgba(10, 10, 16, 0.62) 0%, rgba(30, 27, 75, 0.5) 60%, rgba(8, 8, 14, 0.72) 100%);
+  --bg-overlay: linear-gradient(135deg, rgba(8, 12, 18, 0.6) 0%, rgba(15, 76, 72, 0.4) 55%, rgba(6, 10, 14, 0.72) 100%);
 }
 
 /* ── 全局固定背景（覆盖整个视口，Header/Sider/Content 全在其上） ──── */
@@ -254,4 +254,68 @@ body::after {
   .page-enter-from, .page-leave-to { transform: none !important; }
   html { scroll-behavior: auto; }
   * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   微交互增强 — Haptic Polish & Accent Micro-Effects
+   ════════════════════════════════════════════════════════════════════ */
+
+/* 主色按钮统一 hover 发光 + 按压反馈 */
+button[class*='send'], button[class*='submit'], .btn-primary {
+  transition: all var(--dur-fast) var(--ease-out);
+}
+button[class*='send']:not(:disabled):hover, .btn-primary:not(:disabled):hover {
+  box-shadow: var(--shadow-accent);
+  transform: translateY(-1px);
+}
+button[class*='send']:not(:disabled):active, .btn-primary:not(:disabled):active {
+  transform: translateY(0);
+}
+
+/* 消息气泡悬停加深 */
+.msg-bubble, .gmsg-bubble {
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+/* 链接 hover 下划线动画 */
+a {
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+/* 卡片悬停提升 */
+.post-card, .stat-card, .group-item, .conv-item {
+  transition: transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+}
+.post-card:hover, .stat-card:hover, .group-item:hover {
+  transform: translateY(-2px);
+}
+
+/* 输入框聚焦时主色边框发光 */
+.msg-input:focus, textarea:focus, input[type='text']:focus {
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* 工具按钮 hover 微旋转 */
+.tool-btn:hover:not(:disabled) {
+  transform: scale(1.08);
+}
+.tool-btn {
+  transition: all var(--dur-fast) var(--ease-spring);
+}
+
+/* 滚动条美化（仅 webkit） */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-soft);
 }

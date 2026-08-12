@@ -69,5 +69,26 @@
       "msqcppwqcfjyb"
     ],
     "createdAt": 1786556392236
+  },
+  {
+    "id": "msqdxapt0gnao",
+    "name": "E2E群聊测试",
+    "avatarColor": 1,
+    "ownerId": "msqcppwqcfjyb",
+    "memberIds": [
+      "msqcppwqcfjyb"
+    ],
+    "createdAt": 1786557024641
+  },
+  {
+    "id": "msqdzhcdlmnsv",
+    "name": "E2E群聊测试",
+    "avatarColor": 3,
+    "ownerId": "msqcppwqcfjyb",
+    "memberIds": [
+      "msqcppwqcfjyb",
+      "msqcpq1f8l0c0"
+    ],
+    "createdAt": 1786557126541
   }
 ]

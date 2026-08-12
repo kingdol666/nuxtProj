@@ -44,5 +44,13 @@
       "mspghvm3w7siq"
     ],
     "createdAt": 1786503320859
+  },
+  {
+    "id": "msqdzd7nc2d07",
+    "userId": "admin-root",
+    "name": "Fresh Test Collection",
+    "description": "",
+    "postIds": [],
+    "createdAt": 1786557121187
   }
 ]
