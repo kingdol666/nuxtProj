@@ -1,5 +1,43 @@
 [
   {
+    "id": "mspix036ndbo7",
+    "userId": "admin-root",
+    "username": "admin",
+    "avatarColor": 0,
+    "title": "大",
+    "content": "大",
+    "images": [
+      "/api/uploads/mspix02j-bcb6a7d4.jpg"
+    ],
+    "videos": [],
+    "tags": [
+      "大"
+    ],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1786504942769,
+    "updatedAt": 1786504942769
+  },
+  {
+    "id": "mspikhxtpwwpj",
+    "userId": "admin-root",
+    "username": "admin",
+    "avatarColor": 0,
+    "title": "封面切换测试帖",
+    "content": "端到端测试：验证自定义图片可作封面，且可切换主题大图。",
+    "images": [
+      "/api/uploads/mspikhvb-cc930df1.png"
+    ],
+    "videos": [],
+    "tags": [],
+    "likedBy": [],
+    "collectedBy": [],
+    "commentCount": 0,
+    "createdAt": 1786504359377,
+    "updatedAt": 1786504359377
+  },
+  {
     "id": "msphy8jkal6j5",
     "userId": "msphy8fpf9l9y",
     "username": "e2e_20599",

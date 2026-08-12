@@ -5,7 +5,7 @@
     "toUserId": "admin-root",
     "text": "hello",
     "read": false,
-    "delivered": false,
+    "delivered": true,
     "createdAt": 1786503183684
   },
   {
@@ -13,8 +13,8 @@
     "fromUserId": "msphy8fpf9l9y",
     "toUserId": "admin-root",
     "text": "hello",
-    "read": false,
-    "delivered": false,
+    "read": true,
+    "delivered": true,
     "createdAt": 1786503320924
   }
 ]

@@ -73,5 +73,35 @@
     "purpose": "post",
     "url": "/api/uploads/msphy8jg-3cb3c132-cover.png",
     "createdAt": 1786503320766
+  },
+  {
+    "id": "mspikhvdirlmc",
+    "filename": "mspikhvb-cc930df1.png",
+    "originalName": "test-image.png",
+    "mimeType": "image/png",
+    "kind": "image",
+    "size": 597,
+    "width": 100,
+    "height": 100,
+    "duration": 0,
+    "userId": "admin-root",
+    "purpose": "post",
+    "url": "/api/uploads/mspikhvb-cc930df1.png",
+    "createdAt": 1786504359289
+  },
+  {
+    "id": "mspix02nj94a9",
+    "filename": "mspix02j-bcb6a7d4.jpg",
+    "originalName": "微信图片_2025-07-21_151252_040.jpg",
+    "mimeType": "image/jpeg",
+    "kind": "image",
+    "size": 173631,
+    "width": 1161,
+    "height": 1624,
+    "duration": 0,
+    "userId": "admin-root",
+    "purpose": "post",
+    "url": "/api/uploads/mspix02j-bcb6a7d4.jpg",
+    "createdAt": 1786504942751
   }
 ]
