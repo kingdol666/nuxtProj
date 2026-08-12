@@ -1,5 +1,9 @@
 <script setup lang="ts">
 // PostEditorModal.vue — 发帖编辑器（标题 / 正文 / 多图上传 / 标签 / 封面选择）
+// 封面选择逻辑：
+//   coverMode = 'image'     → 用上传图片做封面（可指定哪张）
+//   coverMode = 'generated' → 用主题文字大图做封面（后端生成）
+//   无图片时 coverMode 强制为 'generated'
 import { ref, computed, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import {
@@ -35,8 +39,8 @@ interface PendingFile { file: File; preview: string; kind: 'image' | 'video' }
 const pendingFiles = ref<PendingFile[]>([])
 
 // ── 封面控制 ──
-// useCoverGen: 是否用主题文字大图作为封面（关闭=用上传图片）
-const useCoverGen = ref(false)
+// coverMode: 'image' = 用上传图片做封面; 'generated' = 用主题大图做封面
+const coverMode = ref<'image' | 'generated'>('generated')
 // 多图时封面索引（哪张图做封面，排第一位）
 const coverIndex = ref(0)
 // 主题封面配色
@@ -56,14 +60,18 @@ const selectedGradient = ref(0)
 
 // 有多少张图片（已上传 + 待上传的图片，不含视频）
 const imageCount = computed(() => images.value.length + pendingFiles.value.filter((p) => p.kind === 'image').length)
-// 是否显示主题封面预览区
-const showCoverPreview = computed(() => useCoverGen.value || imageCount.value === 0)
+// 是否可用「上传图片」做封面（至少有一张图片）
+const canUseImageCover = computed(() => imageCount.value > 0)
+// 当无图片时，coverMode 自动切到 generated
+watch(canUseImageCover, (v) => {
+  if (!v) coverMode.value = 'generated'
+}, { immediate: true })
 
 // ── 主题封面预览（防抖，避免每次按键请求服务端）──
 const coverPreviewUrl = ref('')
 let coverPreviewTimer: ReturnType<typeof setTimeout> | null = null
 function updateCoverPreview() {
-  if (!showCoverPreview.value || !title.value.trim()) { coverPreviewUrl.value = ''; return }
+  if (coverMode.value !== 'generated' || !title.value.trim()) { coverPreviewUrl.value = ''; return }
   if (coverPreviewTimer) clearTimeout(coverPreviewTimer)
   coverPreviewTimer = setTimeout(() => {
     const t = encodeURIComponent(title.value.trim() || '未填写标题')
@@ -72,7 +80,7 @@ function updateCoverPreview() {
     coverPreviewUrl.value = `/api/poster/cover?title=${t}&content=${c}&tags=${tg}&gradient=${selectedGradient.value}&t=${Date.now()}`
   }, 400)
 }
-watch([title, content, tags, selectedGradient, showCoverPreview], updateCoverPreview, { immediate: true })
+watch([title, content, tags, selectedGradient, coverMode], updateCoverPreview, { immediate: true })
 
 const fileInput = ref<HTMLInputElement | null>(null)
 const isEditing = computed(() => !!props.post?.id)
@@ -91,7 +99,8 @@ watch(() => props.open, (v) => {
   pendingFiles.value = []
   coverIndex.value = 0
   selectedGradient.value = 0
-  useCoverGen.value = false
+  // 有图片默认用图片做封面；无图片用主题大图
+  coverMode.value = (p && p.images?.length > 0) ? 'image' : 'generated'
 })
 
 const canSubmit = computed(() => !!title.value.trim() && !!content.value.trim() && !submitting.value)
@@ -119,6 +128,8 @@ function onFiles(e: Event) {
     }
     pendingFiles.value.push({ file, preview: URL.createObjectURL(file), kind })
   }
+  // 第一次添加图片时，自动切到图片封面模式
+  if (coverMode.value === 'generated' && canUseImageCover.value) coverMode.value = 'image'
   input.value = ''
 }
 
@@ -169,9 +180,10 @@ async function submit() {
     }
 
     // 2. 封面逻辑
-    // useCoverGen=true → 后端生成主题封面（不传图片）
-    // useCoverGen=false → 用上传的图片；无图时后端强制生成
-    const wantGen = useCoverGen.value
+    // coverMode='generated' → 后端生成主题封面（不传图片）
+    // coverMode='image'     → 用上传的图片；封面排第一位
+    // 无图片时后端强制生成（不管 coverMode）
+    const wantGen = coverMode.value === 'generated' || images.value.length === 0
     let finalImages = images.value
     if (!wantGen && images.value.length > 1 && coverIndex.value > 0) {
       // 用户选的封面排第一位
@@ -228,10 +240,10 @@ async function submit() {
       <div class="images-section">
         <div class="images-grid">
           <!-- 已上传图片 -->
-          <div v-for="(img, i) in images" :key="'img-'+i" class="img-item" :class="{ 'is-cover': !useCoverGen && i === coverIndex }">
+          <div v-for="(img, i) in images" :key="'img-'+i" class="img-item" :class="{ 'is-cover': coverMode === 'image' && i === coverIndex }">
             <img :src="img" alt="" />
             <button class="img-del" @click="removeImage(i)" aria-label="删除"><DeleteOutlined /></button>
-            <button v-if="!useCoverGen && images.length > 1" class="cover-badge" :class="{ active: i === coverIndex }" @click="coverIndex = i" :title="i === coverIndex ? '当前封面' : '设为封面'">
+            <button v-if="coverMode === 'image' && images.length > 1" class="cover-badge" :class="{ active: i === coverIndex }" @click="coverIndex = i" :title="i === coverIndex ? '当前封面' : '设为封面'">
               <StarFilled v-if="i === coverIndex" />
               <StarOutlined v-else />
             </button>
@@ -260,17 +272,20 @@ async function submit() {
           </button>
         </div>
 
-        <!-- 封面选择开关 -->
-        <div class="cover-options">
-          <label class="cover-gen-toggle" :title="useCoverGen ? '用标题内容自动生成渐变封面大图' : '使用上传的图片作为封面'">
-            <input type="checkbox" v-model="useCoverGen" :disabled="imageCount === 0" />
-            <span class="cgt-label">生成主题封面图</span>
-            <span v-if="imageCount === 0" class="cgt-hint">（无图片时自动生成）</span>
-          </label>
+        <!-- 封面来源选择 -->
+        <div class="cover-source-picker">
+          <span class="csp-label">封面来源：</span>
+          <button class="csp-btn" :class="{ active: coverMode === 'image' }" :disabled="!canUseImageCover" @click="coverMode = 'image'">
+            <PictureOutlined /> 上传图片
+          </button>
+          <button class="csp-btn" :class="{ active: coverMode === 'generated' }" @click="coverMode = 'generated'">
+            <StarOutlined /> 主题大图
+          </button>
+          <span v-if="!canUseImageCover" class="csp-hint">（无图片时使用主题大图）</span>
         </div>
 
-        <!-- 主题封面预览 + 配色 -->
-        <div v-if="showCoverPreview && title.trim()" class="cover-preview-section">
+        <!-- 主题封面预览 + 配色（选择「主题大图」时显示） -->
+        <div v-if="coverMode === 'generated' && title.trim()" class="cover-preview-section">
           <div class="cover-preview-label">
             <PictureOutlined /> 主题封面预览
           </div>
@@ -397,16 +412,22 @@ async function submit() {
 .add-icon { font-size: 24px; }
 .add-text { font-size: 11px; }
 
-.cover-options { padding: 4px 0; }
-.cover-gen-toggle {
-  display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
-  font-size: var(--text-sm); color: var(--text-secondary); user-select: none;
+/* 封面来源选择器 */
+.cover-source-picker {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 6px 0;
 }
-.cover-gen-toggle input { width: 15px; height: 15px; cursor: pointer; accent-color: var(--accent); }
-.cover-gen-toggle .cgt-label { font-weight: 500; }
-.cover-gen-toggle:hover .cgt-label { color: var(--accent); }
-.cover-gen-toggle input:disabled + .cgt-label { opacity: 0.5; }
-.cgt-hint { font-size: var(--text-xs); color: var(--text-muted); }
+.csp-label { font-size: var(--text-sm); color: var(--text-secondary); font-weight: 500; }
+.csp-btn {
+  display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px;
+  border: 1px solid var(--border-color); border-radius: var(--radius-full);
+  background: var(--bg-surface); color: var(--text-secondary);
+  font-size: var(--text-xs); cursor: pointer; transition: all var(--dur-fast);
+}
+.csp-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.csp-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.csp-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.csp-hint { font-size: var(--text-xs); color: var(--text-muted); }
 
 .cover-preview-section { margin-top: 8px; }
 .cover-preview-label { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
